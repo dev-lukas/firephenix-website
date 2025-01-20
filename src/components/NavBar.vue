@@ -14,7 +14,7 @@
         <ul>
           <li><router-link to="/" @click="closeMenu">Home</router-link></li>
           <li><router-link to="/ranking" @click="closeMenu">Rangliste</router-link></li>
-          <li><router-link to="/" @click="closeMenu">Mein Profil</router-link></li>
+          <li><router-link to="/login" @click="closeMenu">Mein Profil</router-link></li>
           <li class="profile-divider"><router-link to="/gameserver" @click="closeMenu">Game-Server</router-link></li>
           <li><router-link to="/dataprivacy" @click="closeMenu">Datenschutz</router-link></li>
           <li><router-link to="/impressum" @click="closeMenu">Impressum</router-link></li>

@@ -346,7 +346,7 @@ onMounted(() => {
 .game-entry {
   display: flex;
   justify-content: center;
-  gap: 1rem;
+  gap: 0.5rem;
   color: var(--clr-text-secondary);
   font-size: 0.9rem;
   padding: 0.5rem 0;

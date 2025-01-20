@@ -21,9 +21,6 @@
             <div class="tooltip-content">
               <h4>{{ achievement.name }}</h4>
               <p>{{ achievement.description }}</p>
-              <span v-if="achievement.unlocked" class="unlock-date">
-                Unlocked: {{ formatDate(achievement.unlockedAt) }}
-              </span>
             </div>
           </div>
         </div>

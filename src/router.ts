@@ -6,6 +6,7 @@ import Ranking from './views/Ranking.vue'
 import DataPrivacy from './views/DataPrivacy.vue'
 import Impressum from './views/Impressum.vue'
 import PlayerProfile from './views/PlayerProfile.vue'
+import Login from './views/Login.vue'
 
 const routes = [
   {
@@ -37,6 +38,12 @@ const routes = [
     path: '/ranking/player-:id',
     name: 'PlayerProfile',
     component: PlayerProfile,
+    props: true
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
     props: true
   }
   // Add more routes as needed
