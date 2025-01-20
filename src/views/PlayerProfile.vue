@@ -8,11 +8,14 @@
         <span class="loading-subtext">Einen Moment bitte...</span>
       </div>
     </div>
-  
+
     <template v-else-if="error">
       <div class="error-container">
         <div class="error-content">
-          <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="error-icon" />
+          <font-awesome-icon
+            :icon="['fas', 'exclamation-circle']"
+            class="error-icon"
+          />
           <h2 class="error-title">Profil konnte nicht geladen werden</h2>
           <p class="error-message">{{ error }}</p>
           <button class="retry-button" @click="fetchPlayerData">
@@ -32,11 +35,11 @@
             <span class="level-text">Level {{ player.level }}</span>
           </div>
           <div class="level-image-container">
-            <img 
-              :src="`../src/assets/images/level/${player.level}.png`" 
+            <img
+              :src="`../src/assets/images/level/${player.level}.png`"
               :alt="`Level ${player.level} badge`"
               class="level-image"
-            >
+            />
           </div>
         </div>
       </div>
@@ -45,11 +48,14 @@
         <div v-if="player.level < 25" class="level-progress">
           <div class="progress-info">
             <span>Level {{ player.level }} → {{ player.level + 1 }}</span>
-            <span>{{ Math.floor(player.time_to_next_level / 60) }} Stunden verbleibend</span>
+            <span
+              >{{ Math.floor(player.time_to_next_level / 60) }} Stunden
+              verbleibend</span
+            >
           </div>
           <div class="progress-bar">
-            <div 
-              class="progress-fill" 
+            <div
+              class="progress-fill"
               :style="{ width: calculateLevelProgress() + '%' }"
             ></div>
           </div>
@@ -60,10 +66,7 @@
             <span>Du hast den Zenit erreicht!</span>
           </div>
           <div class="progress-bar">
-            <div 
-              class="progress-fill" 
-              :style="{ width: '100%' }"
-            ></div>
+            <div class="progress-fill" :style="{ width: '100%' }"></div>
           </div>
         </div>
       </div>
@@ -74,17 +77,21 @@
             <font-awesome-icon :icon="['fas', 'clock']" />
           </div>
           <div class="stat-info">
-            <span class="stat-value">{{ Math.floor(player.total_time / 60) }} Stunden</span>
+            <span class="stat-value"
+              >{{ Math.floor(player.total_time / 60) }} Stunden</span
+            >
             <span class="stat-label">Gesamtzeit</span>
           </div>
         </div>
-        
+
         <div class="stat-card">
           <div class="stat-icon">
             <font-awesome-icon :icon="['fas', 'calendar-alt']" />
           </div>
           <div class="stat-info">
-            <span class="stat-value">{{ Math.floor(player.monthly_time / 60) }} Stunden</span>
+            <span class="stat-value"
+              >{{ Math.floor(player.monthly_time / 60) }} Stunden</span
+            >
             <span class="stat-label">Diesen Monat</span>
           </div>
         </div>
@@ -94,7 +101,9 @@
             <font-awesome-icon :icon="['fas', 'calendar-week']" />
           </div>
           <div class="stat-info">
-            <span class="stat-value">{{ Math.floor(player.weekly_time / 60) }} Stunden</span>
+            <span class="stat-value"
+              >{{ Math.floor(player.weekly_time / 60) }} Stunden</span
+            >
             <span class="stat-label">Diese Woche</span>
           </div>
         </div>
@@ -102,7 +111,9 @@
 
       <div class="progress-section">
         <div class="percentile-card">
-          <span class="percentile-value">Top {{ Math.round(player.rank_percentage) }}%</span>
+          <span class="percentile-value"
+            >Top {{ Math.round(player.rank_percentage) }}%</span
+          >
           <span class="percentile-label">aller Spieler</span>
         </div>
       </div>
@@ -116,33 +127,47 @@
               <span>TTT Runden spielen</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 35) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 35)
+              }}</span>
               <span>League of Legends Runden spielen</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 40) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 40)
+              }}</span>
               <span>Counter-Strike 2 Runden</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 60 / 60) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 60 / 60)
+              }}</span>
               <span>mal Elden Ring durchspielen</span>
             </div>
           </div>
           <div class="games-column">
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 60) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 60)
+              }}</span>
               <span>Podcasts hören</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 132) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 132)
+              }}</span>
               <span>Filme schauen</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 360) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 360)
+              }}</span>
               <span>km laufen</span>
             </div>
             <div class="game-entry">
-              <span class="count">{{ Math.floor(player.total_time / 440) }}</span>
+              <span class="count">{{
+                Math.floor(player.total_time / 440)
+              }}</span>
               <span>Bücher lesen</span>
             </div>
           </div>
@@ -158,54 +183,60 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
-import { Chart, registerables } from 'chart.js'
-import PlayerAchievements from '../components/ranking/PlayerAchievements.vue'
+import { ref, onMounted, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { Chart, registerables } from 'chart.js';
+import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
 
-Chart.register(...registerables)
+Chart.register(...registerables);
 
-const route = useRoute()
-const player = ref(null)
-const loading = ref(true)
-const error = ref(null)
-const hoursChart = ref(null)
-let chart = null
+const route = useRoute();
+const player = ref(null);
+const loading = ref(true);
+const error = ref(null);
+const hoursChart = ref(null);
+let chart = null;
 
-const playerId = route.params.id.toString().replace('player-', '')
+const playerId = route.params.id.toString().replace('player-', '');
 
 const calculateLevelProgress = () => {
-  if (!player.value) return 0
-  const currentTime = player.value.total_time
-  const timeToNext = player.value.time_to_next_level
-  const totalTimeNeeded = currentTime + timeToNext
-  return Math.min(100, (currentTime / totalTimeNeeded) * 100)
-}
+  if (!player.value) return 0;
+  const currentTime = player.value.total_time;
+  const timeToNext = player.value.time_to_next_level;
+  const totalTimeNeeded = currentTime + timeToNext;
+  return Math.min(100, (currentTime / totalTimeNeeded) * 100);
+};
 
 const createChart = () => {
-  if (!player.value || !hoursChart.value) return
+  if (!player.value || !hoursChart.value) return;
 
-  const ctx = hoursChart.value.getContext('2d')
-  if (!ctx) return
+  const ctx = hoursChart.value.getContext('2d');
+  if (!ctx) return;
 
   if (chart) {
-    chart.destroy()
+    chart.destroy();
   }
-  
+
   chart = new Chart(ctx, {
     type: 'bar',
     data: {
       labels: ['Top Spieler', 'Deine Stunden', 'Durchschnitt'],
-      datasets: [{
-        label: 'Spielzeit',
-        data: [
-          Math.floor(player.value.best_player_time / 60),
-          Math.floor(player.value.total_time / 60),
-          Math.floor(player.value.mean_total_time / 60)
-        ],
-        backgroundColor: ['rgba(255, 255, 255, 0.2)', 'rgba(249, 133, 0, 0.9)', 'rgba(255, 255, 255, 0.2)'],
-        borderRadius: 6
-      }]
+      datasets: [
+        {
+          label: 'Spielzeit',
+          data: [
+            Math.floor(player.value.best_player_time / 60),
+            Math.floor(player.value.total_time / 60),
+            Math.floor(player.value.mean_total_time / 60),
+          ],
+          backgroundColor: [
+            'rgba(255, 255, 255, 0.2)',
+            'rgba(249, 133, 0, 0.9)',
+            'rgba(255, 255, 255, 0.2)',
+          ],
+          borderRadius: 6,
+        },
+      ],
     },
     options: {
       responsive: true,
@@ -218,60 +249,62 @@ const createChart = () => {
           color: '#fff',
           font: {
             size: 16,
-            weight: 'normal'
-          }
-        }
+            weight: 'normal',
+          },
+        },
       },
       scales: {
         y: {
           beginAtZero: true,
-          grid: { 
+          grid: {
             color: 'rgba(255, 255, 255, 0.1)',
-            drawBorder: false
+            drawBorder: false,
           },
-          ticks: { 
+          ticks: {
             color: '#999',
-            font: { size: 12 }
-          }
+            font: { size: 12 },
+          },
         },
         x: {
           grid: { display: false },
-          ticks: { 
+          ticks: {
             color: '#999',
-            font: { size: 12 }
-          }
-        }
-      }
-    }
-  })
-}
+            font: { size: 12 },
+          },
+        },
+      },
+    },
+  });
+};
 
 const fetchPlayerData = async () => {
-  loading.value = true
-  error.value = null
+  loading.value = true;
+  error.value = null;
   try {
-    const response = await fetch(`/api/ranking/profile?id=${playerId}`)
+    const response = await fetch(`/api/ranking/profile?id=${playerId}`);
     if (!response.ok) {
-      throw new Error('Network response was not ok')
+      throw new Error('Network response was not ok');
     }
-    player.value = await response.json()
-    setTimeout(createChart, 0)
+    player.value = await response.json();
+    setTimeout(createChart, 0);
   } catch (e) {
-    error.value = 'Failed to load player data'
+    error.value = 'Failed to load player data';
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-}
+};
 
-watch(() => route.params.id, () => {
-  fetchPlayerData()
-})
+watch(
+  () => route.params.id,
+  () => {
+    fetchPlayerData();
+  }
+);
 
 onMounted(() => {
-  fetchPlayerData()
-})
+  fetchPlayerData();
+});
 </script>
-
 
 <style scoped>
 .profile-container {
@@ -581,7 +614,6 @@ onMounted(() => {
 }
 
 @media (max-width: 768px) {
-
   .profile-container {
     padding: 20px 15px;
   }
@@ -618,7 +650,7 @@ onMounted(() => {
     gap: 2rem;
     position: relative;
   }
-  
+
   .games-list::after {
     content: '';
     position: absolute;
@@ -627,10 +659,10 @@ onMounted(() => {
     height: 100%;
     width: 1px;
     background: linear-gradient(
-      180deg, 
-      transparent, 
-      rgba(255, 255, 255, 0.1) 20%, 
-      rgba(255, 255, 255, 0.1) 80%, 
+      180deg,
+      transparent,
+      rgba(255, 255, 255, 0.1) 20%,
+      rgba(255, 255, 255, 0.1) 80%,
       transparent
     );
   }

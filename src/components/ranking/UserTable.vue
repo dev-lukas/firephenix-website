@@ -11,14 +11,14 @@
         </select>
         <span>Einträge</span>
       </div>
-      
+
       <div class="search-box">
-        <input 
-          type="text" 
-          v-model="searchQuery" 
+        <input
+          type="text"
+          v-model="searchQuery"
           placeholder="Suche Spieler..."
           class="search-input"
-        >
+        />
       </div>
     </div>
 
@@ -36,10 +36,13 @@
           <div class="loader"></div>
           <span>Lade Spieler...</span>
         </div>
-    
+
         <template v-else-if="error">
           <div class="table-error">
-            <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="error-icon" />
+            <font-awesome-icon
+              :icon="['fas', 'exclamation-circle']"
+              class="error-icon"
+            />
             <h3 class="error-title">Fehler beim Laden der Spielerdaten</h3>
             <p class="error-message">{{ error }}</p>
             <button @click="fetchData" class="retry-button">
@@ -52,11 +55,16 @@
         <template v-else>
           <div class="table-body">
             <div v-if="players.length > 0" class="table-content">
-              <div v-for="player in players" :key="player.rank" class="table-row" @click="navigateToProfile(player.id)">
+              <div
+                v-for="player in players"
+                :key="player.rank"
+                class="table-row"
+                @click="navigateToProfile(player.id)"
+              >
                 <span class="rank">{{ player.rank }}</span>
                 <span class="level">
                   <div class="table-avatar">
-                    <img :src="`src/assets/images/level/${player.level}.png`">
+                    <img :src="`src/assets/images/level/${player.level}.png`" />
                   </div>
                 </span>
                 <div class="player-cell">
@@ -67,8 +75,13 @@
               </div>
             </div>
             <div v-else class="no-results">
-              <font-awesome-icon :icon="['fas', 'search']" class="search-icon" />
-              <span class="no-results-text">Keine passenden Spieler gefunden</span>
+              <font-awesome-icon
+                :icon="['fas', 'search']"
+                class="search-icon"
+              />
+              <span class="no-results-text"
+                >Keine passenden Spieler gefunden</span
+              >
             </div>
           </div>
         </template>
@@ -79,28 +92,48 @@
       <div class="showing-entries">
         Zeige {{ startEntry }} bis {{ endEntry }} von {{ totalItems }} Einträgen
       </div>
-      
+
       <div class="pagination">
-        <button class="page-button" :disabled="currentPage === 1 || !players.length" @click="currentPage = 1">
+        <button
+          class="page-button"
+          :disabled="currentPage === 1 || !players.length"
+          @click="currentPage = 1"
+        >
           Erste Seite
         </button>
-        <button class="page-button" :disabled="currentPage === 1 || !players.length" @click="currentPage--">
+        <button
+          class="page-button"
+          :disabled="currentPage === 1 || !players.length"
+          @click="currentPage--"
+        >
           Zuletzt
         </button>
-        
+
         <div class="page-select-container">
-          <select v-model="currentPage" class="page-select" :disabled="!players.length">
+          <select
+            v-model="currentPage"
+            class="page-select"
+            :disabled="!players.length"
+          >
             <option v-for="page in totalPages" :key="page" :value="page">
               {{ page }}
             </option>
           </select>
           <span class="page-select-text">von {{ totalPages }}</span>
         </div>
-        
-        <button class="page-button" :disabled="currentPage === totalPages || !players.length" @click="currentPage++">
+
+        <button
+          class="page-button"
+          :disabled="currentPage === totalPages || !players.length"
+          @click="currentPage++"
+        >
           Nächste
         </button>
-        <button class="page-button" :disabled="currentPage === totalPages || !players.length" @click="currentPage = totalPages">
+        <button
+          class="page-button"
+          :disabled="currentPage === totalPages || !players.length"
+          @click="currentPage = totalPages"
+        >
           Letzte Seite
         </button>
       </div>
@@ -109,58 +142,66 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
-const currentPage = ref(1)
-const itemsPerPage = ref(10)
-const totalItems = ref(0)
-const totalPages = ref(1)
-const searchQuery = ref('')
-const loading = ref(true)
-const error = ref(null)
-const players = ref([])
+const router = useRouter();
+const currentPage = ref(1);
+const itemsPerPage = ref(10);
+const totalItems = ref(0);
+const totalPages = ref(1);
+const searchQuery = ref('');
+const loading = ref(true);
+const error = ref(null);
+const players = ref([]);
 
 const navigateToProfile = (id) => {
-  router.push(`/ranking/player-${id}`)
-}
+  router.push(`/ranking/player-${id}`);
+};
 
 const formatTime = (minutes) => {
-  const hours = Math.floor(minutes / 60)
-  const remainingMinutes = minutes % 60
-  return `${hours} Std ${remainingMinutes} Min`
-}
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours} Std ${remainingMinutes} Min`;
+};
 
 const fetchData = async () => {
   try {
-    loading.value = true
-    error.value = null
-    const response = await fetch(`/api/ranking?page=${currentPage.value}&limit=${itemsPerPage.value}&search=${searchQuery.value}`)
-    if (!response.ok) throw new Error('Failed to fetch data')
-    
-    const data = await response.json()
-    players.value = data.players
-    totalItems.value = data.total
-    totalPages.value = data.pages
-  } catch (err) {
-    error.value = 'Fehler beim Laden der Spielerdaten'
-    console.error('Error fetching data:', err)
-  } finally {
-    loading.value = false
-  }
-}
+    loading.value = true;
+    error.value = null;
+    const response = await fetch(
+      `/api/ranking?page=${currentPage.value}&limit=${itemsPerPage.value}&search=${searchQuery.value}`
+    );
+    if (!response.ok) throw new Error('Failed to fetch data');
 
-const startEntry = computed(() => totalItems.value ? (currentPage.value - 1) * Number(itemsPerPage.value) + 1 : 0)
-const endEntry = computed(() => Math.min(currentPage.value * Number(itemsPerPage.value), totalItems.value))
+    const data = await response.json();
+    players.value = data.players;
+    totalItems.value = data.total;
+    totalPages.value = data.pages;
+  } catch (err) {
+    error.value = 'Fehler beim Laden der Spielerdaten';
+    console.error('Error fetching data:', err);
+  } finally {
+    loading.value = false;
+  }
+};
+
+const startEntry = computed(() =>
+  totalItems.value
+    ? (currentPage.value - 1) * Number(itemsPerPage.value) + 1
+    : 0
+);
+const endEntry = computed(() =>
+  Math.min(currentPage.value * Number(itemsPerPage.value), totalItems.value)
+);
 
 watch([currentPage, itemsPerPage, searchQuery], () => {
-  fetchData()
-})
+  fetchData();
+});
 
 onMounted(() => {
-  fetchData()
-})
+  fetchData();
+});
 </script>
 
 <style>
@@ -199,7 +240,9 @@ select option {
   color: #999;
 }
 
-.page-select, .page-size-select, .search-input {
+.page-select,
+.page-size-select,
+.search-input {
   background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(249, 133, 0, 0.1);
   border-radius: 8px;
@@ -249,7 +292,9 @@ select option {
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   color: white;
   cursor: pointer;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .table-row:hover {
@@ -363,12 +408,18 @@ select option {
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 @keyframes spin {
-  to { transform: rotate(360deg); }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 .table-footer {

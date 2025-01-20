@@ -9,11 +9,11 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-import RankingList from '../components/ranking/RankingList.vue'
-import UserStats from '../components/ranking/UserStats.vue'
-import UsageChart from '../components/ranking/UsageChart.vue'
-import UserTable from '../components/ranking/UserTable.vue'
+import { ref } from 'vue';
+import RankingList from '../components/ranking/RankingList.vue';
+import UserStats from '../components/ranking/UserStats.vue';
+import UsageChart from '../components/ranking/UsageChart.vue';
+import UserTable from '../components/ranking/UserTable.vue';
 </script>
 
 <style scoped>

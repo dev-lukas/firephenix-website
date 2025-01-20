@@ -3,9 +3,16 @@
   <div class="game-servers">
     <!-- Image Showcase Carousel -->
     <div class="showcase-carousel" @click="handleShowcaseClick">
-      <div class="showcase-container" :style="{ transform: `translateX(-${currentSlide * 100}%)` }">
-        <div class="showcase-slide" v-for="(slide, index) in showcaseSlides" :key="index">
-          <img :src="slide.image" :alt="slide.title">
+      <div
+        class="showcase-container"
+        :style="{ transform: `translateX(-${currentSlide * 100}%)` }"
+      >
+        <div
+          class="showcase-slide"
+          v-for="(slide, index) in showcaseSlides"
+          :key="index"
+        >
+          <img :src="slide.image" :alt="slide.title" />
           <div class="slide-content">
             <h2>{{ slide.title }}</h2>
             <p>{{ slide.description }}</p>
@@ -13,25 +20,31 @@
         </div>
       </div>
       <div class="carousel-dots">
-        <span v-for="(_, index) in showcaseSlides" 
-              :key="index" 
-              :class="{ active: currentSlide === index }"
-              @click.stop="goToSlide(index)">
+        <span
+          v-for="(_, index) in showcaseSlides"
+          :key="index"
+          :class="{ active: currentSlide === index }"
+          @click.stop="goToSlide(index)"
+        >
         </span>
       </div>
     </div>
-    
+
     <div class="server-grid">
       <!-- TTT Server Card -->
       <div class="server-card">
         <div class="server-header">
-          <img src="../assets/images/games/phoenix-agent.png" alt="TTT Server" class="server-banner">
+          <img
+            src="../assets/images/games/phoenix-agent.png"
+            alt="TTT Server"
+            class="server-banner"
+          />
           <div class="server-status online">
             <span class="status-dot"></span>
             Online: 12/24
           </div>
         </div>
-        
+
         <div class="server-content">
           <h2>Trouble in Terrorist Town</h2>
           <div class="server-info">
@@ -48,13 +61,20 @@
               IP: ttt.yourserver.com
             </div>
           </div>
-          
+
           <div class="server-description">
-            <p>Classic TTT gameplay with custom roles, maps, and features. Join our active community and experience unique addons and regular events.</p>
+            <p>
+              Classic TTT gameplay with custom roles, maps, and features. Join
+              our active community and experience unique addons and regular
+              events.
+            </p>
           </div>
-          
+
           <div class="server-actions">
-            <button class="join-button" @click="joinServer('steam://connect/ttt.yourserver.com:27015')">
+            <button
+              class="join-button"
+              @click="joinServer('steam://connect/ttt.yourserver.com:27015')"
+            >
               <font-awesome-icon :icon="['fas', 'play']" />
               Join Server
             </button>
@@ -69,13 +89,17 @@
       <!-- Minecraft Server Card -->
       <div class="server-card">
         <div class="server-header">
-          <img src="../assets/images/games/phoenix-minecraft.png" alt="Minecraft Server" class="server-banner">
+          <img
+            src="../assets/images/games/phoenix-minecraft.png"
+            alt="Minecraft Server"
+            class="server-banner"
+          />
           <div class="server-status online">
             <span class="status-dot"></span>
             Online: 45/100
           </div>
         </div>
-        
+
         <div class="server-content">
           <h2>Minecraft Survival</h2>
           <div class="server-info">
@@ -92,11 +116,15 @@
               IP: mc.yourserver.com
             </div>
           </div>
-          
+
           <div class="server-description">
-            <p>Survival multiplayer with economy, land claiming, and custom plugins. Regular events and active staff team ensure a great gaming experience.</p>
+            <p>
+              Survival multiplayer with economy, land claiming, and custom
+              plugins. Regular events and active staff team ensure a great
+              gaming experience.
+            </p>
           </div>
-          
+
           <div class="server-actions">
             <button class="join-button" @click="copyIP('mc.yourserver.com')">
               <font-awesome-icon :icon="['fas', 'copy']" />
@@ -114,73 +142,74 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const handleShowcaseClick = (event) => {
-  const clickX = event.clientX
-  const containerWidth = event.currentTarget.offsetWidth
-  
+  const clickX = event.clientX;
+  const containerWidth = event.currentTarget.offsetWidth;
+
   if (clickX < containerWidth / 2) {
-    prevSlide()
+    prevSlide();
   } else {
-    nextSlide()
+    nextSlide();
   }
-}
+};
 
 const showcaseSlides = [
   {
     image: '../assets/showcase1.jpg',
     title: 'TTT Custom Maps',
-    description: 'Experience unique and exciting custom maps'
+    description: 'Experience unique and exciting custom maps',
   },
   {
     image: '../assets/showcase2.jpg',
     title: 'Minecraft World',
-    description: 'Explore vast landscapes and build your empire'
+    description: 'Explore vast landscapes and build your empire',
   },
   {
     image: '../assets/showcase3.jpg',
     title: 'Community Events',
-    description: 'Join our regular community events and competitions'
-  }
-]
+    description: 'Join our regular community events and competitions',
+  },
+];
 
-const currentSlide = ref(0)
-let slideInterval
+const currentSlide = ref(0);
+let slideInterval;
 
 const nextSlide = () => {
-  currentSlide.value = (currentSlide.value + 1) % showcaseSlides.length
-}
+  currentSlide.value = (currentSlide.value + 1) % showcaseSlides.length;
+};
 
 const prevSlide = () => {
-  currentSlide.value = currentSlide.value === 0 
-    ? showcaseSlides.length - 1 
-    : currentSlide.value - 1
-}
+  currentSlide.value =
+    currentSlide.value === 0
+      ? showcaseSlides.length - 1
+      : currentSlide.value - 1;
+};
 
 const goToSlide = (index) => {
-  currentSlide.value = index
-}
+  currentSlide.value = index;
+};
 
 onMounted(() => {
-  slideInterval = setInterval(nextSlide, 5000)
-})
+  slideInterval = setInterval(nextSlide, 5000);
+});
 
 onUnmounted(() => {
-  clearInterval(slideInterval)
-})
+  clearInterval(slideInterval);
+});
 
 const joinServer = (connectUrl) => {
-  window.location.href = connectUrl
-}
+  window.location.href = connectUrl;
+};
 
 const copyIP = (ip) => {
-  navigator.clipboard.writeText(ip)
-}
+  navigator.clipboard.writeText(ip);
+};
 
 const showServerInfo = (server) => {
   // Implement modal or navigation to detailed server info
-}
+};
 </script>
 
 <style scoped>
@@ -279,7 +308,9 @@ const showServerInfo = (server) => {
   background: var(--clr-surface);
   border-radius: 20px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
   border: 1px solid var(--clr-border);
 }
 
@@ -315,7 +346,7 @@ const showServerInfo = (server) => {
 .status-dot {
   width: 10px;
   height: 10px;
-  background: #4CAF50;
+  background: #4caf50;
   border-radius: 50%;
   display: inline-block;
 }
@@ -356,7 +387,8 @@ const showServerInfo = (server) => {
   gap: 1.5rem;
 }
 
-.join-button, .info-button {
+.join-button,
+.info-button {
   padding: 1rem 2rem;
   border: none;
   border-radius: 12px;
@@ -399,7 +431,7 @@ const showServerInfo = (server) => {
     height: 400px;
     margin: -60px -20px 2rem -20px;
   }
-  
+
   .slide-content {
     padding: 2rem;
   }
@@ -413,7 +445,8 @@ const showServerInfo = (server) => {
     flex-direction: column;
   }
 
-  .join-button, .info-button {
+  .join-button,
+  .info-button {
     width: 100%;
     justify-content: center;
   }

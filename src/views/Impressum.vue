@@ -7,9 +7,9 @@
       <section class="impressum-section">
         <h2>Angaben gemäß § 5 TMG</h2>
         <p>
-          Lukas Roth<br>
-          Am Buddeplatz 4<br>
-          13507, Berlin<br>
+          Lukas Roth<br />
+          Am Buddeplatz 4<br />
+          13507, Berlin<br />
           Deutschland
         </p>
       </section>
@@ -17,8 +17,8 @@
       <section class="impressum-section">
         <h2>Kontakt</h2>
         <p>
-          Telefon: 0176/34630252<br>
-          E-Mail: admin@firephenix.de<br>
+          Telefon: 0176/34630252<br />
+          E-Mail: admin@firephenix.de<br />
           Website: firephenix.de
         </p>
       </section>

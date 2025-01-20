@@ -7,6 +7,6 @@
 </template>
 
 <script setup>
-import HeroSection from '../components/HeroSection.vue'
-import SplitContent from '../components/SplitContent.vue'
+import HeroSection from '../components/HeroSection.vue';
+import SplitContent from '../components/SplitContent.vue';
 </script>

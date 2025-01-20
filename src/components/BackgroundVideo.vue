@@ -1,13 +1,8 @@
 // components/BackgroundVideo.vue
 <template>
   <div class="video-container">
-    <video
-      autoplay
-      loop
-      muted
-      class="background-video"
-    >
-      <source src="../assets/videos/blur.mp4" type="video/mp4">
+    <video autoplay loop muted class="background-video">
+      <source src="../assets/videos/blur.mp4" type="video/mp4" />
     </video>
   </div>
 </template>

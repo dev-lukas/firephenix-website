@@ -2,8 +2,8 @@
 <template>
   <div class="ranking-container">
     <div class="ranking-controls">
-      <button 
-        v-for="period in timePeriods" 
+      <button
+        v-for="period in timePeriods"
         :key="period.value"
         :class="['period-button', { active: selectedPeriod === period.value }]"
         @click="updatePeriod(period.value)"
@@ -16,43 +16,70 @@
       <!-- Podium Section -->
       <div class="podium-section">
         <div class="podium">
-          <div class="podium-spot second" @click="navigateToProfile(topPlayers[1]?.id)" v-if="topPlayers[1]">
+          <div
+            class="podium-spot second"
+            @click="navigateToProfile(topPlayers[1]?.id)"
+            v-if="topPlayers[1]"
+          >
             <div class="player-avatar">
               <div class="avatar-wrapper">
-                <img :src="`src/assets/images/level/${topPlayers[1].level}.png`" alt="Second Place">
+                <img
+                  :src="`src/assets/images/level/${topPlayers[1].level}.png`"
+                  alt="Second Place"
+                />
                 <div class="rank-indicator silver">#2</div>
               </div>
             </div>
             <div class="player-info">
               <span class="player-name">{{ topPlayers[1].name }}</span>
-              <span class="player-time">{{ formatTime(topPlayers[1].minutes) }}</span>
+              <span class="player-time">{{
+                formatTime(topPlayers[1].minutes)
+              }}</span>
             </div>
             <div class="podium-block"></div>
           </div>
-          <div class="podium-spot first" @click="navigateToProfile(topPlayers[0]?.id)" v-if="topPlayers[0]">
+          <div
+            class="podium-spot first"
+            @click="navigateToProfile(topPlayers[0]?.id)"
+            v-if="topPlayers[0]"
+          >
             <div class="crown">👑</div>
             <div class="player-avatar">
               <div class="avatar-wrapper">
-                <img :src="`src/assets/images/level/${topPlayers[0].level}.png`" alt="First Place">
+                <img
+                  :src="`src/assets/images/level/${topPlayers[0].level}.png`"
+                  alt="First Place"
+                />
                 <div class="rank-indicator gold">#1</div>
               </div>
             </div>
             <div class="player-info">
               <span class="player-name">{{ topPlayers[0].name }}</span>
-              <span class="player-time">{{ formatTime(topPlayers[0].minutes) }}</span>
+              <span class="player-time">{{
+                formatTime(topPlayers[0].minutes)
+              }}</span>
             </div>
             <div class="podium-block"></div>
           </div>
-          <div class="podium-spot third" @click="navigateToProfile(topPlayers[2]?.id)" v-if="topPlayers[2]">
+          <div
+            class="podium-spot third"
+            @click="navigateToProfile(topPlayers[2]?.id)"
+            v-if="topPlayers[2]"
+          >
             <div class="player-avatar">
               <div class="avatar-wrapper">
-                <img :src="`src/assets/images/level/${topPlayers[2].level}.png`" alt="Third Place">
+                <img
+                  :src="`src/assets/images/level/${topPlayers[2].level}.png`"
+                  alt="Third Place"
+                />
                 <div class="rank-indicator bronze">#3</div>
               </div>
             </div>
             <div class="player-info">
               <span class="player-name">{{ topPlayers[2].name }}</span>
-              <span class="player-time">{{ formatTime(topPlayers[2].minutes) }}</span>
+              <span class="player-time">{{
+                formatTime(topPlayers[2].minutes)
+              }}</span>
             </div>
             <div class="podium-block"></div>
           </div>
@@ -68,11 +95,19 @@
             <span>Spieler</span>
             <span>Zeit</span>
           </div>
-          <div class="table-row" v-for="(player, index) in remainingPlayers" :key="player.id" @click="navigateToProfile(player.id)">
+          <div
+            class="table-row"
+            v-for="(player, index) in remainingPlayers"
+            :key="player.id"
+            @click="navigateToProfile(player.id)"
+          >
             <span class="rank">{{ index + 4 }}</span>
             <span class="level">
               <div class="table-avatar">
-                <img :src="`src/assets/images/level/${player.level}.png`" :alt="player.name">
+                <img
+                  :src="`src/assets/images/level/${player.level}.png`"
+                  :alt="player.name"
+                />
               </div>
             </span>
             <div class="player-cell">
@@ -87,52 +122,56 @@
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, watch, computed } from 'vue';
+import { useRouter } from 'vue-router';
 
-const router = useRouter()
-const selectedPeriod = ref('total')
-const topPlayers = ref([])
+const router = useRouter();
+const selectedPeriod = ref('total');
+const topPlayers = ref([]);
 
 const timePeriods = [
   { label: 'Aller Zeiten', value: 'total' },
   { label: 'Monatlich', value: 'monthly' },
-  { label: 'Wöchentlich', value: 'weekly' }
-]
+  { label: 'Wöchentlich', value: 'weekly' },
+];
 
 const remainingPlayers = computed(() => {
-  return topPlayers.value.slice(3)
-})
+  return topPlayers.value.slice(3);
+});
 
 const formatTime = (minutes) => {
-  const hours = Math.floor(minutes / 60)
-  const remainingMinutes = minutes % 60
-  return `${hours} Std ${remainingMinutes} Min`
-}
+  const hours = Math.floor(minutes / 60);
+  const remainingMinutes = minutes % 60;
+  return `${hours} Std ${remainingMinutes} Min`;
+};
 
 const navigateToProfile = (id) => {
-  router.push(`/ranking/player-${id}`)
-}
+  router.push(`/ranking/player-${id}`);
+};
 
 const updatePeriod = (period) => {
-  selectedPeriod.value = period
-}
+  selectedPeriod.value = period;
+};
 
 const fetchRankingData = async (period) => {
   try {
-    const response = await fetch(`/api/ranking/top?period=${period}`)
-    if (!response.ok) throw new Error('Network response was not ok')
-    const data = await response.json()
-    topPlayers.value = data
+    const response = await fetch(`/api/ranking/top?period=${period}`);
+    if (!response.ok) throw new Error('Network response was not ok');
+    const data = await response.json();
+    topPlayers.value = data;
   } catch (error) {
-    console.error('Error fetching ranking data:', error)
-    topPlayers.value = []
+    console.error('Error fetching ranking data:', error);
+    topPlayers.value = [];
   }
-}
+};
 
-watch(selectedPeriod, (newPeriod) => {
-  fetchRankingData(newPeriod)
-}, { immediate: true })
+watch(
+  selectedPeriod,
+  (newPeriod) => {
+    fetchRankingData(newPeriod);
+  },
+  { immediate: true }
+);
 </script>
 
 <style scoped>
@@ -178,7 +217,11 @@ watch(selectedPeriod, (newPeriod) => {
   margin-top: 0;
   margin-bottom: 4rem;
   padding: 2rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.02) 0%,
+    rgba(255, 255, 255, 0) 100%
+  );
   border-radius: 24px;
 }
 
@@ -198,8 +241,13 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 .podium-spot {
@@ -212,10 +260,14 @@ watch(selectedPeriod, (newPeriod) => {
 .avatar-wrapper {
   position: relative;
   padding: 4px;
-  background: linear-gradient(45deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   border-radius: 50%;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
 }
 
 .player-avatar img {
@@ -233,7 +285,7 @@ watch(selectedPeriod, (newPeriod) => {
   border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .podium-block {
@@ -246,37 +298,37 @@ watch(selectedPeriod, (newPeriod) => {
 
 .first .podium-block {
   height: 200px;
-  background: linear-gradient(45deg, #FF6B6B, #FF4500);
+  background: linear-gradient(45deg, #ff6b6b, #ff4500);
   box-shadow: 0 0 30px rgba(255, 107, 107, 0.2);
 }
 
 .second .podium-block {
   height: 150px;
-  background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+  background: linear-gradient(45deg, #ff8c42, #ff6b6b);
   box-shadow: 0 0 25px rgba(255, 140, 66, 0.2);
 }
 
 .third .podium-block {
   height: 100px;
-  background: linear-gradient(45deg, #FFA07A, #FF8C42);
+  background: linear-gradient(45deg, #ffa07a, #ff8c42);
   box-shadow: 0 0 20px rgba(255, 160, 122, 0.2);
 }
 
 /* Update rank indicators to match new color scheme */
 .gold {
-  background: linear-gradient(45deg, #FF6B6B, #FF4500);
+  background: linear-gradient(45deg, #ff6b6b, #ff4500);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
 }
 
 .silver {
-  background: linear-gradient(45deg, #FF8C42, #FF6B6B);
+  background: linear-gradient(45deg, #ff8c42, #ff6b6b);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
 }
 
 .bronze {
-  background: linear-gradient(45deg, #FFA07A, #FF8C42);
+  background: linear-gradient(45deg, #ffa07a, #ff8c42);
   color: white;
   box-shadow: 0 4px 15px rgba(255, 160, 122, 0.3);
 }
@@ -299,9 +351,15 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 @keyframes shine {
-  0% { left: -100%; }
-  20% { left: 100%; }
-  100% { left: 100%; }
+  0% {
+    left: -100%;
+  }
+  20% {
+    left: 100%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 /* Update crown color to match new scheme */
@@ -317,7 +375,11 @@ watch(selectedPeriod, (newPeriod) => {
 .podium-spot .avatar-wrapper {
   position: relative;
   padding: 4px;
-  background: linear-gradient(45deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+  background: linear-gradient(
+    45deg,
+    rgba(255, 255, 255, 0.1),
+    rgba(255, 255, 255, 0.05)
+  );
   border-radius: 50%;
   backdrop-filter: blur(10px);
 }
@@ -345,17 +407,17 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 .first .player-name {
-  color: #FF6B6B;
+  color: #ff6b6b;
   text-shadow: 0 0 10px rgba(255, 107, 107, 0.3);
 }
 
 .second .player-name {
-  color: #FF8C42;
+  color: #ff8c42;
   text-shadow: 0 0 10px rgba(255, 140, 66, 0.3);
 }
 
 .third .player-name {
-  color: #FFA07A;
+  color: #ffa07a;
   text-shadow: 0 0 10px rgba(255, 160, 122, 0.3);
 }
 
@@ -375,21 +437,31 @@ watch(selectedPeriod, (newPeriod) => {
 .player-time {
   color: #999;
   font-size: 0.9rem;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   padding: 4px 12px;
   border-radius: 12px;
 }
 
 .podium-block {
   width: 160px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.05) 100%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
   border-radius: 16px 16px 0 0;
   backdrop-filter: blur(10px);
 }
 
-.first .podium-block { height: 200px; }
-.second .podium-block { height: 150px; }
-.third .podium-block { height: 100px; }
+.first .podium-block {
+  height: 200px;
+}
+.second .podium-block {
+  height: 150px;
+}
+.third .podium-block {
+  height: 100px;
+}
 
 .ranking-section {
   max-width: 1000px;
@@ -404,7 +476,7 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 .ranking-table {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255, 255, 255, 0.03);
   border-radius: 20px;
   overflow: hidden;
   backdrop-filter: blur(10px);
@@ -414,7 +486,7 @@ watch(selectedPeriod, (newPeriod) => {
   display: grid;
   grid-template-columns: 0.5fr 0.5fr 1fr 1fr;
   padding: 1.2rem 2rem;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   color: #999;
   font-size: 0.9rem;
   letter-spacing: 1px;
@@ -426,13 +498,13 @@ watch(selectedPeriod, (newPeriod) => {
   grid-template-columns: 0.5fr 0.5fr 1fr 1fr;
   padding: 1rem 2rem;
   align-items: center;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
   color: #fff;
   transition: transform 0.2s ease;
 }
 
 .table-row:hover {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255, 255, 255, 0.05);
   transform: translateX(10px);
 }
 
@@ -460,7 +532,8 @@ watch(selectedPeriod, (newPeriod) => {
   color: #999;
 }
 
-.time, .last-online {
+.time,
+.last-online {
   color: #999;
   font-size: 0.9rem;
 }
@@ -534,13 +607,14 @@ watch(selectedPeriod, (newPeriod) => {
   .podium-spot:hover {
     transform: none;
   }
-  
-  .table-header, .table-row {
+
+  .table-header,
+  .table-row {
     grid-template-columns: 0.5fr 1.5fr 1fr 1fr;
     padding: 1rem;
     font-size: 0.8rem;
   }
-  
+
   .table-avatar {
     width: 30px;
     height: 30px;
@@ -548,8 +622,14 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .table-row {
@@ -560,6 +640,6 @@ watch(selectedPeriod, (newPeriod) => {
 }
 
 .table-row:hover {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
 }
 </style>

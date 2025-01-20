@@ -2,22 +2,42 @@
 <template>
   <div class="navbar">
     <button class="menu-toggle" @click="toggleMenu">
-      <div class="hamburger" :class="{ 'active': isMenuOpen }">
+      <div class="hamburger" :class="{ active: isMenuOpen }">
         <span></span>
         <span></span>
         <span></span>
       </div>
     </button>
-    
-    <div class="nav-menu" :class="{ 'open': isMenuOpen }">
+
+    <div class="nav-menu" :class="{ open: isMenuOpen }">
       <nav>
         <ul>
           <li><router-link to="/" @click="closeMenu">Home</router-link></li>
-          <li><router-link to="/ranking" @click="closeMenu">Rangliste</router-link></li>
-          <li><router-link to="/login" @click="closeMenu">Mein Profil</router-link></li>
-          <li class="profile-divider"><router-link to="/gameserver" @click="closeMenu">Game-Server</router-link></li>
-          <li><router-link to="/dataprivacy" @click="closeMenu">Datenschutz</router-link></li>
-          <li><router-link to="/impressum" @click="closeMenu">Impressum</router-link></li>
+          <li>
+            <router-link to="/ranking" @click="closeMenu"
+              >Rangliste</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/login" @click="closeMenu"
+              >Mein Profil</router-link
+            >
+          </li>
+          <li class="profile-divider">
+            <router-link to="/gameserver" @click="closeMenu"
+              >Game-Server</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/dataprivacy" @click="closeMenu"
+              >Datenschutz</router-link
+            >
+          </li>
+          <li>
+            <router-link to="/impressum" @click="closeMenu"
+              >Impressum</router-link
+            >
+          </li>
         </ul>
       </nav>
     </div>
@@ -25,17 +45,17 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const isMenuOpen = ref(false)
+const isMenuOpen = ref(false);
 
 const toggleMenu = () => {
-  isMenuOpen.value = !isMenuOpen.value
-}
+  isMenuOpen.value = !isMenuOpen.value;
+};
 
 const closeMenu = () => {
-  isMenuOpen.value = false
-}
+  isMenuOpen.value = false;
+};
 </script>
 
 <style scoped>
@@ -72,9 +92,15 @@ const closeMenu = () => {
   transition: all 0.3s ease;
 }
 
-.hamburger span:nth-child(1) { top: 0; }
-.hamburger span:nth-child(2) { top: 10px; }
-.hamburger span:nth-child(3) { top: 20px; }
+.hamburger span:nth-child(1) {
+  top: 0;
+}
+.hamburger span:nth-child(2) {
+  top: 10px;
+}
+.hamburger span:nth-child(3) {
+  top: 20px;
+}
 
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg);

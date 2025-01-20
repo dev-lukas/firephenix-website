@@ -15,11 +15,13 @@
 </template>
 
 <script setup>
-import BackgroundVideo from './BackgroundVideo.vue'
+import BackgroundVideo from './BackgroundVideo.vue';
 
 const scrollToContent = () => {
-  document.querySelector('.content-section')?.scrollIntoView({ behavior: 'smooth' })
-}
+  document
+    .querySelector('.content-section')
+    ?.scrollIntoView({ behavior: 'smooth' });
+};
 </script>
 
 <style scoped>

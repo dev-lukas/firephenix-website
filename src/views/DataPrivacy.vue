@@ -7,17 +7,20 @@
       <section class="privacy-section">
         <h2>1. Verantwortlicher</h2>
         <p>
-          [Ihr Name/Firmenname]<br>
-          [Straße, Hausnummer]<br>
-          [PLZ, Stadt]<br>
-          E-Mail: [E-Mail-Adresse]<br>
+          [Ihr Name/Firmenname]<br />
+          [Straße, Hausnummer]<br />
+          [PLZ, Stadt]<br />
+          E-Mail: [E-Mail-Adresse]<br />
           Tel.: [Telefonnummer]
         </p>
       </section>
 
       <section class="privacy-section">
         <h2>2. Erhebung und Verarbeitung personenbezogener Daten</h2>
-        <p>Bei der Nutzung unserer Website werden folgende personenbezogene Daten verarbeitet:</p>
+        <p>
+          Bei der Nutzung unserer Website werden folgende personenbezogene Daten
+          verarbeitet:
+        </p>
         <ul>
           <li>IP-Adresse</li>
           <li>Datum und Uhrzeit der Anfrage</li>
@@ -29,12 +32,18 @@
 
       <section class="privacy-section">
         <h2>3. Rechtsgrundlage</h2>
-        <p>Die Verarbeitung Ihrer personenbezogenen Daten erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der Verbesserung der Stabilität und Funktionalität unserer Website.</p>
+        <p>
+          Die Verarbeitung Ihrer personenbezogenen Daten erfolgt gemäß Art. 6
+          Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der
+          Verbesserung der Stabilität und Funktionalität unserer Website.
+        </p>
       </section>
 
       <section class="privacy-section">
         <h2>4. Ihre Rechte</h2>
-        <p>Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:</p>
+        <p>
+          Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:
+        </p>
         <ul>
           <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
           <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
@@ -47,12 +56,19 @@
 
       <section class="privacy-section">
         <h2>5. Speicherdauer</h2>
-        <p>Ihre Daten werden nur so lange gespeichert, wie es für die genannten Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen dies vorschreiben.</p>
+        <p>
+          Ihre Daten werden nur so lange gespeichert, wie es für die genannten
+          Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen dies
+          vorschreiben.
+        </p>
       </section>
 
       <section class="privacy-section">
         <h2>6. Beschwerderecht</h2>
-        <p>Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.</p>
+        <p>
+          Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über
+          die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.
+        </p>
       </section>
     </div>
   </div>
@@ -119,7 +135,7 @@
 }
 
 .privacy-section li:before {
-  content: "•";
+  content: '•';
   color: var(--clr-primary);
   position: absolute;
   left: 0;

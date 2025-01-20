@@ -9,7 +9,10 @@
     <div class="left-half">
       <div class="content-wrapper">
         <div class="info-card">
-          <button class="app-button" @click="openLink('ts3server://firephenix.de?port=9987')">
+          <button
+            class="app-button"
+            @click="openLink('ts3server://firephenix.de?port=9987')"
+          >
             <div class="app-icon left-logo"></div>
           </button>
           <div class="card-content">
@@ -32,14 +35,17 @@
     <div class="right-half">
       <div class="content-wrapper">
         <div class="info-card">
-          <button class="app-button" @click="openLink('https://discord.gg/sT4NPRQSAT')">
+          <button
+            class="app-button"
+            @click="openLink('https://discord.gg/sT4NPRQSAT')"
+          >
             <div class="app-icon right-logo"></div>
           </button>
           <div class="card-content">
             <h4 class="app-title">Discord</h4>
             <p class="app-description">
-              Chatten und Streamen, Spieleintegrationen, Intuitiv,
-              permanenter Chat. Grenzenlose Möglichkeiten.
+              Chatten und Streamen, Spieleintegrationen, Intuitiv, permanenter
+              Chat. Grenzenlose Möglichkeiten.
             </p>
           </div>
         </div>
@@ -49,39 +55,39 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue';
 
 const openLink = (url) => {
-  window.open(url, '_blank')
-}
+  window.open(url, '_blank');
+};
 
-const headlineRef = ref(null)
-const isVisible = ref(false)
+const headlineRef = ref(null);
+const isVisible = ref(false);
 
 onMounted(() => {
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          isVisible.value = true
-          observer.disconnect()
+          isVisible.value = true;
+          observer.disconnect();
         }
-      })
+      });
     },
     {
       threshold: 0.1,
-      rootMargin: '-10% 0px'
+      rootMargin: '-10% 0px',
     }
-  )
-  
+  );
+
   if (headlineRef.value) {
-    observer.observe(headlineRef.value)
+    observer.observe(headlineRef.value);
   }
 
   onUnmounted(() => {
-    observer.disconnect()
-  })
-})
+    observer.disconnect();
+  });
+});
 </script>
 
 <style scoped>
@@ -99,7 +105,9 @@ onMounted(() => {
   font-size: 2.5rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: opacity 2s ease, transform 1.4s ease;
+  transition:
+    opacity 2s ease,
+    transform 1.4s ease;
   visibility: visible;
 }
 
