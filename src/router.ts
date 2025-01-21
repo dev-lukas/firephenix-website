@@ -6,7 +6,7 @@ import Ranking from './views/Ranking.vue';
 import DataPrivacy from './views/DataPrivacy.vue';
 import Impressum from './views/Impressum.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
-import Login from './views/Login.vue';
+import Profile from './views/Profile.vue';
 
 const routes = [
   {
@@ -41,9 +41,9 @@ const routes = [
     props: true,
   },
   {
-    path: '/login',
-    name: 'Login',
-    component: Login,
+    path: '/profile',
+    name: 'Profile',
+    component: Profile,
     props: true,
   },
   // Add more routes as needed

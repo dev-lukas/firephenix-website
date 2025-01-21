@@ -81,7 +81,7 @@ export default {
   },
   methods: {
     handleSteamLogin() {
-      // Implement Steam OAuth login logic here
+      window.location.href = 'http://localhost:5000/api/auth';
     },
   },
 };

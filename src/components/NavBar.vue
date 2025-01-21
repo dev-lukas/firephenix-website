@@ -19,7 +19,7 @@
             >
           </li>
           <li>
-            <router-link to="/login" @click="closeMenu"
+            <router-link to="/profile" @click="closeMenu"
               >Mein Profil</router-link
             >
           </li>
