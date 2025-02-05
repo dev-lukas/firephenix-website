@@ -4,8 +4,8 @@
     <div v-if="!isAuthenticated">
       <Login />
     </div>
-    <div v-else class="ranking-page">
-      <h3>Eingeloggt</h3>
+    <div v-else>
+      <PlatformVerification />
     </div>
   </div>
 </template>
@@ -14,6 +14,7 @@
 import { ref, onMounted, computed } from 'vue';
 import { useAuthStore } from '../services/auth';
 import Login from '../components/Login.vue';
+import PlatformVerification from '../components/profile/PlatformVerification.vue';
 
 const authStore = useAuthStore();
 
