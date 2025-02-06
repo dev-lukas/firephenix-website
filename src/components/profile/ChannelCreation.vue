@@ -4,8 +4,7 @@
     <div class="verification-box">
       <h2 class="verification-title">Channel Erstellung</h2>
       <p class="verification-subtext">
-        Erstelle permanente Voice-Channels in deiner bevorzugten Plattform um<br />
-        plattformübergreifend mit deinem Team kommunizieren zu können.
+        Erstelle deinen eigenen permanenten Voice Channel
       </p>
       <div class="platform-sections">
         <!-- Level Lock Section -->
@@ -15,7 +14,7 @@
         >
           <div class="platform-header">
             <i class="fas fa-lock platform-icon"></i>
-            <h3>Channel Erstellung</h3>
+            <h3>Gesperrt</h3>
           </div>
           <div class="platform-content">
             <div class="locked-message">
