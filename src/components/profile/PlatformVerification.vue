@@ -1,14 +1,12 @@
-<!-- components/PlatformVerification.vue -->
+<!-- components/profile/PlatformVerification.vue -->
 <template>
   <div class="verification-container">
     <div class="verification-box">
       <h2 class="verification-title">Account Verbindung</h2>
       <p class="verification-subtext">
         Verbinde deine Voice-Chats um plattformübergreifend deine Zeit zu
-        tracken und Rang-Belohnung in FirePhenix Game Servern zu erhalten.
-      </p>
-      <p class="verification-subtext">
-        Du musst für die Verifizierung online sein.
+        tracken und Rang-Belohnung in FirePhenix Game Servern zu erhalten.<br />
+        Du <b>musst</b> für die Verifizierung online auf der Plattform sein.
       </p>
       <div class="platform-sections">
         <!-- Discord Section -->
@@ -128,6 +126,13 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+const props = defineProps({
+  userData: {
+    type: Object,
+    default: null,
+  },
+});
+
 const discordUsers = ref([]);
 const teamspeakUsers = ref([]);
 const selectedDiscordUser = ref('');
@@ -135,26 +140,21 @@ const selectedTeamspeakUser = ref('');
 const showVerificationModal = ref(false);
 const verificationCode = ref('');
 const currentPlatform = ref('');
-const userData = ref(null);
 
 onMounted(async () => {
   try {
-    const [discordResponse, teamspeakResponse, userResponse] =
-      await Promise.all([
-        fetch('/api/user/online?platform=discord'),
-        fetch('/api/user/online?platform=teamspeak'),
-        fetch('/api/user'),
-      ]);
+    const [discordResponse, teamspeakResponse] = await Promise.all([
+      fetch('/api/user/online?platform=discord'),
+      fetch('/api/user/online?platform=teamspeak'),
+    ]);
 
     const discordData = await discordResponse.json();
     const teamspeakData = await teamspeakResponse.json();
-    const userDataResponse = await userResponse.json();
 
     discordUsers.value = discordData.users;
     teamspeakUsers.value = teamspeakData.users;
-    userData.value = userDataResponse;
   } catch (error) {
-    console.error('Failed to fetch data:', error);
+    console.error('Failed to fetch online users:', error);
   }
 });
 
@@ -199,7 +199,7 @@ const verifyCode = async () => {
 
     if (response.ok) {
       closeModal();
-      emit('verificationComplete');
+      window.location.reload();
     }
   } catch (error) {
     console.error('Verification failed:', error);
@@ -214,7 +214,7 @@ const closeModal = () => {
 
 <style scoped>
 .verification-container {
-  max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   color: var(--clr-text-primary);
 }
@@ -239,7 +239,8 @@ const closeModal = () => {
 .verification-subtext {
   text-align: center;
   color: var(--clr-text-secondary);
-  max-width: 600px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto 2rem;
 }
 
@@ -248,12 +249,15 @@ const closeModal = () => {
   gap: 2rem;
   grid-template-columns: repeat(2, 1fr);
   margin-top: 2rem;
+  justify-items: center;
 }
 
 .platform-section {
   background: var(--clr-surface-elevated-1);
   border: 2px solid var(--clr-border);
   border-radius: 12px;
+  width: 100%;
+  max-width: 800px;
   padding: 2rem;
   margin: 1rem 0;
   box-shadow: 0 2px 2px var(--clr-border);
@@ -349,7 +353,7 @@ const closeModal = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
+  background: var(--clr-background);
   display: flex;
   justify-content: center;
   align-items: center;
