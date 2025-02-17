@@ -17,7 +17,7 @@
           </div>
           <div class="platform-content">
             <div
-              v-if="userData?.discord_uid && userData?.discord_uid != 'None'"
+              v-if="userData?.discord_id && userData?.discord_id != 'None'"
               class="linked-status"
             >
               <i class="fas fa-check-circle"></i> Verbunden
@@ -54,9 +54,7 @@
           </div>
           <div class="platform-content">
             <div
-              v-if="
-                userData?.teamspeak_uid && userData?.teamspeak_uid != 'None'
-              "
+              v-if="userData?.teamspeak_id && userData?.teamspeak_id != 'None'"
               class="linked-status"
             >
               <i class="fas fa-check-circle"></i> Verbunden

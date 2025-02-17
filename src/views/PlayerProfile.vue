@@ -310,7 +310,7 @@ onMounted(() => {
 .profile-container {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 40px max(20px, calc((100vw - 1400px) / 2));
+  padding: 40px 6vh;
   color: var(--clr-text-primary);
   width: 100%;
   margin: 0 auto;
