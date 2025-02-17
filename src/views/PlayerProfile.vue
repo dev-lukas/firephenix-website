@@ -187,15 +187,16 @@ import { ref, onMounted, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { Chart, registerables } from 'chart.js';
 import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
+import { useErrorHandling } from '../composables/useErrorHandling';
+import type { Player } from '../types/player';
 
 Chart.register(...registerables);
 
 const route = useRoute();
-const player = ref(null);
-const loading = ref(true);
-const error = ref(null);
-const hoursChart = ref(null);
-let chart = null;
+const player = ref<Player | null>(null);
+const { error, loading, handleError } = useErrorHandling();
+const hoursChart = ref<HTMLCanvasElement | null>(null);
+let chart: Chart | null = null;
 
 const playerId = route.params.id.toString().replace('player-', '');
 
@@ -258,7 +259,7 @@ const createChart = () => {
           beginAtZero: true,
           grid: {
             color: 'rgba(255, 255, 255, 0.1)',
-            drawBorder: false,
+            display: false,
           },
           ticks: {
             color: '#999',
@@ -279,16 +280,15 @@ const createChart = () => {
 
 const fetchPlayerData = async () => {
   loading.value = true;
-  error.value = null;
   try {
     const response = await fetch(`/api/ranking/profile?id=${playerId}`);
     if (!response.ok) {
-      throw new Error('Network response was not ok');
+      throw new Error('Failed to load player data');
     }
     player.value = await response.json();
     setTimeout(createChart, 0);
   } catch (e) {
-    error.value = 'Failed to load player data';
+    handleError(e instanceof Error ? e : 'An unexpected error occurred');
   } finally {
     loading.value = false;
   }

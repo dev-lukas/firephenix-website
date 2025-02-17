@@ -52,38 +52,36 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SteamLogin',
-  data() {
-    return {
-      benefits: [
-        {
-          icon: 'fas fa-trophy',
-          title: 'Zeit Sync',
-          description:
-            'Synchronisiere deine Onlinezeit und Level zwischen Discord und TeamSpeak',
-        },
-        {
-          icon: 'fas fa-users',
-          title: 'Permanente Channel',
-          description:
-            'Erstelle deinen eigenen permanenten Channel auf den Voice-Servern',
-        },
-        {
-          icon: 'fas fa-trophy',
-          title: 'Cosmetics',
-          description:
-            'Erhalte exklusive Kosmetik in TTT und auf anderen FirePhenix Game-Servern',
-        },
-      ],
-    };
+<script setup lang="ts">
+interface Benefit {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+const benefits: Benefit[] = [
+  {
+    icon: 'fas fa-trophy',
+    title: 'Zeit Sync',
+    description:
+      'Synchronisiere deine Onlinezeit und Level zwischen Discord und TeamSpeak',
   },
-  methods: {
-    handleSteamLogin() {
-      window.location.href = 'http://localhost:5000/api/auth';
-    },
+  {
+    icon: 'fas fa-users',
+    title: 'Permanente Channel',
+    description:
+      'Erstelle deinen eigenen permanenten Channel auf den Voice-Servern',
   },
+  {
+    icon: 'fas fa-trophy',
+    title: 'Cosmetics',
+    description:
+      'Erhalte exklusive Kosmetik in TTT und auf anderen FirePhenix Game-Servern',
+  },
+];
+
+const handleSteamLogin = () => {
+  window.location.href = 'http://localhost:5000/api/auth';
 };
 </script>
 
