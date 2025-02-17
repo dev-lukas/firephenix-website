@@ -1,5 +1,28 @@
-# Vue 3 + TypeScript + Vite
+# FirePhenix Frontend
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+This is the frontend repository for FirePhenix.de, built with Vue 3, TypeScript, and Vite. The website features a sleek, modern design with full mobile responsiveness to provide an optimal user experience across all devices.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Features
+
+- Modern, responsive UI design
+- Built with Vue 3 and TypeScript for type safety
+- Fast development with Vite
+- Mobile-first approach
+- Platform integration for Discord and TeamSpeak
+
+## Requirements
+
+- Node.js (v18 or higher)
+- npm or yarn
+
+## Installation
+
+Run `npm install` to install the dependencies.
+
+## Development
+
+Run `npm run dev` to start the development server.
+
+## Building
+
+Run `npm run build` to build the production version.
