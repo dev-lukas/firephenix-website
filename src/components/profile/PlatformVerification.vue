@@ -121,18 +121,23 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import type { UserProfile } from '../../types/user';
 
-const props = defineProps({
-  userData: {
-    type: Object,
-    default: null,
-  },
-});
+interface Props {
+  userData: UserProfile | null;
+}
 
-const discordUsers = ref([]);
-const teamspeakUsers = ref([]);
+const { userData } = defineProps<Props>();
+
+interface PlatformUser {
+  id: string;
+  name: string;
+}
+
+const discordUsers = ref<PlatformUser[]>([]);
+const teamspeakUsers = ref<PlatformUser[]>([]);
 const selectedDiscordUser = ref('');
 const selectedTeamspeakUser = ref('');
 const showVerificationModal = ref(false);
@@ -156,7 +161,7 @@ onMounted(async () => {
   }
 });
 
-const initiateVerification = async (platform) => {
+const initiateVerification = async (platform: 'discord' | 'teamspeak') => {
   currentPlatform.value = platform;
   const userId =
     platform === 'discord'
@@ -166,6 +171,8 @@ const initiateVerification = async (platform) => {
   const user = (
     platform === 'discord' ? discordUsers.value : teamspeakUsers.value
   ).find((u) => u.id === userId);
+
+  if (!user) return;
 
   try {
     const response = await fetch('/api/profile/verification/initiate', {

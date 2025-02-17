@@ -35,15 +35,17 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref, onMounted, computed } from 'vue';
+import type { Ref } from 'vue';
 import { useAuthStore } from '../services/auth';
 import Login from '../components/Login.vue';
 import PlatformVerification from '../components/profile/PlatformVerification.vue';
 import ChannelCreation from '../components/profile/ChannelCreation.vue';
+import type { UserProfile } from '../types/user';
 
 const authStore = useAuthStore();
-const userData = ref(null);
+const userData: Ref<UserProfile | null> = ref(null);
 const activeTab = ref('stats');
 
 const tabs = [
@@ -59,7 +61,10 @@ onMounted(async () => {
       const response = await fetch('/api/user');
       userData.value = await response.json();
 
-      if (userData?.discord_uid == null && userData?.teamspeak_uid == null) {
+      if (
+        userData.value?.discord_id == null &&
+        userData.value?.teamspeak_id == null
+      ) {
         activeTab.value = 'settings';
       }
     } catch (error) {

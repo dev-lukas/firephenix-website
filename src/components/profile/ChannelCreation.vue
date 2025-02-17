@@ -9,7 +9,7 @@
       <div class="platform-sections">
         <!-- Level Lock Section -->
         <div
-          v-if="userData?.level < 20"
+          v-if="(userData?.level ?? 0) < 20"
           class="platform-section locked-section"
         >
           <div class="platform-header">
@@ -101,17 +101,16 @@
   </div>
 </template>
 
-<script setup>
-import { ref, onMounted } from 'vue';
+<script setup lang="ts">
+import type { UserProfile } from '../../types/user';
 
-const props = defineProps({
-  userData: {
-    type: Object,
-    default: null,
-  },
-});
+interface Props {
+  userData: UserProfile | null;
+}
 
-const createChannel = async (platform) => {
+const { userData } = defineProps<Props>();
+
+const createChannel = async (platform: 'discord' | 'teamspeak') => {
   try {
     const response = await fetch('/api/profile/channel', {
       method: 'POST',
