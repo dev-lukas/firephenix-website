@@ -1,7 +1,7 @@
 <!-- components/profile/PlatformVerification.vue -->
 <template>
   <div class="verification-container">
-    <div class="verification-box">
+    <base-box>
       <h2 class="verification-title">Account Verbindung</h2>
       <p class="verification-subtext">
         Verbinde deine Voice-Chats um plattformübergreifend deine Zeit zu
@@ -10,7 +10,7 @@
       </p>
       <div class="platform-sections">
         <!-- Discord Section -->
-        <div class="platform-section discord-section">
+        <base-box elevated hoverable class="platform-section discord-section">
           <div class="platform-header">
             <i class="fab fa-discord platform-icon"></i>
             <h3>Verbinde deinen Discord Account</h3>
@@ -33,21 +33,22 @@
                   {{ user.name }}
                 </option>
               </select>
-              <button
-                @click="initiateVerification('discord')"
+              <base-button
+                variant="primary"
                 :disabled="!selectedDiscordUser"
-                class="verify-button"
+                glow
+                :full-width="true"
+                @click="initiateVerification('discord')"
               >
-                <span class="button-glow"></span>
                 <i class="fas fa-link"></i>
                 Account verknüpfen
-              </button>
+              </base-button>
             </template>
           </div>
-        </div>
+        </base-box>
 
         <!-- TeamSpeak Section -->
-        <div class="platform-section teamspeak-section">
+        <base-box elevated hoverable class="platform-section teamspeak-section">
           <div class="platform-header">
             <i class="fab fa-teamspeak platform-icon"></i>
             <h3>Verbinde deinen TeamSpeak Account</h3>
@@ -70,60 +71,60 @@
                   {{ user.name }}
                 </option>
               </select>
-              <button
-                @click="initiateVerification('teamspeak')"
+              <base-button
+                variant="primary"
                 :disabled="!selectedTeamspeakUser"
-                class="verify-button"
+                glow
+                :full-width="true"
+                @click="initiateVerification('teamspeak')"
               >
-                <span class="button-glow"></span>
                 <i class="fas fa-link"></i>
                 Account verknüpfen
-              </button>
+              </base-button>
             </template>
           </div>
-        </div>
+        </base-box>
       </div>
-    </div>
+    </base-box>
 
     <!-- Verification Modal -->
-    <div
-      v-if="showVerificationModal"
-      class="verification-modal-overlay"
-      @click.self="closeModal"
-    >
-      <div class="verification-modal">
-        <div class="modal-header">
-          <h3>Verifizierungscode</h3>
-          <p>An {{ currentPlatform }} gesendeter Bestätigungscode</p>
-        </div>
-        <div class="modal-body">
-          <div class="code-input-container">
-            <input
-              v-model="verificationCode"
-              type="text"
-              class="code-input"
-              placeholder="••••••"
-              maxlength="6"
-            />
-            <div class="input-glow"></div>
-          </div>
-        </div>
-        <div class="modal-actions">
-          <button @click="closeModal" class="modal-button cancel">
-            Abbrechen
-          </button>
-          <button @click="verifyCode" class="modal-button confirm">
-            Bestätigen
-          </button>
+    <base-modal v-model="showVerificationModal">
+      <template #title> Verifizierungscode </template>
+
+      <div class="verification-modal-content">
+        <p class="verification-text">
+          An {{ currentPlatform }} gesendeter Bestätigungscode
+        </p>
+        <div class="code-input-container">
+          <input
+            v-model="verificationCode"
+            type="text"
+            class="code-input"
+            placeholder="••••••"
+            maxlength="6"
+          />
+          <div class="input-glow"></div>
         </div>
       </div>
-    </div>
+
+      <template #footer>
+        <base-button variant="secondary" @click="closeModal">
+          Abbrechen
+        </base-button>
+        <base-button variant="primary" glow @click="verifyCode">
+          Bestätigen
+        </base-button>
+      </template>
+    </base-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 import type { UserProfile } from '../../types/user';
+import BaseBox from '../base/BaseBox.vue';
+import BaseButton from '../base/BaseButton.vue';
+import BaseModal from '../base/BaseModal.vue';
 
 interface Props {
   userData: UserProfile | null;
@@ -142,7 +143,11 @@ const selectedDiscordUser = ref('');
 const selectedTeamspeakUser = ref('');
 const showVerificationModal = ref(false);
 const verificationCode = ref('');
-const currentPlatform = ref('');
+const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
+
+const emit = defineEmits<{
+  (e: 'verification-success'): void;
+}>();
 
 onMounted(async () => {
   try {
@@ -193,7 +198,7 @@ const initiateVerification = async (platform: 'discord' | 'teamspeak') => {
 
 const verifyCode = async () => {
   try {
-    const response = await fetch('/api/profile/verification/verify', {
+    const response = await fetch('/api/user/profile/verification/verify', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -204,7 +209,7 @@ const verifyCode = async () => {
 
     if (response.ok) {
       closeModal();
-      window.location.reload();
+      emit('verification-success');
     }
   } catch (error) {
     console.error('Verification failed:', error);
@@ -374,38 +379,55 @@ const closeModal = () => {
   overflow: hidden;
 }
 
+.verification-modal-content {
+  text-align: center;
+}
+
+.verification-text {
+  margin-bottom: 1.5rem;
+  color: var(--clr-text-secondary);
+}
+
 .code-input-container {
   position: relative;
-  margin: 2rem 0;
+  width: 200px;
+  margin: 0 auto;
 }
 
 .code-input {
   width: 100%;
-  padding: 1.2rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
-  font-size: 1.5rem;
-  letter-spacing: 0.2em;
+  padding: 1rem;
+  font-size: 1.2rem;
   text-align: center;
+  letter-spacing: 0.5rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  color: var(--clr-text-primary);
+  transition: all 0.3s ease;
+}
+
+.code-input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 2px var(--clr-primary-transparent);
 }
 
 .input-glow {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-shadow: 0 0 15px rgba(255, 140, 0, 0.2);
-  border-radius: 8px;
-  pointer-events: none;
+  top: -5px;
+  left: -5px;
+  right: -5px;
+  bottom: -5px;
+  background: var(--clr-primary);
   opacity: 0;
+  border-radius: 12px;
   transition: opacity 0.3s ease;
+  z-index: -1;
 }
 
-.code-input:focus ~ .input-glow {
-  opacity: 1;
+.code-input:focus + .input-glow {
+  opacity: 0.1;
 }
 
 .modal-actions {

@@ -27,8 +27,14 @@
         </div>
 
         <div class="settings-container" v-if="activeTab === 'settings'">
-          <PlatformVerification :user-data="userData" />
-          <ChannelCreation :user-data="userData" />
+          <PlatformVerification
+            :user-data="userData"
+            @verification-success="refreshUserData"
+          />
+          <ChannelCreation
+            :user-data="userData"
+            @channel-created="refreshUserData"
+          />
         </div>
       </div>
     </div>
@@ -39,7 +45,7 @@
 import { ref, onMounted, computed } from 'vue';
 import type { Ref } from 'vue';
 import { useAuthStore } from '../services/auth';
-import Login from '../components/Login.vue';
+import Login from '../components/profile/Login.vue';
 import PlatformVerification from '../components/profile/PlatformVerification.vue';
 import ChannelCreation from '../components/profile/ChannelCreation.vue';
 import type { UserProfile } from '../types/user';
@@ -74,6 +80,15 @@ onMounted(async () => {
 });
 
 const isAuthenticated = computed(() => authStore.isAuthenticated);
+
+const refreshUserData = async () => {
+  try {
+    const response = await fetch('/api/user');
+    userData.value = await response.json();
+  } catch (error) {
+    console.error('Failed to refresh user data:', error);
+  }
+};
 </script>
 
 <style scoped>

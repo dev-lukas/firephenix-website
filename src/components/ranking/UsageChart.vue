@@ -1,14 +1,14 @@
 <template>
   <div class="usage-chart-container">
     <div class="chart-controls">
-      <button
+      <base-button
         v-for="period in periods"
         :key="period.value"
-        :class="['chart-button', { active: selectedPeriod === period.value }]"
+        :variant="selectedPeriod === period.value ? 'primary' : 'secondary'"
         @click="changePeriod(period.value)"
       >
         {{ period.label }}
-      </button>
+      </base-button>
     </div>
     <div class="chart-wrapper">
       <canvas ref="chartRef"></canvas>
@@ -19,6 +19,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import Chart from 'chart.js/auto';
+import BaseButton from '../base/BaseButton.vue';
 
 const chartRef = ref(null);
 let chart = null;
@@ -129,26 +130,6 @@ onMounted(() => {
   margin-bottom: 2rem;
 }
 
-.chart-button {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.chart-button:hover {
-  background: rgba(249, 133, 0, 0.1);
-  border-color: rgba(249, 133, 0, 0.3);
-}
-
-.chart-button.active {
-  background: rgba(249, 133, 0, 0.9);
-  border-color: rgba(249, 133, 0, 0.9);
-}
-
 .chart-wrapper {
   height: 400px;
   width: 100%;
@@ -163,10 +144,6 @@ onMounted(() => {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-  }
-
-  .chart-button {
-    width: 200px;
   }
 
   .chart-wrapper {

@@ -1,78 +1,89 @@
 // views/Datenschutz.vue
 <template>
-  <div class="privacy-page">
-    <h1 class="page-title">Datenschutzerklärung</h1>
+  <base-legal-page title="Datenschutzerklärung" last-updated="01.03.2024">
+    <h2>1. Datenschutz auf einen Blick</h2>
+    <h3>Allgemeine Hinweise</h3>
+    <p>
+      Die folgenden Hinweise geben einen einfachen Überblick darüber, was mit
+      Ihren personenbezogenen Daten passiert, wenn Sie diese Website besuchen.
+    </p>
 
-    <div class="privacy-content">
-      <section class="privacy-section">
-        <h2>1. Verantwortlicher</h2>
-        <p>
-          [Ihr Name/Firmenname]<br />
-          [Straße, Hausnummer]<br />
-          [PLZ, Stadt]<br />
-          E-Mail: [E-Mail-Adresse]<br />
-          Tel.: [Telefonnummer]
-        </p>
-      </section>
+    <h3>Datenerfassung auf dieser Website</h3>
+    <h4>Wer ist verantwortlich für die Datenerfassung auf dieser Website?</h4>
+    <p>
+      Die Datenverarbeitung auf dieser Website erfolgt durch den
+      Websitebetreiber. Dessen Kontaktdaten können Sie dem Impressum dieser
+      Website entnehmen.
+    </p>
 
-      <section class="privacy-section">
-        <h2>2. Erhebung und Verarbeitung personenbezogener Daten</h2>
-        <p>
-          Bei der Nutzung unserer Website werden folgende personenbezogene Daten
-          verarbeitet:
-        </p>
-        <ul>
-          <li>IP-Adresse</li>
-          <li>Datum und Uhrzeit der Anfrage</li>
-          <li>Browsertyp und Browserversion</li>
-          <li>Betriebssystem</li>
-          <li>Referrer URL (die zuvor besuchte Seite)</li>
-        </ul>
-      </section>
+    <h2>2. Hosting</h2>
+    <p>Wir hosten die Inhalte unserer Website bei folgendem Anbieter:</p>
+    <h3>Externes Hosting</h3>
+    <p>
+      Diese Website wird extern gehostet. Die personenbezogenen Daten, die auf
+      dieser Website erfasst werden, werden auf den Servern des Hosters
+      gespeichert.
+    </p>
 
-      <section class="privacy-section">
-        <h2>3. Rechtsgrundlage</h2>
-        <p>
-          Die Verarbeitung Ihrer personenbezogenen Daten erfolgt gemäß Art. 6
-          Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der
-          Verbesserung der Stabilität und Funktionalität unserer Website.
-        </p>
-      </section>
+    <section class="privacy-section">
+      <h2>3. Erhebung und Verarbeitung personenbezogener Daten</h2>
+      <p>
+        Bei der Nutzung unserer Website werden folgende personenbezogene Daten
+        verarbeitet:
+      </p>
+      <ul>
+        <li>IP-Adresse</li>
+        <li>Datum und Uhrzeit der Anfrage</li>
+        <li>Browsertyp und Browserversion</li>
+        <li>Betriebssystem</li>
+        <li>Referrer URL (die zuvor besuchte Seite)</li>
+      </ul>
+    </section>
 
-      <section class="privacy-section">
-        <h2>4. Ihre Rechte</h2>
-        <p>
-          Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:
-        </p>
-        <ul>
-          <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
-          <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
-          <li>Recht auf Löschung (Art. 17 DSGVO)</li>
-          <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
-          <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
-          <li>Recht auf Widerspruch (Art. 21 DSGVO)</li>
-        </ul>
-      </section>
+    <section class="privacy-section">
+      <h2>4. Rechtsgrundlage</h2>
+      <p>
+        Die Verarbeitung Ihrer personenbezogenen Daten erfolgt gemäß Art. 6 Abs.
+        1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der
+        Verbesserung der Stabilität und Funktionalität unserer Website.
+      </p>
+    </section>
 
-      <section class="privacy-section">
-        <h2>5. Speicherdauer</h2>
-        <p>
-          Ihre Daten werden nur so lange gespeichert, wie es für die genannten
-          Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen dies
-          vorschreiben.
-        </p>
-      </section>
+    <section class="privacy-section">
+      <h2>5. Ihre Rechte</h2>
+      <p>Sie haben folgende Rechte bezüglich Ihrer personenbezogenen Daten:</p>
+      <ul>
+        <li>Recht auf Auskunft (Art. 15 DSGVO)</li>
+        <li>Recht auf Berichtigung (Art. 16 DSGVO)</li>
+        <li>Recht auf Löschung (Art. 17 DSGVO)</li>
+        <li>Recht auf Einschränkung der Verarbeitung (Art. 18 DSGVO)</li>
+        <li>Recht auf Datenübertragbarkeit (Art. 20 DSGVO)</li>
+        <li>Recht auf Widerspruch (Art. 21 DSGVO)</li>
+      </ul>
+    </section>
 
-      <section class="privacy-section">
-        <h2>6. Beschwerderecht</h2>
-        <p>
-          Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über
-          die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.
-        </p>
-      </section>
-    </div>
-  </div>
+    <section class="privacy-section">
+      <h2>6. Speicherdauer</h2>
+      <p>
+        Ihre Daten werden nur so lange gespeichert, wie es für die genannten
+        Zwecke erforderlich ist oder gesetzliche Aufbewahrungsfristen dies
+        vorschreiben.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2>7. Beschwerderecht</h2>
+      <p>
+        Sie haben das Recht, sich bei einer Datenschutz-Aufsichtsbehörde über
+        die Verarbeitung Ihrer personenbezogenen Daten zu beschweren.
+      </p>
+    </section>
+  </base-legal-page>
 </template>
+
+<script setup lang="ts">
+import BaseLegalPage from '../components/base/BaseLegalPage.vue';
+</script>
 
 <style scoped>
 .privacy-page {

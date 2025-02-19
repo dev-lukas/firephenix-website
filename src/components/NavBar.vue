@@ -12,31 +12,33 @@
     <div class="nav-menu" :class="{ open: isMenuOpen }">
       <nav>
         <ul>
-          <li><router-link to="/" @click="closeMenu">Home</router-link></li>
           <li>
-            <router-link to="/ranking" @click="closeMenu"
-              >Rangliste</router-link
-            >
+            <base-nav-item to="/" @click="closeMenu">Home</base-nav-item>
           </li>
           <li>
-            <router-link to="/profile" @click="closeMenu"
-              >Mein Profil</router-link
-            >
+            <base-nav-item to="/ranking" @click="closeMenu">
+              Rangliste
+            </base-nav-item>
+          </li>
+          <li>
+            <base-nav-item to="/profile" @click="closeMenu">
+              Mein Profil
+            </base-nav-item>
           </li>
           <li class="profile-divider">
-            <router-link to="/gameserver" @click="closeMenu"
-              >Game-Server</router-link
-            >
+            <base-nav-item to="/gameserver" @click="closeMenu">
+              Game-Server
+            </base-nav-item>
           </li>
           <li>
-            <router-link to="/dataprivacy" @click="closeMenu"
-              >Datenschutz</router-link
-            >
+            <base-nav-item to="/dataprivacy" @click="closeMenu">
+              Datenschutz
+            </base-nav-item>
           </li>
           <li>
-            <router-link to="/impressum" @click="closeMenu"
-              >Impressum</router-link
-            >
+            <base-nav-item to="/impressum" @click="closeMenu">
+              Impressum
+            </base-nav-item>
           </li>
         </ul>
       </nav>
@@ -44,8 +46,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
+import BaseNavItem from './base/BaseNavItem.vue';
 
 const isMenuOpen = ref(false);
 
@@ -147,12 +150,6 @@ const closeMenu = () => {
   padding-bottom: 25px !important;
 }
 
-.nav-menu a {
-  color: white;
-  text-decoration: none;
-  font-size: 1.2rem;
-}
-
 @media (max-width: 768px) {
   .nav-menu {
     width: 100vw;
@@ -167,10 +164,6 @@ const closeMenu = () => {
 
   .nav-menu li {
     padding: 20px 30px;
-  }
-
-  .nav-menu a {
-    font-size: 1.5rem;
   }
 }
 </style>

@@ -151,11 +151,11 @@ onMounted(() => {
 }
 
 .left-logo {
-  background-image: url('../assets/images/other/teamspeak.png');
+  background-image: url('../../assets/images/other/teamspeak.png');
 }
 
 .right-logo {
-  background-image: url('../assets/images/other/discord.png');
+  background-image: url('../../assets/images/other/discord.png');
 }
 
 .info-card {

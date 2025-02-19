@@ -2,14 +2,14 @@
 <template>
   <div class="ranking-container">
     <div class="ranking-controls">
-      <button
+      <BaseButton
         v-for="period in timePeriods"
         :key="period.value"
-        :class="['period-button', { active: selectedPeriod === period.value }]"
+        :variant="selectedPeriod === period.value ? 'primary' : 'secondary'"
         @click="updatePeriod(period.value)"
       >
         {{ period.label }}
-      </button>
+      </BaseButton>
     </div>
 
     <div class="ranking-list">
@@ -124,6 +124,7 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
+import BaseButton from '../base/BaseButton.vue';
 
 const router = useRouter();
 const selectedPeriod = ref('total');
@@ -188,29 +189,6 @@ watch(
   justify-content: center;
   gap: 1rem;
   margin-bottom: 2rem;
-}
-
-.period-button {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
-  color: white;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  font-size: 0.9rem;
-}
-
-.period-button:hover {
-  background: rgba(249, 133, 0, 0.1);
-  border-color: rgba(249, 133, 0, 0.3);
-  transform: translateY(-2px);
-}
-
-.period-button.active {
-  background: rgba(249, 133, 0, 0.9);
-  border-color: rgba(249, 133, 0, 0.9);
-  box-shadow: 0 4px 12px rgba(249, 133, 0, 0.3);
 }
 
 .podium-section {
@@ -550,7 +528,7 @@ watch(
     gap: 0.5rem;
   }
 
-  .period-button {
+  .ranking-controls .base-button {
     width: 200px;
   }
 

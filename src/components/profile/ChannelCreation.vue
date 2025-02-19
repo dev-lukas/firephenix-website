@@ -1,15 +1,17 @@
 <!-- components/profile/ChannelCreation.vue -->
 <template>
   <div class="verification-container">
-    <div class="verification-box">
+    <base-box>
       <h2 class="verification-title">Channel Erstellung</h2>
       <p class="verification-subtext">
         Erstelle deinen eigenen permanenten Voice Channel
       </p>
       <div class="platform-sections">
         <!-- Level Lock Section -->
-        <div
+        <base-box
           v-if="(userData?.level ?? 0) < 20"
+          elevated
+          hoverable
           class="platform-section locked-section"
         >
           <div class="platform-header">
@@ -29,12 +31,12 @@
               </p>
             </div>
           </div>
-        </div>
+        </base-box>
 
         <!-- Channel Creation Sections -->
         <template v-else>
           <!-- Discord Channel -->
-          <div class="platform-section discord-section">
+          <base-box elevated hoverable class="platform-section discord-section">
             <div class="platform-header">
               <i class="fab fa-discord platform-icon"></i>
               <h3>Discord Channel</h3>
@@ -50,20 +52,26 @@
               <div v-else-if="userData?.discord_channel" class="channel-status">
                 <i class="fas fa-check-circle"></i> Channel bereits erstellt
               </div>
-              <button
-                v-else
-                @click="createChannel('discord')"
-                class="verify-button"
-              >
-                <span class="button-glow"></span>
-                <i class="fas fa-plus"></i>
-                Channel erstellen
-              </button>
+              <div v-else class="button-container">
+                <base-button
+                  variant="primary"
+                  glow
+                  @click="createChannel('discord')"
+                  :full-width="true"
+                >
+                  <i class="fas fa-plus"></i>
+                  Channel erstellen
+                </base-button>
+              </div>
             </div>
-          </div>
+          </base-box>
 
           <!-- TeamSpeak Channel -->
-          <div class="platform-section teamspeak-section">
+          <base-box
+            elevated
+            hoverable
+            class="platform-section teamspeak-section"
+          >
             <div class="platform-header">
               <i class="fab fa-teamspeak platform-icon"></i>
               <h3>TeamSpeak Channel</h3>
@@ -84,46 +92,97 @@
               >
                 <i class="fas fa-check-circle"></i> Channel bereits erstellt
               </div>
-              <button
-                v-else
-                @click="createChannel('teamspeak')"
-                class="verify-button"
-              >
-                <span class="button-glow"></span>
-                <i class="fas fa-plus"></i>
-                Channel erstellen
-              </button>
+              <div v-else class="button-container">
+                <base-button
+                  variant="primary"
+                  glow
+                  @click="createChannel('teamspeak')"
+                  :full-width="true"
+                >
+                  <i class="fas fa-plus"></i>
+                  Channel erstellen
+                </base-button>
+              </div>
             </div>
-          </div>
+          </base-box>
         </template>
       </div>
-    </div>
+    </base-box>
+
+    <base-modal v-model="showCreationModal">
+      <template #title>
+        {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
+        erstellen
+      </template>
+
+      <div class="creation-modal-content">
+        <p>
+          Möchtest du wirklich einen permanenten
+          {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
+          erstellen?
+        </p>
+        <p class="info-text">
+          <i class="fas fa-info-circle"></i>
+          Der Channel wird automatisch mit deinem Account verknüpft.
+        </p>
+      </div>
+
+      <template #footer>
+        <base-button variant="secondary" @click="closeModal">
+          Abbrechen
+        </base-button>
+        <base-button variant="primary" glow @click="confirmChannelCreation">
+          Erstellen
+        </base-button>
+      </template>
+    </base-modal>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import type { UserProfile } from '../../types/user';
+import BaseBox from '../base/BaseBox.vue';
+import BaseButton from '../base/BaseButton.vue';
+import BaseModal from '../base/BaseModal.vue';
 
 interface Props {
   userData: UserProfile | null;
 }
 
 const { userData } = defineProps<Props>();
+const emit = defineEmits<{
+  (e: 'channel-created'): void;
+}>();
 
-const createChannel = async (platform: 'discord' | 'teamspeak') => {
+const showCreationModal = ref(false);
+const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
+
+const createChannel = (platform: 'discord' | 'teamspeak') => {
+  currentPlatform.value = platform;
+  showCreationModal.value = true;
+};
+
+const confirmChannelCreation = async () => {
   try {
     const response = await fetch('/api/user/profile/channel', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ platform }),
+      body: JSON.stringify({ platform: currentPlatform.value }),
     });
 
     if (response.ok) {
-      window.location.reload();
+      closeModal();
+      emit('channel-created');
     }
   } catch (error) {
     console.error('Channel creation failed:', error);
   }
+};
+
+const closeModal = () => {
+  showCreationModal.value = false;
+  currentPlatform.value = null;
 };
 </script>
 
@@ -170,16 +229,6 @@ const createChannel = async (platform: 'discord' | 'teamspeak') => {
   width: 100%;
   margin: 3rem auto;
   color: var(--clr-text-primary);
-}
-
-.verification-box {
-  background: var(--clr-surface);
-  border-radius: 20px;
-  padding: 0rem 1.5rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
 }
 
 .verification-title {
@@ -280,5 +329,22 @@ const createChannel = async (platform: 'discord' | 'teamspeak') => {
   .verification-box {
     padding: 2rem 1.5rem;
   }
+}
+
+.info-text {
+  margin-top: 1rem;
+  color: var(--clr-text-secondary);
+  font-size: 0.9rem;
+}
+
+.info-text i {
+  color: var(--clr-primary);
+  margin-right: 0.5rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 </style>

@@ -1,21 +1,27 @@
 // components/HeroSection.vue
 <template>
-  <section class="video-section">
+  <base-section class="video-section">
     <BackgroundVideo />
     <div class="gradient-overlay"></div>
     <div class="content-overlay">
       <div class="hero-content">
         <h1 class="hero-title">FirePhenix</h1>
-        <button @click="scrollToContent" class="scroll-button">
+        <base-button
+          variant="secondary"
+          class="scroll-button"
+          @click="scrollToContent"
+        >
           Beginne dein Abenteuer
-        </button>
+        </base-button>
       </div>
     </div>
-  </section>
+  </base-section>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import BackgroundVideo from './BackgroundVideo.vue';
+import BaseSection from '../base/BaseSection.vue';
+import BaseButton from '../base/BaseButton.vue';
 
 const scrollToContent = () => {
   document
@@ -29,6 +35,7 @@ const scrollToContent = () => {
   height: 100vh;
   position: relative;
   overflow: hidden;
+  padding: 0;
 }
 
 .gradient-overlay {
@@ -43,17 +50,20 @@ const scrollToContent = () => {
 }
 
 .content-overlay {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 3;
-  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: translateY(-10vh);
 }
 
 .hero-content {
   text-align: center;
+  transform: translateY(-5vh);
 }
 
 .hero-title {
@@ -64,13 +74,12 @@ const scrollToContent = () => {
 }
 
 .scroll-button {
-  padding: 1rem 2rem;
-  font-size: 1.2rem;
-  background: rgba(255, 255, 255, 0.9);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: transform 0.3s ease;
+  background: rgba(255, 255, 255, 0.9) !important;
+  color: black !important;
+  padding: 1rem 2rem !important;
+  width: auto !important;
+  font-size: 1.2rem !important;
+  transition: transform 0.3s ease !important;
   transform: translateY(4vh);
 }
 
