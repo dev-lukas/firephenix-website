@@ -175,7 +175,7 @@ const initiateVerification = async (platform: 'discord' | 'teamspeak') => {
   if (!user) return;
 
   try {
-    const response = await fetch('/api/profile/verification/initiate', {
+    const response = await fetch('/api/user/profile/verification/initiate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

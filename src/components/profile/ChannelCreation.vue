@@ -112,7 +112,7 @@ const { userData } = defineProps<Props>();
 
 const createChannel = async (platform: 'discord' | 'teamspeak') => {
   try {
-    const response = await fetch('/api/profile/channel', {
+    const response = await fetch('/api/user/profile/channel', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ platform }),
