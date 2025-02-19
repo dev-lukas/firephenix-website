@@ -9,6 +9,7 @@
         <base-button
           variant="secondary"
           class="scroll-button"
+          large
           @click="scrollToContent"
         >
           Beginne dein Abenteuer
@@ -79,12 +80,13 @@ const scrollToContent = () => {
   padding: 1rem 2rem !important;
   width: auto !important;
   font-size: 1.2rem !important;
-  transition: transform 0.3s ease !important;
-  transform: translateY(4vh);
+  transform: translateY(0);
+  transition: all 0.2s ease !important;
 }
 
 .scroll-button:hover {
-  transform: translateY(3vh);
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 1) !important;
 }
 
 @media (max-width: 768px) {

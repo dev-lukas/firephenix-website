@@ -3,6 +3,8 @@
   --clr-surface: rgba(255, 255, 255, 0.03);
   --clr-border: rgba(249, 133, 0, 0.1);
   --clr-primary: rgba(249, 133, 0, 0.9);
+  --clr-primary-light: rgb(255, 170, 75);
+  --clr-primary-transparent: rgba(249, 133, 0, 0.2);
   --clr-text-primary: #ffffff;
   --clr-text-secondary: #999;
   --clr-surface-elevated-1: #1a1a1a;
