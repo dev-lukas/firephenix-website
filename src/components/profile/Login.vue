@@ -9,7 +9,7 @@
         </div>
         <div class="steam-logo">
           <img
-            src="../assets/images/other/steam.png"
+            src="../../assets/images/other/steam.png"
             alt="Steam Logo"
             class="steam-logo-img"
           />

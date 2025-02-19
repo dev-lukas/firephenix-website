@@ -5,7 +5,9 @@
     </div>
     <div v-else>
       <div class="profile-container">
-        <h1>Mein Profil</h1>
+        <div class="profile-header">
+          <h1>Profil</h1>
+        </div>
 
         <div class="profile-nav">
           <button
@@ -35,6 +37,18 @@
             :user-data="userData"
             @channel-created="refreshUserData"
           />
+
+          <div class="settings-section">
+            <h3>Abmelden</h3>
+            <p>Klicke hier um dich von deinem Account abzumelden.</p>
+            <BaseButton
+              variant="secondary"
+              class="logout-button"
+              @click="handleLogout"
+            >
+              Abmelden
+            </BaseButton>
+          </div>
         </div>
       </div>
     </div>
@@ -49,10 +63,13 @@ import Login from '../components/profile/Login.vue';
 import PlatformVerification from '../components/profile/PlatformVerification.vue';
 import ChannelCreation from '../components/profile/ChannelCreation.vue';
 import type { UserProfile } from '../types/user';
+import { useRouter } from 'vue-router';
+import BaseButton from '../components/base/BaseButton.vue';
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
 const activeTab = ref('stats');
+const router = useRouter();
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
@@ -87,6 +104,21 @@ const refreshUserData = async () => {
     userData.value = await response.json();
   } catch (error) {
     console.error('Failed to refresh user data:', error);
+  }
+};
+
+const handleLogout = async () => {
+  try {
+    const response = await fetch('/api/auth/logout', {
+      method: 'GET',
+      credentials: 'include',
+    });
+
+    if (response.ok) {
+      await authStore.checkAuth();
+    }
+  } catch (error) {
+    console.error('Logout failed:', error);
   }
 };
 </script>
@@ -147,5 +179,38 @@ const refreshUserData = async () => {
   font-size: 3.5rem;
   padding-bottom: 2rem;
   text-align: center;
+}
+
+.settings-section {
+  padding: 2rem;
+  border-top: 1px solid var(--clr-border);
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.settings-section h3 {
+  color: var(--clr-text-primary);
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.settings-section p {
+  color: var(--clr-text-secondary);
+  margin-bottom: 1rem;
+  max-width: 400px;
+}
+
+.logout-button {
+  background-color: var(--clr-error) !important;
+  color: white !important;
+  width: auto !important;
+  min-width: 200px !important;
+}
+
+.logout-button:hover {
+  background-color: var(--clr-error-hover) !important;
 }
 </style>

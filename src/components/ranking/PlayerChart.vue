@@ -124,8 +124,9 @@ onMounted(() => {
   background: var(--clr-surface);
   border: 1px solid var(--clr-border);
   border-radius: 12px;
-  padding: 1.5rem 1.5rem 2.5rem;
+  padding: 1.5rem;
   margin-bottom: 2rem;
+  overflow: hidden;
 }
 
 .chart-header {
@@ -160,7 +161,11 @@ canvas {
   }
 
   .chart-wrapper {
-    height: 250px;
+    height: 200px;
+  }
+
+  :deep(.chartjs-size-monitor) {
+    font-size: 12px;
   }
 }
 </style>

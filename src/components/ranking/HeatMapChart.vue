@@ -155,6 +155,7 @@ onMounted(() => {
   border-radius: 12px;
   padding: 1.5rem 1.5rem 2.5rem;
   margin-bottom: 2rem;
+  overflow: hidden;
 }
 
 .chart-header {
@@ -185,7 +186,12 @@ onMounted(() => {
   }
 
   .chart-wrapper {
-    height: 250px;
+    height: 200px;
+    padding: 0;
+  }
+
+  :deep(.chart-js-tooltip) {
+    font-size: 12px;
   }
 }
 </style>

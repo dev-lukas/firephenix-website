@@ -14,4 +14,6 @@
   --clr-dot-inactive: rgba(255, 255, 255, 0.3);
   --clr-overlay-dark: rgba(0, 0, 0, 0.8);
   --clr-primary-shadow: rgba(249, 133, 0, 0.2);
+  --clr-error: #dc3545;
+  --clr-error-hover: #c82333;
 }
