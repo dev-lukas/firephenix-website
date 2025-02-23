@@ -36,7 +36,6 @@ const createChart = () => {
   const days = ['0', '1', '2', '3', '4', '5', '6'];
   const dayLabels = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
 
-  // Calculate total minutes across all slots
   let totalMinutes = 0;
   days.forEach((day) => {
     timeSlots.forEach((slot) => {
@@ -52,7 +51,7 @@ const createChart = () => {
           x: j,
           y: i,
           v: totalMinutes > 0 ? (minutes / totalMinutes) * 100 : 0,
-          minutes: minutes, // Keep original minutes for tooltip
+          minutes: minutes,
         };
       })
     )

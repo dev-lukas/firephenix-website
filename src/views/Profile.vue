@@ -20,7 +20,7 @@
           </button>
         </div>
 
-        <div class="stats-container" v-if="activeTab === 'stats'">
+        <div class="stats-container" v-if="activeTab === 'stats' && !loading">
           <PlayerHeader
             :name="userData?.name || 'Unbekannt'"
             :level="userData?.level || 0"
@@ -43,6 +43,10 @@
           <HeatMapChart
             :heatmap-data="userData?.activity_heatmap || { data: {} }"
           />
+        </div>
+
+        <div v-if="loading" class="loading-container">
+          <p>Lade Daten...</p>
         </div>
 
         <div class="achievements-container" v-if="activeTab === 'achievements'">
@@ -94,6 +98,7 @@ import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
 const activeTab = ref('stats');
+const loading = ref(true);
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
@@ -116,6 +121,8 @@ onMounted(async () => {
       }
     } catch (error) {
       console.error('Failed to fetch user data:', error);
+    } finally {
+      loading.value = false;
     }
   }
 });
@@ -236,5 +243,11 @@ const handleLogout = async () => {
 
 .logout-button:hover {
   background-color: var(--clr-error-hover) !important;
+}
+
+.loading-container {
+  text-align: center;
+  margin-top: 2rem;
+  color: var(--clr-text-secondary);
 }
 </style>
