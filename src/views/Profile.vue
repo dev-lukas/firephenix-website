@@ -21,7 +21,28 @@
         </div>
 
         <div class="stats-container" v-if="activeTab === 'stats'">
-          <h2>Test 1</h2>
+          <PlayerHeader
+            :name="userData?.name || 'Unbekannt'"
+            :level="userData?.level || 0"
+          />
+
+          <LevelProgress
+            :level="userData?.level || 0"
+            :total-time="userData?.total_time || 0"
+            :time-to-next-level="userData?.time_to_next_level || 0"
+          />
+
+          <PlayerStats
+            :total-time="userData?.total_time || 0"
+            :monthly-time="userData?.monthly_time || 0"
+            :weekly-time="userData?.weekly_time || 0"
+          />
+
+          <GameComparison :total-time="userData?.total_time || 0" />
+
+          <HeatMapChart
+            :heatmap-data="userData?.activity_heatmap || { data: {} }"
+          />
         </div>
 
         <div class="achievements-container" v-if="activeTab === 'achievements'">
@@ -63,13 +84,16 @@ import Login from '../components/profile/Login.vue';
 import PlatformVerification from '../components/profile/PlatformVerification.vue';
 import ChannelCreation from '../components/profile/ChannelCreation.vue';
 import type { UserProfile } from '../types/user';
-import { useRouter } from 'vue-router';
 import BaseButton from '../components/base/BaseButton.vue';
+import PlayerHeader from '../components/ranking/PlayerHeader.vue';
+import LevelProgress from '../components/ranking/LevelProgress.vue';
+import PlayerStats from '../components/ranking/PlayerStats.vue';
+import GameComparison from '../components/ranking/GameComparison.vue';
+import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
 const activeTab = ref('stats');
-const router = useRouter();
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
