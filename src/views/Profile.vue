@@ -53,6 +53,10 @@
           <h2>Test 2</h2>
         </div>
 
+        <div class="achievements-container" v-if="activeTab === 'cosmetics'">
+          <h2>Test 4</h2>
+        </div>
+
         <div class="settings-container" v-if="activeTab === 'settings'">
           <PlatformVerification
             :user-data="userData"
@@ -103,6 +107,7 @@ const loading = ref(true);
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
   { id: 'achievements', label: 'Errungenschaften' },
+  { id: 'cosmetics', label: 'Kosmetik' },
   { id: 'settings', label: 'Einstellungen' },
 ];
 
