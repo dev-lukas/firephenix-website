@@ -1,9 +1,7 @@
 <template>
   <div class="stats-grid">
     <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-clock"></i>
-      </div>
+      <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
         <span class="stat-value">{{ formatTime(totalTime) }}</span>
         <span class="stat-label">Gesamtzeit</span>
@@ -11,9 +9,7 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-calendar-alt"></i>
-      </div>
+      <font-awesome-icon :icon="['fas', 'calendar-alt']" />
       <div class="stat-info">
         <span class="stat-value">{{ formatTime(monthlyTime) }}</span>
         <span class="stat-label">Diesen Monat</span>
@@ -21,9 +17,7 @@
     </div>
 
     <div class="stat-card">
-      <div class="stat-icon">
-        <i class="fas fa-calendar-week"></i>
-      </div>
+      <font-awesome-icon :icon="['fas', 'calendar-week']" />
       <div class="stat-info">
         <span class="stat-value">{{ formatTime(weeklyTime) }}</span>
         <span class="stat-label">Diese Woche</span>
@@ -124,5 +118,10 @@ const formatTime = (minutes) => {
   .stat-label {
     font-size: 0.8rem;
   }
+}
+
+.stat-card svg {
+  font-size: 2.5rem;
+  color: var(--clr-primary);
 }
 </style>
