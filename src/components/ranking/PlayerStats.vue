@@ -7,7 +7,7 @@
         <span class="stat-label">Beste Streak</span>
       </div>
     </div>
-    
+
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
@@ -73,6 +73,8 @@ const bestStreak = computed(() => Math.max(
 
 const formatTime = (minutes) => {
   const hours = Math.floor(minutes / 60);
+  if (hours === 0) return `${minutes} Minuten`;
+  if (hours === 1) return '1 Stunde';
   return `${hours} Stunden`;
 };
 </script>
