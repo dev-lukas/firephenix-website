@@ -1,6 +1,14 @@
 <template>
   <div class="stats-grid">
     <div class="stat-card">
+      <font-awesome-icon :icon="['fas', 'fire']" />
+      <div class="stat-info">
+        <span class="stat-value">{{ bestStreak }}</span>
+        <span class="stat-label">Beste Streak</span>
+      </div>
+    </div>
+    
+    <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
         <span class="stat-value">{{ formatTime(totalTime) }}</span>
@@ -27,7 +35,9 @@
 </template>
 
 <script setup>
-defineProps({
+import { computed, defineProps } from 'vue';
+
+const props = defineProps({
   totalTime: {
     type: Number,
     required: true,
@@ -40,7 +50,26 @@ defineProps({
     type: Number,
     required: true,
   },
+  streak: {
+    type: Object,
+    required: true,
+    default: () => ({
+      discord: {
+        current: 0,
+        longest: 0,
+      },
+      teamspeak: {
+        current: 0,
+        longest: 0,
+      },
+    }),
+  },
 });
+
+const bestStreak = computed(() => Math.max(
+  props.streak.discord.longest,
+  props.streak.teamspeak.longest
+));
 
 const formatTime = (minutes) => {
   const hours = Math.floor(minutes / 60);
@@ -51,7 +80,7 @@ const formatTime = (minutes) => {
 <style scoped>
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
 }

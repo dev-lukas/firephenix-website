@@ -42,4 +42,14 @@ export interface Player {
   mean_total_time: number;
   best_player_time: number;
   activity_heatmap: ActivityHeatmap;
+  login_streaks: {
+    discord: {
+      current: number;
+      longest: number;
+    };
+    teamspeak: {
+      current: number;
+      longest: number;
+    };
+  };
 }

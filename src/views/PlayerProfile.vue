@@ -22,6 +22,7 @@
         :total-time="player.total_time"
         :monthly-time="player.monthly_time"
         :weekly-time="player.weekly_time"
+        :streak="player.login_streaks"
       />
 
       <GameComparison :total-time="player.total_time" />
@@ -199,7 +200,7 @@ onMounted(() => {
 
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
 }

@@ -21,28 +21,45 @@
         </div>
 
         <div class="stats-container" v-if="activeTab === 'stats' && !loading">
-          <PlayerHeader
+          <div v-if="userData?.level == 0" class="info-message">
+            <div class="info-icon">
+              <font-awesome-icon :icon="['fas', 'info-circle']" />
+            </div>
+            <div class="info-content">
+              <h4>Account verlinken</h4>
+              <p>Du musst mindestens einen Account mit deinem Steam-Konto verlinken um deine
+                Statistiken zu sehen. Klicke auf "Einstellungen" um dies zu tun.
+              </p>
+              <BaseButton @click="activeTab = 'settings'" variant="primary">
+                Zu den Einstellungen
+              </BaseButton>
+            </div>
+          </div>
+          <div v-else>
+            <PlayerHeader
             :name="userData?.name || 'Unbekannt'"
             :level="userData?.level || 0"
-          />
+            />
 
-          <LevelProgress
-            :level="userData?.level || 0"
-            :total-time="userData?.total_time || 0"
-            :time-to-next-level="userData?.time_to_next_level || 0"
-          />
+            <LevelProgress
+              :level="userData?.level || 0"
+              :total-time="userData?.total_time || 0"
+              :time-to-next-level="userData?.time_to_next_level || 0"
+            />
 
-          <PlayerStats
-            :total-time="userData?.total_time || 0"
-            :monthly-time="userData?.monthly_time || 0"
-            :weekly-time="userData?.weekly_time || 0"
-          />
+            <PlayerStats
+              :total-time="userData?.total_time || 0"
+              :monthly-time="userData?.monthly_time || 0"
+              :weekly-time="userData?.weekly_time || 0"
+              :streak="userData?.login_streaks"	
+            />
 
-          <GameComparison :total-time="userData?.total_time || 0" />
+            <GameComparison :total-time="userData?.total_time || 0" />
 
-          <HeatMapChart
-            :heatmap-data="userData?.activity_heatmap || { data: {} }"
-          />
+            <HeatMapChart
+              :heatmap-data="userData?.activity_heatmap || { data: {} }"
+            />
+          </div>
         </div>
 
         <div v-if="loading" class="loading-container">
@@ -254,5 +271,42 @@ const handleLogout = async () => {
   text-align: center;
   margin-top: 2rem;
   color: var(--clr-text-secondary);
+}
+
+.info-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+  background: var(--clr-surface-elevated-1);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 1px solid var(--clr-border);
+  margin-bottom: 2rem;
+}
+
+.info-icon {
+  font-size: 2.5rem;
+  color: var(--clr-primary);
+}
+
+.info-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.info-content h4 {
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--clr-text-primary);
+}
+
+.info-content p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  color: var(--clr-text-secondary);
+  line-height: 1.5;
 }
 </style>
