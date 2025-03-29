@@ -6,6 +6,8 @@ export interface UserProfile {
   division: number;
   discord_channel: string | null;
   teamspeak_channel: string | null;
+  discord_moveable: boolean;
+  teamspeak_moveable: boolean;
   total_time: number;
   daily_time: number;
   weekly_time: number;

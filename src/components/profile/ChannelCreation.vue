@@ -43,7 +43,7 @@
             </div>
             <div class="platform-content">
               <div
-                v-if="userData?.discord_id && userData?.discord_id == 'None'"
+                v-if="!userData?.discord_id"
                 class="channel-warning"
               >
                 <i class="fas fa-check-circle"></i> Verbinde zuerst dein Discord
@@ -79,7 +79,7 @@
             <div class="platform-content">
               <div
                 v-if="
-                  userData?.teamspeak_id && userData?.teamspeak_id == 'None'
+                  !userData?.teamspeak_id
                 "
                 class="channel-warning"
               >

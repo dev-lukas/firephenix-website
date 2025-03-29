@@ -93,7 +93,8 @@
 
       <div class="verification-modal-content">
         <p class="verification-text">
-          An {{ currentPlatform }} gesendeter Bestätigungscode
+          Dir wurde ein Bestätigungscode zu gesendetet.
+          Dies könnte bis zu einer Minute dauern.
         </p>
         <div class="code-input-container">
           <input

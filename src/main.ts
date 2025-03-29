@@ -25,6 +25,9 @@ import {
   faCalendarAlt,
   faCalendarWeek,
   faInfoCircle,
+  faLock,
+  faCheckCircle,
+  faPlus,
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();
@@ -48,7 +51,10 @@ library.add(
   faCalendarAlt,
   faCalendarWeek,
   faInfoCircle,
-  faExclamationCircle
+  faExclamationCircle,
+  faLock,
+  faCheckCircle,
+  faPlus
 );
 
 const app = createApp(App);

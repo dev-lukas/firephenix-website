@@ -79,6 +79,11 @@
             :user-data="userData"
             @verification-success="refreshUserData"
           />
+          <MoveShield
+            :user-data="userData"
+            @reload-data="refreshUserData"
+            @channel-created="refreshUserData"
+          />
           <ChannelCreation
             :user-data="userData"
             @channel-created="refreshUserData"
@@ -115,6 +120,7 @@ import LevelProgress from '../components/ranking/LevelProgress.vue';
 import PlayerStats from '../components/ranking/PlayerStats.vue';
 import GameComparison from '../components/ranking/GameComparison.vue';
 import HeatMapChart from '../components/ranking/HeatMapChart.vue';
+import MoveShield from '../components/profile/MoveShield.vue';
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
