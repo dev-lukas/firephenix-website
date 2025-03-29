@@ -27,7 +27,7 @@ import {
   faInfoCircle,
   faLock,
   faCheckCircle,
-  faPlus,
+  faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();

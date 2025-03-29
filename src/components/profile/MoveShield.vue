@@ -55,18 +55,16 @@
                     @click="createChannel('discord', 'activate')"
                     :full-width="true"
                     >
-                    <font-awesome-icon :icon="faPlus" />
                     Move Shield aktivieren
                   </base-button>
                 </div>
                 <div v-else class="button-container">
                   <base-button
-                    variant="primary"
+                    variant="primary-light"
                     glow
                     @click="createChannel('discord', 'deactivate')"
                     :full-width="true"
                   >
-                    <font-awesome-icon :icon="faPlus" />
                     Move Shield deaktivieren
                   </base-button>
                 </div>
@@ -94,18 +92,16 @@
                     @click="createChannel('teamspeak', 'activate')"
                     :full-width="true"
                     >
-                    <font-awesome-icon :icon="faPlus" />
                     Move Shield aktivieren
                   </base-button>
                 </div>
                 <div v-else class="button-container">
                   <base-button
-                    variant="primary"
+                    variant="primary-light"
                     glow
                     @click="createChannel('teamspeak', 'deactivate')"
                     :full-width="true"
                   >
-                    <font-awesome-icon :icon="faPlus" />
                     Move Shield deaktivieren
                   </base-button>
                 </div>
@@ -159,8 +155,7 @@
   import BaseModal from '../base/BaseModal.vue';
   import { 
     faLock, 
-    faCheckCircle, 
-    faPlus, 
+    faCheckCircle,
     faExclamationCircle 
   } from '@fortawesome/free-solid-svg-icons';
   

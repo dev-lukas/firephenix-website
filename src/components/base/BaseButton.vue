@@ -3,6 +3,7 @@
     class="base-button"
     :class="{
       primary: variant === 'primary',
+      primarylight: variant === 'primary-light',
       secondary: variant === 'secondary',
       disabled: disabled,
       small: size === 'small',
@@ -20,7 +21,7 @@
 
 <script setup lang="ts">
 defineProps<{
-  variant?: 'primary' | 'secondary';
+  variant?: 'primary' | 'primary-light' | 'secondary';
   size?: 'small' | 'medium' | 'large';
   disabled?: boolean;
   glow?: boolean;
@@ -54,6 +55,12 @@ defineEmits<{
 .primary {
   background: var(--clr-primary);
   border-color: var(--clr-primary);
+  box-shadow: 0 4px 12px var(--clr-primary-transparent);
+}
+
+.primarylight {
+  background: var(--clr-primary-light);
+  border-color: var(--clr-primary-light);
   box-shadow: 0 4px 12px var(--clr-primary-transparent);
 }
 

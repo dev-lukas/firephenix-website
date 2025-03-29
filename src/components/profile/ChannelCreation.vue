@@ -15,7 +15,7 @@
           class="platform-section locked-section"
         >
           <div class="platform-header">
-            <i class="fas fa-lock platform-icon"></i>
+            <font-awesome-icon :icon="faLock" class="platform-icon" />
             <h3>Gesperrt</h3>
           </div>
           <div class="platform-content">
@@ -38,7 +38,6 @@
           <!-- Discord Channel -->
           <base-box elevated hoverable class="platform-section discord-section">
             <div class="platform-header">
-              <i class="fab fa-discord platform-icon"></i>
               <h3>Discord Channel</h3>
             </div>
             <div class="platform-content">
@@ -73,7 +72,6 @@
             class="platform-section teamspeak-section"
           >
             <div class="platform-header">
-              <i class="fab fa-teamspeak platform-icon"></i>
               <h3>TeamSpeak Channel</h3>
             </div>
             <div class="platform-content">
@@ -116,22 +114,28 @@
       </template>
 
       <div class="creation-modal-content">
-        <p>
-          Möchtest du wirklich einen permanenten
-          {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
-          erstellen?
-        </p>
-        <p class="info-text">
-          <i class="fas fa-info-circle"></i>
-          Der Channel wird automatisch mit deinem Account verknüpft.
-        </p>
+        <div v-if="loading" class="loading-message">
+          <div class="spinner"></div>
+          <p>Dein Channel wird erstellt...</p>
+        </div>
+        <div v-else>
+          <p>
+            Möchtest du wirklich einen permanenten
+            {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
+            erstellen?
+          </p>
+          <p class="info-text">
+            <font-awesome-icon :icon="faInfoCircle" />
+            Der Channel wird automatisch mit deinem Account verknüpft.
+          </p>
+        </div>
       </div>
 
       <template #footer>
-        <base-button variant="secondary" @click="closeModal">
+        <base-button v-if="!loading" variant="secondary" @click="closeModal">
           Abbrechen
         </base-button>
-        <base-button variant="primary" glow @click="confirmChannelCreation">
+        <base-button v-if="!loading" variant="primary" glow @click="confirmChannelCreation">
           Erstellen
         </base-button>
       </template>
@@ -145,6 +149,10 @@ import type { UserProfile } from '../../types/user';
 import BaseBox from '../base/BaseBox.vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
+import { 
+  faLock, 
+  faInfoCircle,
+} from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   userData: UserProfile | null;
@@ -157,6 +165,7 @@ const emit = defineEmits<{
 
 const showCreationModal = ref(false);
 const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
+const loading = ref(false);
 
 const createChannel = (platform: 'discord' | 'teamspeak') => {
   currentPlatform.value = platform;
@@ -164,6 +173,7 @@ const createChannel = (platform: 'discord' | 'teamspeak') => {
 };
 
 const confirmChannelCreation = async () => {
+  loading.value = true;
   try {
     const response = await fetch('/api/user/profile/channel', {
       method: 'POST',
@@ -172,11 +182,13 @@ const confirmChannelCreation = async () => {
     });
 
     if (response.ok) {
-      closeModal();
       emit('channel-created');
+      closeModal();
     }
   } catch (error) {
     console.error('Channel creation failed:', error);
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -346,5 +358,27 @@ const closeModal = () => {
   display: flex;
   justify-content: center;
   margin-top: 1rem;
+}
+
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--clr-primary);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 </style>
