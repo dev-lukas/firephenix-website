@@ -9,6 +9,13 @@
       </div>
     </div>
     <div class="stat-card">
+      <font-awesome-icon :icon="['fas', 'signal']" />
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.online_users || 0 }}</span>
+        <span class="stat-label">Online</span>
+      </div>
+    </div>
+    <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
         <span class="stat-value">{{
@@ -18,10 +25,17 @@
       </div>
     </div>
     <div class="stat-card">
-      <font-awesome-icon :icon="['fas', 'signal']" />
+      <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
       <div class="stat-info">
-        <span class="stat-value">{{ stats.online_users || 0 }}</span>
-        <span class="stat-label">Online</span>
+        <span class="stat-value">{{ stats.total_logins || 0 }}</span>
+        <span class="stat-label">Logins</span>
+      </div>
+    </div>
+    <div class="stat-card">
+      <font-awesome-icon :icon="['fas', 'calendar-day']" />
+      <div class="stat-info">
+        <span class="stat-value">{{ formatDay(stats.favorite_day) }}</span>
+        <span class="stat-label">Beliebtester Tag</span>
       </div>
     </div>
   </div>
@@ -34,6 +48,8 @@ const stats = ref({
   total_users: 0,
   total_time: 0,
   online_users: 0,
+  favorite_day: 0,
+  total_logins: 0,
 });
 
 const fetchStats = async () => {
@@ -50,6 +66,12 @@ const formatMinutes = (minutes) => {
   return Math.round(minutes / 60);
 };
 
+const formatDay = (dayIndex) => {
+  const days = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 
+    'Donnerstag', 'Freitag', 'Samstag'];
+  return days[dayIndex] || '-';
+};
+
 onMounted(() => {
   fetchStats();
 });
@@ -57,10 +79,29 @@ onMounted(() => {
 
 <style scoped>
 .user-stats {
-  display: flex;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   margin-bottom: 2rem;
+  justify-content: center;
+}
+
+@media (max-width: 1024px) {
+  .user-stats {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .user-stats {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .user-stats {
+    grid-template-columns: 1fr;
+  }
 }
 
 .stat-card {
@@ -92,12 +133,5 @@ onMounted(() => {
 .stat-label {
   color: #999;
   font-size: 1rem;
-}
-
-@media (max-width: 768px) {
-  .user-stats {
-    flex-direction: column;
-    align-items: center;
-  }
 }
 </style>

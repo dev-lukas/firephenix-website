@@ -28,6 +28,8 @@ import {
   faLock,
   faCheckCircle,
   faSquarePollVertical,
+  faSignInAlt,
+  faCalendarDay,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -56,6 +58,8 @@ library.add(
   faLock,
   faCheckCircle,
   faPlus,
+  faSignInAlt,
+  faCalendarDay,
   faSquarePollVertical
 );
 

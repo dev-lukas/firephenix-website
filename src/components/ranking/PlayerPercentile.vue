@@ -2,15 +2,15 @@
   <div class="percentile-container">
     <div class="percentile-info">
       <div class="percentile-value">
-        <span class="value">Top {{ topPercentage }}%</span>
+        <span class="value">Top {{ displayPercentage }}%</span>
         <span class="label">der Spieler</span>
       </div>
       <div class="percentile-description">
-        Du gehörst zu den besten {{ topPercentage }}% aller Spieler
+        Du gehörst zu den besten {{ displayPercentage }}% aller Spieler
       </div>
     </div>
     <div class="percentile-bar-container">
-      <div class="percentile-bar" :style="{ width: `${100 - topPercentage}%` }">
+      <div class="percentile-bar" :style="{ width: `${topPercentage}%` }">
         <div class="marker">
           <i class="fas fa-caret-up"></i>
           <span>Du</span>
@@ -29,6 +29,8 @@ const props = defineProps({
   },
 });
 
+
+const displayPercentage = parseFloat(props.rankPercentage).toFixed(1);
 const topPercentage = Math.max(1, Math.ceil(100 - props.rankPercentage));
 </script>
 

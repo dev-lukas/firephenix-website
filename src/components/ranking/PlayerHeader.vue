@@ -1,15 +1,25 @@
 <template>
   <div class="player-header">
-    <div class="player-avatar">
-      <base-box elevated>
-        <img :src="`/src/assets/images/level/${level}.png`" :alt="name" />
-      </base-box>
-      <div class="level-badge">
-        <span class="level-text">Level {{ level }}</span>
-      </div>
-    </div>
     <div class="player-info">
       <h1 class="player-name">{{ name }}</h1>
+    </div>
+    <div class="player-avatars">
+      <div class="player-avatar">
+        <base-box elevated>
+          <img :src="`/src/assets/images/level/${level}.png`" :alt="name" />
+        </base-box>
+        <div class="level-badge">
+          <span class="level-text">Level {{ level }}</span>
+        </div>
+      </div>
+      <div class="player-rank">
+        <base-box elevated>
+          <img :src="getRankImage(division)" :alt="`Division ${division}`" />
+        </base-box>
+        <div class="rank-badge">
+          <span class="rank-text">{{ getRankName(division) }}</span>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -26,6 +36,10 @@ defineProps({
     type: Number,
     required: true,
   },
+  division: {
+    type: Number,
+    required: true,
+  },
   isStaff: {
     type: Boolean,
     default: false,
@@ -35,6 +49,18 @@ defineProps({
     default: false,
   },
 });
+
+const getRankImage = (division) => {
+  const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'phoenix'];
+  const index = Math.min(Math.max(0, division - 1), 5); // Ensure index is between 0 and 5
+  return `/src/assets/images/ranks/${ranks[index]}.png`;
+};
+
+const getRankName = (division) => {
+  const ranks = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Phoenix'];
+  const index = Math.min(Math.max(0, division - 1), 5); // Ensure index is between 0 and 5
+  return ranks[index];
+};
 </script>
 
 <style scoped>
@@ -47,17 +73,23 @@ defineProps({
   margin-bottom: 2rem;
 }
 
-.player-avatar {
+.player-avatars {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.player-avatar, .player-rank {
   position: relative;
 }
 
-.player-avatar img {
+.player-avatar img, .player-rank img {
   width: 120px;
   height: 120px;
   border-radius: 12px;
 }
 
-.level-badge {
+.level-badge, .rank-badge {
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -70,7 +102,7 @@ defineProps({
   min-width: 100px;
 }
 
-.level-text {
+.level-text, .rank-text {
   font-size: 0.9rem;
   font-weight: 600;
   display: block;
@@ -94,7 +126,12 @@ defineProps({
     gap: 1rem;
   }
 
-  .player-avatar img {
+  .player-avatars {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .player-avatar img, .player-rank img {
     width: 100px;
     height: 100px;
   }
