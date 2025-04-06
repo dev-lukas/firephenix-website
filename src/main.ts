@@ -27,6 +27,7 @@ import {
   faInfoCircle,
   faLock,
   faCheckCircle,
+  faSquarePollVertical,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -54,7 +55,8 @@ library.add(
   faExclamationCircle,
   faLock,
   faCheckCircle,
-  faPlus
+  faPlus,
+  faSquarePollVertical
 );
 
 const app = createApp(App);

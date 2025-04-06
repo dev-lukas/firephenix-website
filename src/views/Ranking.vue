@@ -1,11 +1,19 @@
 <!-- views/Ranking.vue -->
 <template>
   <div class="ranking-page">
-    <UserStats />
-    <UsageChart />
+    
     
     <!-- Ranking toggle buttons -->
     <div class="ranking-toggle">
+      <button 
+        class="toggle-button" 
+        :class="{ active: activeRanking === 'server-stats' }"
+        @click="activeRanking = 'server-stats'"
+      >
+        <font-awesome-icon :icon="['fas', 'square-poll-vertical']" class="button-icon" />
+        <span>Server Statistiken</span>
+      </button>
+
       <button 
         class="toggle-button" 
         :class="{ active: activeRanking === 'all-time' }"
@@ -26,9 +34,12 @@
       </button>
     </div>
     
-    <!-- Components rendered based on active ranking -->
+    <!-- Components rendered based on active tab -->
+    <UserStats v-if="activeRanking === 'server-stats'" />
+    <UsageChart v-if="activeRanking === 'server-stats'" />
     <RankingList v-if="activeRanking === 'all-time'" />
     <UserTable v-if="activeRanking === 'all-time'" />
+    <SeasonCountdown v-if="activeRanking === 'seasonal'" />
     <SeasonalRanking v-if="activeRanking === 'seasonal'" />
   </div>
 </template>
@@ -40,9 +51,10 @@ import UserStats from '../components/ranking/UserStats.vue';
 import UsageChart from '../components/ranking/UsageChart.vue';
 import UserTable from '../components/ranking/UserTable.vue';
 import SeasonalRanking from '../components/ranking/SeasonalRanking.vue';
+import SeasonCountdown from '../components/ranking/SeasonCountdown.vue';
 
 // Default to all-time ranking
-const activeRanking = ref('all-time');
+const activeRanking = ref('server-stats');
 </script>
 
 <style scoped>
