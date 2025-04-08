@@ -6,14 +6,16 @@
           :src="`/src/assets/images/level/${level}.png`"
           :alt="`Level ${level}`"
         />
-        <span>Level {{ level }}</span>
+        <span v-if="level <= 20">Level {{ level }}</span>
+        <span v-if="level > 20">Prestige {{ level - 20 }}</span>
       </div>
       <div v-if="!isMaxLevel" class="next-level">
         <img
           :src="`/src/assets/images/level/${level + 1}.png`"
           :alt="`Level ${level + 1}`"
         />
-        <span>Level {{ level + 1 }}</span>
+        <span v-if="level + 1 <= 20">Level {{ level + 1 }}</span>
+        <span v-if="level > 20">Prestige {{ (level + 1) - 20 }}</span>
       </div>
     </div>
 

@@ -37,6 +37,7 @@
     <!-- Components rendered based on active tab -->
     <UserStats v-if="activeRanking === 'server-stats'" />
     <UsageChart v-if="activeRanking === 'server-stats'" />
+    <PlatformDistributionChart v-if="activeRanking === 'server-stats'" />
     <RankingList v-if="activeRanking === 'all-time'" />
     <UserTable v-if="activeRanking === 'all-time'" />
     <SeasonCountdown v-if="activeRanking === 'seasonal'" />
@@ -52,6 +53,7 @@ import UsageChart from '../components/ranking/UsageChart.vue';
 import UserTable from '../components/ranking/UserTable.vue';
 import SeasonalRanking from '../components/ranking/SeasonalRanking.vue';
 import SeasonCountdown from '../components/ranking/SeasonCountdown.vue';
+import PlatformDistributionChart from '../components/ranking/PlatformDistributionChart.vue';
 
 // Default to all-time ranking
 const activeRanking = ref('server-stats');

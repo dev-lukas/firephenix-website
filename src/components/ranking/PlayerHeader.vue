@@ -9,7 +9,8 @@
           <img :src="`/src/assets/images/level/${level}.png`" :alt="name" />
         </base-box>
         <div class="level-badge">
-          <span class="level-text">Level {{ level }}</span>
+          <span v-if="level <= 20" class="level-text">Level {{ level }}</span>
+          <span v-if="level > 20" class="level-text">Prestige {{ level - 20 }}</span>
         </div>
       </div>
       <div class="player-rank">
