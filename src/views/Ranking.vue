@@ -1,6 +1,7 @@
 <!-- views/Ranking.vue -->
 <template>
   <div class="ranking-page">
+    <h1 class="page-title">Rangliste</h1>
     
     
     <!-- Ranking toggle buttons -->
@@ -60,6 +61,12 @@ const activeRanking = ref('server-stats');
 </script>
 
 <style scoped>
+.page-title {
+  font-size: 2.5rem;
+  color: var(--clr-text-primary);
+  margin-bottom: 2rem;
+  text-align: center;
+}
 .ranking-page {
   min-height: 100vh;
   background-color: var(--clr-background);

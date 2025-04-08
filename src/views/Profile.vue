@@ -39,18 +39,23 @@
             <PlayerHeader
             :name="userData?.name || 'Unbekannt'"
             :level="userData?.level || 0"
+            :division="userData?.division || 0"
             />
 
             <LevelProgress
               :level="userData?.level || 0"
+              :division="userData?.division || 0"
               :total-time="userData?.total_time || 0"
               :time-to-next-level="userData?.time_to_next_level || 0"
+              :season-time="userData?.season_time || 0"
+              :time-to-next-division="userData?.time_to_next_division || 0"
             />
 
             <PlayerStats
               :total-time="userData?.total_time || 0"
               :monthly-time="userData?.monthly_time || 0"
               :weekly-time="userData?.weekly_time || 0"
+              :season-time="userData?.season_time || 0"
               :streak="userData?.login_streaks"	
             />
 

@@ -77,6 +77,33 @@ const createColorPalette = (count) => {
   return colors.slice(0, count);
 };
 
+const getRankColor = (rank) => {
+  const rankNum = parseInt(rank);
+  
+  if (rankNum >= 1 && rankNum <= 5) return '#CD7F32'; // Bronze/Brown
+  if (rankNum >= 6 && rankNum <= 10) return '#C0C0C0'; // Silver
+  if (rankNum >= 11 && rankNum <= 15) return '#FFD700'; // Gold/Yellow
+  if (rankNum >= 16 && rankNum <= 20) return '#9370DB'; // Violet
+  if (rankNum >= 21 && rankNum <= 22) return '#4169E1'; // Blue
+  if (rankNum >= 23 && rankNum <= 25) return '#FF4500'; // Red
+  
+  return 'rgba(249, 133, 0, 0.7)'; // Default orange
+};
+
+const getDivisionColor = (division) => {
+  const divNum = parseInt(division);
+  
+  switch (divNum) {
+    case 1: return '#CD7F32'; // Bronze/Brown
+    case 2: return '#C0C0C0'; // Silver
+    case 3: return '#FFD700'; // Gold/Yellow
+    case 4: return '#E5E4E2'; // Platinum silver
+    case 5: return '#9370DB'; // Violet
+    case 6: return '#FF4500'; // Red
+    default: return 'rgba(249, 133, 0, 0.7)'; // Default orange
+  }
+};
+
 const createPlatformChart = (data) => {
   const ctx = platformChartRef.value.getContext('2d');
   
@@ -128,8 +155,8 @@ const createPlatformChart = (data) => {
 
 const createRankChart = (data) => {
   const ranks = data.users_per_rank || {};
-  const labels = Object.keys(ranks);
-  const values = Object.values(ranks);
+  const labels = Object.keys(ranks).sort((a, b) => parseInt(a) - parseInt(b));
+  const values = labels.map(rank => ranks[rank]);
   
   const ctx = rankChartRef.value.getContext('2d');
   
@@ -143,7 +170,7 @@ const createRankChart = (data) => {
       labels: labels,
       datasets: [{
         data: values,
-        backgroundColor: createColorPalette(labels.length),
+        backgroundColor: labels.map(rank => getRankColor(rank)),
         borderColor: Array(labels.length).fill('#ffffff'),
         borderWidth: 2
       }]
@@ -167,7 +194,7 @@ const createRankChart = (data) => {
               const value = context.raw || 0;
               const total = context.dataset.data.reduce((a, b) => a + b, 0);
               const percentage = Math.round((value / total) * 100);
-              return `${label}: ${value} (${percentage}%)`;
+              return `Rang ${label}: ${value} (${percentage}%)`;
             }
           }
         }
@@ -178,8 +205,8 @@ const createRankChart = (data) => {
 
 const createDivisionChart = (data) => {
   const divisions = data.users_per_division || {};
-  const labels = Object.keys(divisions);
-  const values = Object.values(divisions);
+  const labels = Object.keys(divisions).sort((a, b) => parseInt(a) - parseInt(b));
+  const values = labels.map(division => divisions[division]);
   
   const ctx = divisionChartRef.value.getContext('2d');
   
@@ -193,7 +220,7 @@ const createDivisionChart = (data) => {
       labels: labels,
       datasets: [{
         data: values,
-        backgroundColor: createColorPalette(labels.length),
+        backgroundColor: labels.map(division => getDivisionColor(division)),
         borderColor: Array(labels.length).fill('#ffffff'),
         borderWidth: 2
       }]
@@ -217,7 +244,7 @@ const createDivisionChart = (data) => {
               const value = context.raw || 0;
               const total = context.dataset.data.reduce((a, b) => a + b, 0);
               const percentage = Math.round((value / total) * 100);
-              return `${label}: ${value} (${percentage}%)`;
+              return `Division ${label}: ${value} (${percentage}%)`;
             }
           }
         }

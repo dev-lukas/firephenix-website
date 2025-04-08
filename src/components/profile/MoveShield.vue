@@ -239,6 +239,11 @@
     text-align: center;
     border: 2px solid var(--clr-border);
     border-radius: 8px;
+
+    & > svg {
+      font-size: 1.5rem;
+      margin-right: 0.5rem; 
+    }
   }
   
   .channel-status {
@@ -404,9 +409,9 @@
     padding: 1rem;
   }
   
-  .success-message i {
+  .success-message i, .success-message svg {
     color: #4caf50;
-    font-size: 2rem;
+    font-size: 2.5rem; /* Increased size */
     margin-bottom: 1rem;
   }
   

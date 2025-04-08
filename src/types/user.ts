@@ -12,7 +12,9 @@ export interface UserProfile {
   daily_time: number;
   weekly_time: number;
   monthly_time: number;
+  season_time: number;
   time_to_next_level: number;
+  time_to_next_division: number;
   activity_heatmap: {
     data: {
       [key: string]: {

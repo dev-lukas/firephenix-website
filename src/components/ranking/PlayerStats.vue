@@ -31,6 +31,14 @@
         <span class="stat-label">Diese Woche</span>
       </div>
     </div>
+
+    <div class="stat-card">
+      <font-awesome-icon :icon="['fas', 'trophy']" />
+      <div class="stat-info">
+        <span class="stat-value">{{ formatTime(seasonTime) }}</span>
+        <span class="stat-label">Saison Zeit</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -47,6 +55,10 @@ const props = defineProps({
     required: true,
   },
   weeklyTime: {
+    type: Number,
+    required: true,
+  },
+  seasonTime: {
     type: Number,
     required: true,
   },
@@ -82,7 +94,7 @@ const formatTime = (minutes) => {
 <style scoped>
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -125,6 +137,12 @@ const formatTime = (minutes) => {
 .stat-label {
   font-size: 0.9rem;
   color: var(--clr-text-secondary);
+}
+
+@media (max-width: 1100px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {

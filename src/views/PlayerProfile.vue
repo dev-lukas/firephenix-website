@@ -14,14 +14,18 @@
 
       <LevelProgress
         :level="player.level"
+        :division="player.division"
         :total-time="player.total_time"
         :time-to-next-level="player.time_to_next_level"
+        :season-time="player.season_time"
+        :time-to-next-division="player.time_to_next_division"
       />
 
       <PlayerStats
         :total-time="player.total_time"
         :monthly-time="player.monthly_time"
         :weekly-time="player.weekly_time"
+        :season-time="player.season_time"
         :streak="player.login_streaks"
       />
 
@@ -196,13 +200,6 @@ onMounted(() => {
   color: var(--clr-primary);
   border: 1px solid var(--clr-border);
   font-size: 0.9rem;
-}
-
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 1.5rem;
-  margin-bottom: 2rem;
 }
 
 .games-comparison {
@@ -478,11 +475,6 @@ onMounted(() => {
 
   .player-name {
     font-size: 1.8rem;
-  }
-
-  .stats-grid {
-    grid-template-columns: 1fr;
-    gap: 1rem;
   }
 
   .stat-card {

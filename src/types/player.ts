@@ -37,7 +37,9 @@ export interface Player {
   total_time: number;
   monthly_time: number;
   weekly_time: number;
+  season_time: number;
   time_to_next_level: number;
+  time_to_next_division: number;
   rank_percentage: number;
   mean_total_time: number;
   best_player_time: number;
