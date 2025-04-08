@@ -25,9 +25,14 @@
               Mein Profil
             </base-nav-item>
           </li>
-          <li class="profile-divider">
+          <li>
             <base-nav-item to="/gameserver" @click="closeMenu">
               Game-Server
+            </base-nav-item>
+          </li>
+          <li class="profile-divider">
+            <base-nav-item to="/wiki" @click="closeMenu">
+              Informationen
             </base-nav-item>
           </li>
           <li>

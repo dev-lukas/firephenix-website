@@ -8,6 +8,7 @@ import DataPrivacy from './views/DataPrivacy.vue';
 import Impressum from './views/Impressum.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
 import Profile from './views/Profile.vue';
+import Wiki from './views/Wiki.vue';
 
 const routes: AppRouteRecord[] = [
   {
@@ -16,6 +17,14 @@ const routes: AppRouteRecord[] = [
     component: HomePage,
     meta: {
       title: 'Home',
+    },
+  },
+  {
+    path: '/wiki',
+    name: 'Wiki',
+    component: Wiki,
+    meta: {
+      title: 'Wiki',
     },
   },
   {
