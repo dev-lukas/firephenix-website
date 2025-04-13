@@ -64,15 +64,13 @@
             <HeatMapChart
               :heatmap-data="userData?.activity_heatmap || { data: {} }"
             />
+
+            <PlayerAchievements v-if="userData" :player-id="userData.id"/>
           </div>
         </div>
 
         <div v-if="loading" class="loading-container">
           <p>Lade Daten...</p>
-        </div>
-
-        <div class="achievements-container" v-if="activeTab === 'achievements'">
-          <h2>Test 2</h2>
         </div>
 
         <div class="achievements-container" v-if="activeTab === 'cosmetics'">
@@ -126,6 +124,7 @@ import PlayerStats from '../components/ranking/PlayerStats.vue';
 import GameComparison from '../components/ranking/GameComparison.vue';
 import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 import MoveShield from '../components/profile/MoveShield.vue';
+import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
@@ -134,7 +133,6 @@ const loading = ref(true);
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
-  { id: 'achievements', label: 'Errungenschaften' },
   { id: 'cosmetics', label: 'Kosmetik' },
   { id: 'settings', label: 'Einstellungen' },
 ];

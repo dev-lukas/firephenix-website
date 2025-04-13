@@ -5,22 +5,172 @@
       {{ unlockedCount }}/{{ totalAchievements }} Achievements
     </h3>
 
-    <div class="achievements-grid">
+    <div v-if="loading" class="loading-state">
+      <p>Lade Achievements...</p>
+    </div>
+
+    <div v-else-if="error" class="error-state">
+      <p>Fehler beim Laden der Achievements</p>
+    </div>
+    
+    <div v-else class="achievements-grid">
+      
+      <!-- Logins Achievement -->
       <div
-        v-for="achievement in achievements"
-        :key="achievement.id"
+        v-for="(level, index) in maxLevels.logins"
+        :key="`logins-${index}`"
         class="achievement-item"
-        :class="{ 'achievement-locked': !achievement.unlocked }"
+        :class="{ 'achievement-locked': achievements.logins?.achievement_level < index + 1 }"
       >
         <img
-          :src="`/src/assets/images/level/1.png`"
-          :alt="achievement.name"
+          :src="`/src/assets/images/achievements/logins/${index + 1}.png`"
+          :alt="`Logins Level ${index + 1}`"
           class="achievement-icon"
         />
         <div class="achievement-tooltip">
           <div class="tooltip-content">
-            <h4>{{ achievement.name }}</h4>
-            <p>{{ achievement.description }}</p>
+            <h4>Dauergast {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getLoginDescription(index + 1) }}</p>
+            <p v-if="achievements.logins?.total_logins">Gesamt: {{ achievements.logins.total_logins }} Logins</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Achievement -->
+      <div
+        v-for="(level, index) in maxLevels.time"
+        :key="`time-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.time?.achievement_level < index + 1 }"
+      >
+        <img
+          :src="`/src/assets/images/achievements/time/${index + 1}.png`"
+          :alt="`Time Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Ausdauernd {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getTimeDescription(index + 1) }}</p>
+            <p v-if="achievements.time?.total_hours">
+              Gesamt: {{ Math.floor(achievements.time.total_hours) }} Stunden
+            </p>
+          </div>
+        </div>
+      </div>      
+
+      <!-- Heatmap Achievement -->
+      <div
+        v-for="(level, index) in maxLevels.heatmap"
+        :key="`heatmap-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.heatmap?.achievement_level < index + 1 }"
+      >
+        <img
+          :src="`/src/assets/images/achievements/days/${index + 1}.png`"
+          :alt="`Heatmap Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Flexibel {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getHeatmapDescription(index + 1) }}</p>
+            <p v-if="achievements.heatmap?.active_days">Aktive Tage: {{ achievements.heatmap.active_days }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streak Achievement -->
+      <div
+        v-for="(level, index) in maxLevels.streak"
+        :key="`streak-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.streak?.achievement_level < index + 1 }"
+      >
+        <img
+          :src="`/src/assets/images/achievements/streak/${index + 1}.png`"
+          :alt="`Streak Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Beharrlich {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getStreakDescription(index + 1) }}</p>
+            <p v-if="achievements.streak?.longest_streak">Längste Serie: {{ achievements.streak.longest_streak }} Tage</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Division Achievement -->
+      <div
+        v-for="(level, index) in maxLevels.division"
+        :key="`division-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.division?.achievement_level < index + 1 }"
+      >
+        <img
+          :src="`/src/assets/images/achievements/season/${index + 1}.png`"
+          :alt="`Division Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Kompetetiv {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getDivisionDescription(index + 1) }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Apex Achievement -->
+      <div
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.apex?.achievement_level === 0 }"
+      >
+        <img
+          src="/src/assets/images/achievements/apex.png"
+          alt="Apex Predator"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Apex Predator</h4>
+            <p>Schließe eine Saison als Erster ab</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Old Member Achievement -->
+      <div
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.old_member?.achievement_level === 0 }"
+      >
+        <img
+          src="/src/assets/images/achievements/anvil.png"
+          alt="Old Member"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Altes Eisen</h4>
+            <p>Sei ein Urgestein von FirePhenix</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legacy Supporter Achievement -->
+      <div
+        class="achievement-item"
+        :class="{ 'achievement-locked': achievements.legacy_supporter?.achievement_level === 0 }"
+      >
+        <img
+          src="/src/assets/images/achievements/honor.png"
+          alt="Legacy Supporter"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Ehrenmitglied</h4>
+            <p>Unterstütze den Server in der Vergangenheit</p>
           </div>
         </div>
       </div>
@@ -29,46 +179,184 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 
-interface Achievement {
-  id: number;
-  name: string;
-  description: string;
-  icon: string;
-  unlocked: boolean;
-  unlockedAt?: Date;
+const props = defineProps({
+  playerId: {
+    type: String,
+    required: true,
+  },
+});
+
+const playerId = props.playerId;
+
+interface AchievementData {
+  achievement_level: number;
+  total_hours?: number;
+  total_logins?: number;
+  longest_streak?: number;
+  active_days?: number;
 }
 
-const achievements = ref<Achievement[]>([
-  {
-    id: 1,
-    name: '10 Hours',
-    description: 'Play for 10 hours',
-    icon: 'time-10',
-    unlocked: true,
-    unlockedAt: new Date('2024-01-10'),
-  },
-  {
-    id: 2,
-    name: '40 Hours',
-    description: 'Play for 40 hours',
-    icon: 'time-10',
-    unlocked: false,
-    unlockedAt: new Date('2024-01-10'),
-  },
-  // Add more achievements here
-]);
+interface AchievementsResponse {
+  apex: AchievementData;
+  division: AchievementData;
+  heatmap: AchievementData;
+  legacy_supporter: AchievementData;
+  logins: AchievementData;
+  old_member: AchievementData;
+  streak: AchievementData;
+  time: AchievementData;
+}
 
-const unlockedCount = computed(
-  () => achievements.value.filter((a) => a.unlocked).length
-);
+const achievements = ref<AchievementsResponse>({
+  apex: { achievement_level: 0 },
+  division: { achievement_level: 0 },
+  heatmap: { achievement_level: 0, active_days: 0 },
+  legacy_supporter: { achievement_level: 0 },
+  logins: { achievement_level: 0, total_logins: 0 },
+  old_member: { achievement_level: 0 },
+  streak: { achievement_level: 0, longest_streak: 0, total_logins: 0 },
+  time: { achievement_level: 0, total_hours: 0 }
+});
 
-const totalAchievements = computed(() => achievements.value.length);
+const loading = ref(true);
+const error = ref(false);
 
-const formatDate = (date: Date) => {
-  return new Intl.DateTimeFormat('de-DE').format(date);
+const maxLevels = {
+  division: 4,
+  heatmap: 4,
+  logins: 4,
+  streak: 4,
+  time: 4
 };
+
+const getDivisionDescription = (level: number): string => {
+  const descriptions = [
+    'Erreiche Gold in einer Season',
+    'Erreiche Platin in einer Season',
+    'Erreiche Diamant in einer Season',
+    'Erreiche Phönix in einer Season'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getHeatmapDescription = (level: number): string => {
+  const descriptions = [
+    'Sei an 3 verschiedenen Wochentagen aktiv',
+    'Sei an 5 verschiedenen Wochentagen aktiv',
+    'Sei an allen Wochentagen aktiv',
+    'Sei an allen Wochentagen und Zeiten aktiv'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getLoginDescription = (level: number): string => {
+  const descriptions = [
+    'Logge dich 2 mal ein',
+    'Logge dich 30 mal ein',
+    'Logge dich 365 mal ein',
+    'Logge dich 3650 mal ein'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getStreakDescription = (level: number): string => {
+  const descriptions = [
+    'Logge dich 2 Tage in Folge ein',
+    'Logge dich 7 Tage in Folge ein',
+    'Logge dich 14 Tage in Folge ein',
+    'Logge dich 30 Tage in Folge ein'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getTimeDescription = (level: number): string => {
+  const descriptions = [
+    'Spiele 1 Stunden',
+    'Spiele 10 Stunden',
+    'Spiele 100 Stunden',
+    'Spiele 1000 Stunden'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getRomanTimeString = (time: number): string => {
+  const romanNumerals = [
+    { value: 1000, numeral: 'M' },
+    { value: 900, numeral: 'CM' },
+    { value: 500, numeral: 'D' },
+    { value: 400, numeral: 'CD' },
+    { value: 100, numeral: 'C' },
+    { value: 90, numeral: 'XC' },
+    { value: 50, numeral: 'L' },
+    { value: 40, numeral: 'XL' },
+    { value: 10, numeral: 'X' },
+    { value: 9, numeral: 'IX' },
+    { value: 5, numeral: 'V' },
+    { value: 4, numeral: 'IV' },
+    { value: 1, numeral: 'I' }
+  ];
+
+  let result = '';
+  
+  for (const { value, numeral } of romanNumerals) {
+    while (time >= value) {
+      result += numeral;
+      time -= value;
+    }
+  }
+  
+  return result;
+};
+
+const fetchAchievements = async () => {
+  try {
+    loading.value = true;
+    const response = await fetch('/api/ranking/profile/achievements?id=' + playerId);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    
+    const data = await response.json();
+    achievements.value = data;
+  } catch (err) {
+    console.error('Error fetching achievements:', err);
+    error.value = true;
+  } finally {
+    loading.value = false;
+  }
+};
+
+onMounted(() => {
+  fetchAchievements();
+});
+
+const totalAchievements = computed(() => {
+  return Object.keys(maxLevels).reduce((acc, key) => {
+    return acc + maxLevels[key as keyof typeof maxLevels];
+  }, 3); 
+});
+
+const unlockedCount = computed(() => {
+  if (!achievements.value) return 0;
+  
+  let count = 0;
+  
+  // Count tiered achievements
+  Object.keys(maxLevels).forEach(key => {
+    const achievementKey = key as keyof typeof achievements.value;
+    count += achievements.value[achievementKey]?.achievement_level || 0;
+  });
+  
+  // Count binary achievements
+  if (achievements.value.apex?.achievement_level > 0) count++;
+  if (achievements.value.old_member?.achievement_level > 0) count++;
+  if (achievements.value.legacy_supporter?.achievement_level > 0) count++;
+  
+  return count;
+});
 </script>
 
 <style scoped>
@@ -91,19 +379,19 @@ const formatDate = (date: Date) => {
 
 .achievements-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(64px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  margin: 1rem auto;
+  gap: 1.5rem;
   justify-items: center;
   position: relative;
   padding: 1rem 0;
-  margin: 1rem 0;
 }
 
 .achievement-item {
   position: relative;
-  width: 64px;
-  height: 64px;
-  border-radius: 8px;
+  width: 100px;
+  height: 100px;
+  border-radius: 10px;
   overflow: visible;
   cursor: pointer;
 }
@@ -116,13 +404,13 @@ const formatDate = (date: Date) => {
 }
 
 .achievement-locked {
-  filter: grayscale(100%) opacity(0.5);
+  filter: grayscale(100%);
 }
 
 .achievement-tooltip {
   position: absolute;
   bottom: 120%;
-  background: var(--clr-surface);
+  background: var(--clr-background);
   border: 1px solid var(--clr-border);
   border-radius: 8px;
   padding: 1rem;
@@ -177,9 +465,17 @@ const formatDate = (date: Date) => {
   transform: translateX(-50%) rotate(45deg);
   width: 10px;
   height: 10px;
-  background: var(--clr-surface);
+  background: var(--clr-background);
   border-right: 1px solid var(--clr-border);
   border-bottom: 1px solid var(--clr-border);
+}
+
+.loading-state,
+.error-state {
+  display: flex;
+  justify-content: center;
+  padding: 2rem 0;
+  color: var(--clr-text-secondary);
 }
 
 /* Position fixes for tooltips near viewport edges */
@@ -197,12 +493,13 @@ const formatDate = (date: Date) => {
 
 @media (max-width: 768px) {
   .achievements-grid {
-    grid-template-columns: repeat(auto-fill, minmax(48px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+    gap: 1rem;
   }
 
   .achievement-item {
-    width: 48px;
-    height: 48px;
+    width: 70px; /* Increased from 48px */
+    height: 70px; /* Increased from 48px */
   }
 
   .achievement-tooltip {

@@ -1,4 +1,5 @@
 export interface UserProfile {
+  id: string;
   name: string | null;
   discord_id: string | null;
   teamspeak_id: string | null;

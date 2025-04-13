@@ -37,7 +37,7 @@
 
       <PlayerPercentile :rank-percentage="player.rank_percentage" />
 
-      <PlayerAchievements />
+      <PlayerAchievements v-if="playerId" :player-id="playerId"/>
     </template>
   </div>
 </template>
