@@ -109,7 +109,7 @@ li {
 }
 
 p {
-  margin-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
 }	
 
 .range-system-wiki h2,
