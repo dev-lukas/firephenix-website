@@ -227,7 +227,6 @@ const handleLogout = async () => {
 .ranking-page {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 80px 20px 40px;
 }
 
 .profile-container {
