@@ -110,6 +110,10 @@ const questions = [
     answer: 'Wir freuen uns immer über Bug-Reports! Melde dich dafür einfach bei unserem Support und beschreibe den Bug so genau wie möglich. Wir werden uns dann schnellstmöglich darum kümmern.'
   },
   { 
+    question: 'Ich habe Lila Texutren auf dem Garry\'s Mod Server, was kann ich tun?',
+    answer: 'Das ist ein bekanntes Problem, dass auftritt, wenn du die benötigten CS:Source Texturen nicht installiert hast. Dafür bieten dir wir unter dem Garrys Mod Tab einen Anleitung an.'
+  },
+  { 
     question: 'Ich habe eine Idee für ein neues Feature, was kann ich tun?', 
     answer: 'Wir freuen uns immer über neue Ideen! Melde dich dafür einfach bei unserem Support und beschreibe deine Idee so genau wie möglich. Wir werden uns dann schnellstmöglich darum kümmern.'
   }
