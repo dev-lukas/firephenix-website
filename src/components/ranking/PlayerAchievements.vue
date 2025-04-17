@@ -134,7 +134,7 @@
         <div class="achievement-tooltip">
           <div class="tooltip-content">
             <h4>Apex Predator</h4>
-            <p>Schließe eine Saison als Erster ab</p>
+            <p>Schließe eine Season als Erster ab</p>
           </div>
         </div>
       </div>

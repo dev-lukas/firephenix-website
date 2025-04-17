@@ -37,7 +37,7 @@ const activeTab = ref('rangsystem');
 
 const tabs = [
   { id: 'rangsystem', name: 'Rangsystem', icon: ['fas', 'info-circle'] },
-  { id: 'saison', name: 'Saison', icon: ['fas', 'book-open'] },
+  { id: 'saison', name: 'Season', icon: ['fas', 'book-open'] },
   { id: 'garry', name: 'Garrys Mod', icon: ['fas', 'gavel'] },
   { id: 'faq', name: 'Support & FAQ', icon: ['fas', 'question-circle'] },
 ];

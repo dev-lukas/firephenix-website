@@ -1,19 +1,19 @@
 <template>
     <div class="range-system-wiki">
-      <h2>Saison</h2>
+      <h2>Season</h2>
       <p>
         Da das FirePhenix Rangsystem ein kumulatives System ist, ist es oft neueren Spielern nicht möglich, mit den alten Spielern mitzuhalten.
-        Daher wurde ein jährliches Saison-System eingeführt, das es auch neuen Spielern ermöglicht, Erfolge zu feiern und die Spitze einer Rangliste
+        Daher wurde ein jährliches Season-System eingeführt, das es auch neuen Spielern ermöglicht, Erfolge zu feiern und die Spitze einer Rangliste
         zu erreichen. 
       </p>
       <p>
-        Das Saison-System funktioniert fast identisch mit dem normalen Rangsystem, jedoch mit einigen wichtigen Unterschieden: Zum einen wird jährlich sämtlicher
-        Fortschritt zurückgesetzt. Desweiteren erhältst du die Rangbelohnungen nicht sofort, sondern erst am Ende der Saison, wenn du den Rang zum Reset halten konntest.
+        Das Season-System funktioniert fast identisch mit dem normalen Rangsystem, jedoch mit einigen wichtigen Unterschieden: Zum einen wird jährlich sämtlicher
+        Fortschritt zurückgesetzt. Desweiteren erhältst du die Rangbelohnungen nicht sofort, sondern erst am Ende der Season, wenn du den Rang zum Reset halten konntest.
         Desweiteren wird die oberste Division nicht von einer bestimmten Zeit begrentzt, sondern von einer bestimmten Anzahl an Plätzen. Nur die besten zehn Spieler
-        jeder Saison erhalten den Rang "Phönix".
+        jeder Season erhalten den Rang "Phönix".
       </p>
       <p>
-        Der letzte wichtige Unterschied ist die Art der Belohnungen. Während du im normalen Rangsystem Belohnungen wie TeamSpeak und Discord Rechte erhältst, erhältst du im Saison-System
+        Der letzte wichtige Unterschied ist die Art der Belohnungen. Während du im normalen Rangsystem Belohnungen wie TeamSpeak und Discord Rechte erhältst, erhältst du im Season-System
         ausschließlich nur kosmetische Belohnungen.
       </p>
   

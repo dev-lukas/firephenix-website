@@ -16,7 +16,7 @@
     <div class="ranking-content" ref="rankingContainer" @scroll="handleScroll">
       <div v-if="loading && !hasMore" class="initial-loading">
         <div class="loader"></div>
-        <span>Lade Saisonranking...</span>
+        <span>Lade Seasonranking...</span>
       </div>
 
       <div v-else-if="error && players.length === 0" class="ranking-error">
@@ -173,7 +173,7 @@ const fetchData = async (page = 1, append = false) => {
     }, 600);
     
   } catch (err) {
-    error.value = 'Fehler beim Laden der Saisondaten';
+    error.value = 'Fehler beim Laden der Seasondaten';
     console.error('Error fetching seasonal data:', err);
     loading.value = false;
   }

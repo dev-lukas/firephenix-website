@@ -36,7 +36,7 @@
       <font-awesome-icon :icon="['fas', 'trophy']" />
       <div class="stat-info">
         <span class="stat-value">{{ formatTime(seasonTime) }}</span>
-        <span class="stat-label">Saison Zeit</span>
+        <span class="stat-label">Season Zeit</span>
       </div>
     </div>
   </div>

@@ -1,6 +1,6 @@
 <template>
   <div class="season-countdown">
-    <h2 class="countdown-title">Saison endet in:</h2>
+    <h2 class="countdown-title">Season endet in:</h2>
     <div class="countdown-container">
       <div class="countdown-item">
         <div class="countdown-value">{{ days }}</div>

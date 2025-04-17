@@ -30,7 +30,7 @@
         @click="activeRanking = 'seasonal'"
       >
         <font-awesome-icon :icon="['fas', 'star']" class="button-icon" />
-        <span>Saisonranking</span>
+        <span>Seasonranking</span>
         <span class="new-tag">NEU</span>
       </button>
     </div>
