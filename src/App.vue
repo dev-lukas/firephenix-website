@@ -8,6 +8,19 @@
 
 <script setup>
 import NavBar from './components/NavBar.vue';
+import { onMounted } from 'vue';
+
+onMounted(() => {
+  const link = document.querySelector("link[rel~='icon']");
+  if (!link) {
+    const newLink = document.createElement('link');
+    newLink.rel = 'icon';
+    document.head.appendChild(newLink);
+    newLink.href = '/src/assets/images/phoenix_icon.png';
+  } else {
+    link.href = '/src/assets/images/phoenix_icon.png';
+  }
+});
 </script>
 
 <style>
@@ -18,12 +31,12 @@ import NavBar from './components/NavBar.vue';
   font-family: sans-serif;
 }
 
-/* Global styles */
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #1e1e1e; /* Dark background for the entire page */
-  color: #e0e0e0; /* Default light text color */
+  background-color: #1e1e1e; 
+  color: #e0e0e0; 
 }
 
 #app {
@@ -31,24 +44,23 @@ body {
   flex-direction: column;
   min-height: 100vh;
   width: 100%;
-  background-color: #1e1e1e; /* Ensure app container also has dark background */
+  background-color: #1e1e1e; 
 }
 
 main {
   flex: 1;
   padding: 1rem;
-  /* Add some padding to the main content area */
 }
 
-/* Basic link styling */
+
 a {
-  color: #FFA500; /* Orange accent for links */
+  color: #FFA500; 
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #ffcc66; /* Lighter orange on hover */
+  color: #ffcc66;
 }
 
 select {

@@ -195,11 +195,6 @@ watch(
   margin-top: 0;
   margin-bottom: 4rem;
   padding: 2rem;
-  background: linear-gradient(
-    180deg,
-    rgba(255, 255, 255, 0.02) 0%,
-    rgba(255, 255, 255, 0) 100%
-  );
   border-radius: 24px;
 }
 

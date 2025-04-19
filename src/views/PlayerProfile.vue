@@ -10,7 +10,7 @@
     </template>
 
     <template v-else-if="player">
-      <PlayerHeader :name="player.name" :level="player.level" :division="player.division" />
+      <PlayerHeader :name="player.name" :level="player.level" :division="player.division" :bestDivision="player.best_division_achieved" />
 
       <LevelProgress
         :level="player.level"

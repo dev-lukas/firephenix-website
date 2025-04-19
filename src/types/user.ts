@@ -16,6 +16,7 @@ export interface UserProfile {
   season_time: number;
   time_to_next_level: number;
   time_to_next_division: number;
+  best_division_achieved: number;
   activity_heatmap: {
     data: {
       [key: string]: {

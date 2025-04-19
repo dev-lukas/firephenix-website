@@ -43,6 +43,7 @@ export interface Player {
   rank_percentage: number;
   mean_total_time: number;
   best_player_time: number;
+  best_division_achieved: number;
   activity_heatmap: ActivityHeatmap;
   login_streaks: {
     discord: {

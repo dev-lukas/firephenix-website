@@ -40,6 +40,7 @@
             :name="userData?.name || 'Unbekannt'"
             :level="userData?.level || 0"
             :division="userData?.division || 0"
+            :bestDivision="userData?.best_division_achieved || 0"
             />
 
             <LevelProgress
@@ -65,7 +66,7 @@
               :heatmap-data="userData?.activity_heatmap || { data: {} }"
             />
 
-            <PlayerAchievements v-if="userData" :player-id="userData.id"/>
+            <PlayerAchievements v-if="userData" :player-id="String(userData.id)"/>
           </div>
         </div>
 

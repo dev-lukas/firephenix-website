@@ -4,7 +4,7 @@
       <h1 class="player-name">{{ name }}</h1>
     </div>
     <div class="player-avatars">
-      <div class="player-avatar">
+      <div class="player-avatar" :class="getRankGlowClass(bestDivision)">
         <base-box elevated>
           <img :src="`/src/assets/images/level/${level}.png`" :alt="name" />
         </base-box>
@@ -13,7 +13,7 @@
           <span v-if="level > 20" class="level-text">Prestige {{ level - 20 }}</span>
         </div>
       </div>
-      <div class="player-rank">
+      <div class="player-rank" :class="getRankGlowClass(bestDivision)">
         <base-box elevated>
           <img :src="getRankImage(division)" :alt="`Division ${division}`" />
         </base-box>
@@ -41,26 +41,27 @@ defineProps({
     type: Number,
     required: true,
   },
-  isStaff: {
-    type: Boolean,
-    default: false,
-  },
-  isVerified: {
-    type: Boolean,
-    default: false,
+  bestDivision: {
+    type: Number,
+    required: true,
   },
 });
 
 const getRankImage = (division) => {
   const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'phoenix'];
-  const index = Math.min(Math.max(0, division - 1), 5); // Ensure index is between 0 and 5
+  const index = Math.min(Math.max(0, division - 1), 5);
   return `/src/assets/images/ranks/${ranks[index]}.png`;
 };
 
 const getRankName = (division) => {
   const ranks = ['Bronze', 'Silver', 'Gold', 'Platinum', 'Diamond', 'Phoenix'];
-  const index = Math.min(Math.max(0, division - 1), 5); // Ensure index is between 0 and 5
+  const index = Math.min(Math.max(0, division - 1), 5);
   return ranks[index];
+};
+
+const getRankGlowClass = (division) => {
+  if (division <= 0) return '';
+  return `rank-glow division-${division}`;
 };
 </script>
 
@@ -78,6 +79,37 @@ const getRankName = (division) => {
   display: flex;
   gap: 2rem;
   align-items: center;
+}
+
+.rank-glow {
+  position: relative;
+  border-radius: 20px;
+  transition: box-shadow 0.3s ease;
+}
+
+
+.division-1 {
+  box-shadow: 0 0 20px rgba(138, 73, 3, 0.872);
+}
+
+.division-2 {
+  box-shadow: 0 0 20px rgba(192, 192, 192, 0.872); 
+}
+
+.division-3 {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.872); 
+}
+
+.division-4 {
+  box-shadow: 0 0 20px rgba(185, 242, 255, 0.872);
+}
+
+.division-5 {
+  box-shadow: 0 0 20px rgba(1, 108, 133, 0.872);
+}
+
+.division-6 {
+  box-shadow: 0 0 20px rgba(255, 89, 0, 0.872);
 }
 
 .player-avatar, .player-rank {
