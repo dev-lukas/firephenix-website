@@ -27,7 +27,7 @@
 import { ref, onMounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import RangeSystemWiki from '../components/wiki/RangeSystemWiki.vue';
-import SaisonWiki from '../components/wiki/SaisonWiki.vue';
+import SaisonWiki from '../components/wiki/SeasonWiki.vue';
 import GarrysModWiki from '../components/wiki/GarrysModWiki.vue';
 import SupportWiki from '../components/wiki/SupportWiki.vue';
 

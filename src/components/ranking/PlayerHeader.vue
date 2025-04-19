@@ -101,11 +101,11 @@ const getRankGlowClass = (division) => {
 }
 
 .division-4 {
-  box-shadow: 0 0 20px rgba(185, 242, 255, 0.872);
+  box-shadow: 0 0 20px rgba(1, 108, 133, 0.872);
 }
 
 .division-5 {
-  box-shadow: 0 0 20px rgba(1, 108, 133, 0.872);
+  box-shadow: 0 0 20px rgba(126, 12, 255, 0.872);
 }
 
 .division-6 {

@@ -42,6 +42,34 @@
           </tbody>
         </table>
       </div>
+      <h3>Belohnungen</h3>
+      <h4>Profil-Rahmen</h4>
+      <div class="rewards-showcase">
+        <p>Je nach Rang erhältst du einen speziellen Glanzeffekt für dein Profilbild, welcher jedem Spieler der dein Profil besucht zeigt, wie hoch du in der letzten Season abgeschlossen hast:</p>
+        
+        <div class="glow-effects-container">
+          <div v-for="division in 6" :key="division" class="glow-effect-example">
+            <div class="glow-frame" :class="`division-${division}`">
+              <div class="glow-content">
+                <img :src="getDivisionIconPath(division)" :alt="`Division ${division}`" class="glow-icon" />
+              </div>
+            </div>
+            <span class="glow-label">{{ getDivisionName(division) }}</span>
+          </div>
+        </div>
+      </div>
+      <h4>TTT-Skins</h4>
+      <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
+        
+      <div class="ttt-rewards-container">
+        <img src="/src/assets/images/games/ttt_rewards.png" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
+      </div>
+      <p>Bitte beachte, dass dies nur eine Abbildung der TTT Skins sind. Die Ingame-Version kann etwas vom Artwork abweichen. Du kannst die Skins aber jederzeit bereits im Ingame Skinshop betrachten.</p>
+      <h4>Apex Channel</h4>
+      <p>Solltest du als bester einer Season abschließen, erhälst du zusätzlich, was sonst nur Prestige V Spielern vorenthalten ist: Du kannst deinen Channel aufwerten zu einem Apex Channel.
+        Dies ist ein permanenter Channel welcher an der höchsten Stelle des Discords und TeamSpeak Servers trohnt. Zeige allen Spielern, dass du zum Apex gehörst!
+      </p>
+    
     </div>
   </template>
   
@@ -56,12 +84,12 @@
   }
   
   const divisionRewards = {
-    1: '',
-    2: '',
-    3: '',
-    4: '',
-    5: '',
-    6: ''
+    1: 'Profil-Rahmen',
+    2: 'Profil-Rahmen, TTT Skin',
+    3: 'Profil-Rahmen, TTT Skin, Errungenschaft',
+    4: 'Profil-Rahmen, TTT Skin, Errungenschaft',
+    5: 'Profil-Rahmen, TTT Skin, Errungenschaft',
+    6: 'Profil-Rahmen, TTT Skin, Errungenschaft, Apex Channel Upgrade *'
   }
 
   const divisionName = {
@@ -119,6 +147,12 @@
     margin-bottom: 1rem;
   }
   
+  .range-system-wiki h4 {
+    color: #cccccc;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
   .range-system-wiki p,
   .range-system-wiki li {
     color: #cccccc; 
@@ -272,4 +306,124 @@
   .rank-row:nth-child(4) { animation-delay: 0.2s; }
   .rank-row:nth-child(5) { animation-delay: 0.25s; }
   .rank-row:nth-child(6) { animation-delay: 0.3s; }
+  
+  /* Glow Effects Showcase */
+  .rewards-showcase {
+    margin: 2rem 0;
+  }
+  
+  .rewards-showcase h4 {
+    color: #FFA500;
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+  }
+  
+  .glow-effects-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+  }
+  
+  .glow-effect-example {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  
+  .glow-frame {
+    width: 100px;
+    height: 100px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: box-shadow 0.3s ease;
+  }
+  
+  .glow-content {
+    width: 80px;
+    height: 80px;
+    border-radius: 12px;
+    background-color: #2c2c2c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .glow-icon {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+  }
+  
+  .glow-label {
+    font-weight: 600;
+    color: #e0e0e0;
+  }
+  
+  .division-1 {
+    box-shadow: 0 0 20px rgba(138, 73, 3, 0.872);
+  }
+  
+  .division-2 {
+    box-shadow: 0 0 20px rgba(192, 192, 192, 0.872); 
+  }
+  
+  .division-3 {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.872); 
+  }
+  
+  .division-4 {
+    box-shadow: 0 0 20px rgba(1, 108, 133, 0.872);
+  }
+  
+  .division-5 {
+    box-shadow: 0 0 20px rgba(126, 12, 255, 0.872);
+  }
+  
+  .division-6 {
+    box-shadow: 0 0 20px rgba(255, 89, 0, 0.872);
+  }
+  
+  @media (max-width: 768px) {
+    .glow-effects-container {
+      gap: 1rem;
+    }
+    
+    .glow-frame {
+      width: 80px;
+      height: 80px;
+    }
+    
+    .glow-content {
+      width: 64px;
+      height: 64px;
+    }
+    
+    .glow-icon {
+      width: 48px;
+      height: 48px;
+    }
+
+    .ttt-rewards-image {
+      max-width: 100%;
+      width: 100%;
+    }
+  }
+  
+  .ttt-rewards-container {
+    display: flex;
+    justify-content: center;
+    margin: 1.5rem 0;
+  }
+  
+  .ttt-rewards-image {
+    max-width: 750px;
+    border: 4px solid rgb(48, 47, 47);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  }
   </style>
