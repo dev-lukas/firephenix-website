@@ -77,7 +77,10 @@
         </div>
 
         <div class="achievements-container" v-if="activeTab === 'cosmetics'">
-          <h2>Test 4</h2>
+          <ChannelCreation
+            :user-data="userData"
+            @channel-created="refreshUserData"
+          />
         </div>
 
         <div class="settings-container" v-if="activeTab === 'settings'">
@@ -90,12 +93,8 @@
             @reload-data="refreshUserData"
             @channel-created="refreshUserData"
           />
-          <ChannelCreation
-            :user-data="userData"
-            @channel-created="refreshUserData"
-          />
 
-          <div class="settings-section">
+          <div class="settings-section logout-section">
             <h3>Abmelden</h3>
             <p>Klicke hier um dich von deinem Account abzumelden.</p>
             <BaseButton
@@ -285,8 +284,8 @@ const handleLogout = async () => {
 }
 
 .stats-container,
-.settings-container,
-.achievements-container {
+.achievements-container,
+.settings-container {
   margin-top: 2rem;
   padding: 2rem;
   background: var(--clr-surface);
@@ -314,7 +313,9 @@ const handleLogout = async () => {
 
 .settings-section {
   padding: 2rem;
-  border-top: 1px solid var(--clr-border);
+  background-color: var(--clr-surface-elevated-1);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
   margin-top: 2rem;
   text-align: center;
   display: flex;
@@ -386,5 +387,17 @@ const handleLogout = async () => {
   margin-bottom: 1.5rem;
   color: var(--clr-text-secondary);
   line-height: 1.5;
+}
+
+.logout-section {
+  padding: 2rem;
+  background-color: var(--clr-surface-elevated-1);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>

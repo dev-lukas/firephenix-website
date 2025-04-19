@@ -1,91 +1,93 @@
 <!-- components/profile/PlatformVerification.vue -->
 <template>
-  <div class="verification-container">
-    <base-box>
-      <h2 class="verification-title">Account Verbindung</h2>
-      <p class="verification-subtext">
-        Verbinde deine Voice-Chats um plattformübergreifend deine Zeit zu
-        tracken und Rang-Belohnung in FirePhenix Game Servern zu erhalten.<br />
-        Du <b>musst</b> für die Verifizierung online auf der Plattform sein.
-      </p>
-      <div class="platform-sections">
-        <!-- Discord Section -->
-        <base-box elevated hoverable class="platform-section discord-section">
-          <div class="platform-header">
-            <i class="fab fa-discord platform-icon"></i>
-            <h3>Verbinde deinen Discord Account</h3>
-          </div>
-          <div class="platform-content">
-            <div
-              v-if="userData?.discord_id && userData?.discord_id != 'None'"
-              class="linked-status"
-            >
-              <i class="fas fa-check-circle"></i> Verbunden
-            </div>
-            <template v-else>
-              <select v-model="selectedDiscordUser" class="platform-select">
-                <option value="" disabled>Online Benutzer auswählen</option>
-                <option
-                  v-for="user in discordUsers"
-                  :key="user.id"
-                  :value="user.id"
-                >
-                  {{ user.name }}
-                </option>
-              </select>
-              <base-button
-                variant="primary"
-                :disabled="!selectedDiscordUser"
-                glow
-                :full-width="true"
-                @click="initiateVerification('discord')"
-              >
-                <i class="fas fa-link"></i>
-                Account verknüpfen
-              </base-button>
-            </template>
-          </div>
-        </base-box>
+  <div class="settings-section-container">
+    <h2 class="section-title">Account Verbindung</h2>
+    <p class="section-subtext">
+      Verbinde deine Accounts um plattformübergreifend deine Zeit zu tracken
+      und Rang-Belohnung in FirePhenix Game Servern zu erhalten.<br />
+      Du <b>musst</b> für die Verifizierung online auf der Plattform sein.
+    </p>
+    <div class="settings-list">
 
-        <!-- TeamSpeak Section -->
-        <base-box elevated hoverable class="platform-section teamspeak-section">
-          <div class="platform-header">
-            <i class="fab fa-teamspeak platform-icon"></i>
-            <h3>Verbinde deinen TeamSpeak Account</h3>
+      <!-- Steam Section -->
+      <div class="setting-item">
+        <div class="item-info">
+          <img src="/src/assets/images/other/steam-blue.png" alt="Steam" class="platform-logo-small"/>
+          <h3>Steam</h3>
+        </div>
+        <div class="item-control">
+          <div class="linked-status">
+            <font-awesome-icon :icon="faCheckCircle" /> Verbunden
           </div>
-          <div class="platform-content">
-            <div
-              v-if="userData?.teamspeak_id && userData?.teamspeak_id != 'None'"
-              class="linked-status"
-            >
-              <i class="fas fa-check-circle"></i> Verbunden
-            </div>
-            <template v-else>
-              <select v-model="selectedTeamspeakUser" class="platform-select">
-                <option value="" disabled>Online Benutzer auswählen</option>
-                <option
-                  v-for="user in teamspeakUsers"
-                  :key="user.id"
-                  :value="user.id"
-                >
-                  {{ user.name }}
-                </option>
-              </select>
-              <base-button
-                variant="primary"
-                :disabled="!selectedTeamspeakUser"
-                glow
-                :full-width="true"
-                @click="initiateVerification('teamspeak')"
-              >
-                <i class="fas fa-link"></i>
-                Account verknüpfen
-              </base-button>
-            </template>
-          </div>
-        </base-box>
+        </div>
       </div>
-    </base-box>
+
+      <!-- Discord Section -->
+      <div class="setting-item">
+        <div class="item-info">
+          <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
+          <h3>Discord</h3>
+        </div>
+        <div class="item-control">
+          <div v-if="isDiscordLinked" class="linked-status">
+            <font-awesome-icon :icon="faCheckCircle" /> Verbunden
+          </div>
+          <div v-else class="connect-controls">
+            <select v-model="selectedDiscordUser" class="platform-select-inline">
+              <option value="" disabled>Online Benutzer auswählen</option>
+              <option
+                v-for="user in discordUsers"
+                :key="user.id"
+                :value="user.id"
+              >
+                {{ user.name }}
+              </option>
+            </select>
+            <BaseButton
+              variant="primary"
+              size="small"
+              :disabled="!selectedDiscordUser"
+              @click="initiateVerification('discord')"
+            >
+              <font-awesome-icon :icon="faLink" /> Verbinden
+            </BaseButton>
+          </div>
+        </div>
+      </div>
+
+      <!-- TeamSpeak Section -->
+      <div class="setting-item">
+        <div class="item-info">
+           <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
+          <h3>TeamSpeak</h3>
+        </div>
+        <div class="item-control">
+          <div v-if="isTeamspeakLinked" class="linked-status">
+            <font-awesome-icon :icon="faCheckCircle" /> Verbunden
+          </div>
+          <div v-else class="connect-controls">
+            <select v-model="selectedTeamspeakUser" class="platform-select-inline">
+              <option value="" disabled>Online Benutzer auswählen</option>
+              <option
+                v-for="user in teamspeakUsers"
+                :key="user.id"
+                :value="user.id"
+              >
+                {{ user.name }}
+              </option>
+            </select>
+            <BaseButton
+              variant="primary"
+              size="small"
+              :disabled="!selectedTeamspeakUser"
+              @click="initiateVerification('teamspeak')"
+            >
+               <font-awesome-icon :icon="faLink" /> Verbinden
+            </BaseButton>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <!-- Verification Modal -->
     <base-modal v-model="showVerificationModal">
@@ -109,23 +111,23 @@
       </div>
 
       <template #footer>
-        <base-button variant="secondary" @click="closeModal">
+        <BaseButton variant="secondary" @click="closeModal">
           Abbrechen
-        </base-button>
-        <base-button variant="primary" glow @click="verifyCode">
+        </BaseButton>
+        <BaseButton variant="primary" glow @click="verifyCode">
           Bestätigen
-        </base-button>
+        </BaseButton>
       </template>
     </base-modal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import type { UserProfile } from '../../types/user';
-import BaseBox from '../base/BaseBox.vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
+import { faCheckCircle, faLink } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   userData: UserProfile | null;
@@ -149,6 +151,9 @@ const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
 const emit = defineEmits<{
   (e: 'verification-success'): void;
 }>();
+
+const isDiscordLinked = computed(() => !!userData?.discord_id && userData.discord_id !== 'None');
+const isTeamspeakLinked = computed(() => !!userData?.teamspeak_id && userData.teamspeak_id !== 'None');
 
 onMounted(async () => {
   try {
@@ -224,160 +229,132 @@ const closeModal = () => {
 </script>
 
 <style scoped>
-.verification-container {
+.settings-section-container {
   width: 100%;
-  margin: 0 auto;
+  margin-bottom: 3rem;
   color: var(--clr-text-primary);
 }
 
-.verification-box {
-  background: var(--clr-surface);
-  border-radius: 20px;
-  padding: 0rem 1.5rem 1.5rem;
-  border: 1px solid var(--clr-border);
-  backdrop-filter: blur(12px);
-  position: relative;
-  overflow: hidden;
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-text-primary);
 }
 
-.verification-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 0.8rem;
-  padding-top: 1rem;
-}
-
-.verification-subtext {
-  text-align: center;
+.section-subtext {
   color: var(--clr-text-secondary);
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
 }
 
-.platform-sections {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(2, 1fr);
-  margin-top: 2rem;
-  justify-items: center;
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
-.platform-section {
-  background: var(--clr-surface-elevated-1);
-  border: 2px solid var(--clr-border);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 800px;
-  padding: 2rem;
-  margin: 1rem 0;
-  box-shadow: 0 2px 2px var(--clr-border);
-  transition: all 0.3s ease;
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--clr-surface-elevated-1);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
 }
 
-.platform-section:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px var(--clr-border);
+.setting-item:hover {
+  background-color: var(--clr-surface-elevated-2);
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-info h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  margin: 0;
+  color: var(--clr-text-primary);
+}
+
+.platform-logo-small {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+}
+
+.item-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .linked-status {
-  color: #4caf50;
+  color: var(--clr-success);
   font-weight: 500;
-  padding: 1rem;
-  text-align: center;
-  border: 2px solid var(--clr-border);
-  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
 }
 
-.linked-status i {
-  margin-right: 0.5rem;
+.connect-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
 }
 
-.platform-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.platform-icon {
-  font-size: 1.8rem;
-  color: var(--clr-primary);
-}
-
-.platform-select {
-  width: 100%;
-  padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: white;
-  margin-bottom: 1.5rem;
+.platform-select-inline {
+  padding: 0.5rem 0.8rem;
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 6px;
+  color: var(--clr-text-primary);
+  min-width: 180px;
+  font-size: 0.9rem;
   appearance: none;
   background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3e%3cpath d='M7 10l5 5 5-5z'/%3e%3c/svg%3e");
   background-repeat: no-repeat;
-  background-position: right 1rem center;
+  background-position: right 0.5rem center;
   background-size: 1em;
+  padding-right: 2rem;
 }
 
-.verify-button {
-  position: relative;
-  width: 100%;
-  padding: 1rem;
-  background: var(--clr-primary);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow: hidden;
+.platform-select-inline:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 2px var(--clr-primary-transparent);
 }
 
-.verify-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.item-control .base-button {
+   padding: 0.5rem 1rem;
+   font-size: 0.9rem;
 }
 
-.button-glow {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(249, 133, 0, 0.2),
-    transparent
-  );
-  transition: 0.5s;
-}
-
-.verify-button:hover:not(:disabled) .button-glow {
-  left: 100%;
-}
-
-.verification-modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: var(--clr-background);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.verification-modal {
-  background: var(--clr-surface);
-  padding: 2rem;
-  border-radius: 15px;
-  width: min(90%, 400px);
-  position: relative;
-  overflow: hidden;
+@media (max-width: 768px) {
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
+  }
+  .item-control {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .connect-controls {
+     width: 100%;
+     justify-content: space-between;
+  }
+  .platform-select-inline {
+      flex-grow: 1;
+      min-width: 150px;
+  }
 }
 
 .verification-modal-content {
@@ -429,55 +406,5 @@ const closeModal = () => {
 
 .code-input:focus + .input-glow {
   opacity: 0.1;
-}
-
-.modal-actions {
-  display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.modal-button {
-  flex: 1;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.confirm {
-  background: var(--clr-primary);
-  color: white;
-}
-
-.cancel {
-  background: rgba(255, 255, 255, 0.1);
-  color: white;
-}
-
-@keyframes glowPulse {
-  0% {
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(0.98);
-  }
-  50% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(1.02);
-  }
-  100% {
-    opacity: 0.4;
-    transform: translate(-50%, -50%) scale(0.98);
-  }
-}
-
-@media (max-width: 768px) {
-  .platform-sections {
-    grid-template-columns: 1fr;
-  }
-
-  .verification-box {
-    padding: 2rem 1.5rem;
-  }
 }
 </style>
