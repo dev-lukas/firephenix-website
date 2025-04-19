@@ -9,14 +9,16 @@
           <h1>Profil</h1>
         </div>
 
-        <div class="profile-nav">
-          <button
+        <div class="ranking-toggle">
+          <button 
             v-for="tab in tabs"
             :key="tab.id"
-            @click="activeTab = tab.id"
-            :class="{ 'active-tab': activeTab === tab.id }"
+            @click="navigateToTab(tab.id)"
+            :class="{ 'active': activeTab === tab.id }"
+            class="toggle-button"
           >
-            {{ tab.label }}
+            <font-awesome-icon :icon="tabIcons[tab.id]" class="button-icon" />
+            <span>{{ tab.label }}</span>
           </button>
         </div>
 
@@ -111,7 +113,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import type { Ref } from 'vue';
 import { useAuthStore } from '../services/auth';
 import Login from '../components/profile/Login.vue';
@@ -138,6 +140,29 @@ const tabs = [
   { id: 'settings', label: 'Einstellungen' },
 ];
 
+// Define proper type for tabIcons with index signature
+const tabIcons: { [key: string]: [string, string] } = {
+  stats: ['fas', 'chart-simple'],
+  cosmetics: ['fas', 'palette'],
+  settings: ['fas', 'cog'],
+};
+
+const validTabs = tabs.map(tab => tab.id);
+
+const navigateToTab = (tab: string) => {
+  if (validTabs.includes(tab)) {
+    activeTab.value = tab;
+    window.location.hash = tab;
+  }
+};
+
+const handleHashChange = () => {
+  const hash = window.location.hash.substring(1); 
+  if (validTabs.includes(hash)) {
+    activeTab.value = hash;
+  }
+};
+
 onMounted(async () => {
   await authStore.checkAuth();
   if (authStore.isAuthenticated) {
@@ -145,17 +170,31 @@ onMounted(async () => {
       const response = await fetch('/api/user');
       userData.value = await response.json();
 
-      if (
+      const initialHash = window.location.hash.substring(1);
+      if (validTabs.includes(initialHash)) {
+        activeTab.value = initialHash;
+      } else if (
         userData.value?.discord_id == null &&
         userData.value?.teamspeak_id == null
       ) {
         activeTab.value = 'settings';
+        window.location.hash = 'settings';
+      } else {
+        window.location.hash = activeTab.value;
       }
     } catch (error) {
       console.error('Failed to fetch user data:', error);
     } finally {
       loading.value = false;
     }
+  }
+  
+  window.addEventListener('hashchange', handleHashChange);
+});
+
+watch(activeTab, (newTab) => {
+  if (window.location.hash.substring(1) !== newTab) {
+    window.location.hash = newTab;
   }
 });
 
@@ -188,31 +227,61 @@ const handleLogout = async () => {
 
 <style scoped>
 .profile-nav {
+  display: none;
+}
+
+.ranking-toggle {
   display: flex;
-  gap: 1rem;
   justify-content: center;
-  margin-bottom: 2rem;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
 }
 
-.profile-nav button {
+.toggle-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(249, 133, 0, 0.1);
+  border-radius: 12px;
   padding: 0.8rem 1.5rem;
-  border: none;
-  border-radius: 8px;
-  background: var(--clr-surface-elevated-1);
-  color: var(--clr-text-primary);
+  color: #999;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  min-width: 180px;
+  justify-content: center;
 }
 
-.profile-nav button:hover {
-  background: var(--clr-primary);
-  color: white;
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  color: #fff;
 }
 
-.profile-nav button.active-tab {
-  background: var(--clr-primary);
-  color: white;
-  box-shadow: 0 2px 8px rgba(249, 133, 0, 0.3);
+.toggle-button.active {
+  background: rgba(249, 133, 0, 0.1);
+  border-color: rgba(249, 133, 0, 0.3);
+  color: #f98500;
+  box-shadow: 0 4px 12px rgba(249, 133, 0, 0.15);
+}
+
+.button-icon {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 768px) {
+  .ranking-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .toggle-button {
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 .stats-container,

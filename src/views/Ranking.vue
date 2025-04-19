@@ -9,7 +9,7 @@
       <button 
         class="toggle-button" 
         :class="{ active: activeRanking === 'server-stats' }"
-        @click="activeRanking = 'server-stats'"
+        @click="navigateToTab('server-stats')"
       >
         <font-awesome-icon :icon="['fas', 'square-poll-vertical']" class="button-icon" />
         <span>Server Statistiken</span>
@@ -18,7 +18,7 @@
       <button 
         class="toggle-button" 
         :class="{ active: activeRanking === 'all-time' }"
-        @click="activeRanking = 'all-time'"
+        @click="navigateToTab('all-time')"
       >
         <font-awesome-icon :icon="['fas', 'trophy']" class="button-icon" />
         <span>Gesamtranking</span>
@@ -27,7 +27,7 @@
       <button 
         class="toggle-button" 
         :class="{ active: activeRanking === 'seasonal' }"
-        @click="activeRanking = 'seasonal'"
+        @click="navigateToTab('seasonal')"
       >
         <font-awesome-icon :icon="['fas', 'star']" class="button-icon" />
         <span>Seasonranking</span>
@@ -47,7 +47,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 import RankingList from '../components/ranking/RankingList.vue';
 import UserStats from '../components/ranking/UserStats.vue';
 import UsageChart from '../components/ranking/UsageChart.vue';
@@ -56,8 +56,39 @@ import SeasonalRanking from '../components/ranking/SeasonalRanking.vue';
 import SeasonCountdown from '../components/ranking/SeasonCountdown.vue';
 import PlatformDistributionChart from '../components/ranking/PlatformDistributionChart.vue';
 
-// Default to all-time ranking
+const validTabs = ['server-stats', 'all-time', 'seasonal'];
 const activeRanking = ref('server-stats');
+
+const navigateToTab = (tab) => {
+  if (validTabs.includes(tab)) {
+    activeRanking.value = tab;
+    window.location.hash = tab;
+  }
+};
+
+const handleHashChange = () => {
+  const hash = window.location.hash.substring(1); 
+  if (validTabs.includes(hash)) {
+    activeRanking.value = hash;
+  }
+};
+
+onMounted(() => {
+  const initialHash = window.location.hash.substring(1);
+  if (validTabs.includes(initialHash)) {
+    activeRanking.value = initialHash;
+  } else {
+    window.location.hash = activeRanking.value;
+  }
+  
+  window.addEventListener('hashchange', handleHashChange);
+});
+
+watch(activeRanking, (newTab) => {
+  if (window.location.hash.substring(1) !== newTab) {
+    window.location.hash = newTab;
+  }
+});
 </script>
 
 <style scoped>

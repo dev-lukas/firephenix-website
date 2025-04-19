@@ -36,6 +36,8 @@ import {
   faRankingStar,
   faChartSimple,
   faPersonRifle,
+  faPalette,
+  faCog,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -72,6 +74,8 @@ library.add(
   faRankingStar,
   faChartSimple,
   faPersonRifle,
+  faPalette,
+  faCog,
   faSquarePollVertical
 );
 
