@@ -30,6 +30,12 @@ import {
   faSquarePollVertical,
   faSignInAlt,
   faCalendarDay,
+  faDownload,
+  faPuzzlePiece,
+  faQuestionCircle,
+  faRankingStar,
+  faChartSimple,
+  faPersonRifle,
   faPlus
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -60,6 +66,12 @@ library.add(
   faPlus,
   faSignInAlt,
   faCalendarDay,
+  faDownload,
+  faPuzzlePiece,
+  faQuestionCircle,
+  faRankingStar,
+  faChartSimple,
+  faPersonRifle,
   faSquarePollVertical
 );
 

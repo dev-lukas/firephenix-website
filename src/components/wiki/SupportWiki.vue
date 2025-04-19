@@ -49,7 +49,7 @@
         <div>
           <h4>Discord</h4>
           <p>Tritt unserem Discord-Server bei und stelle deine Frage im #support-Kanal.</p>
-          <a href="https://discord.gg/firephenix" class="support-link">Discord beitreten</a>
+          <a href="https://discord.gg/sT4NPRQSAT" class="support-link">Discord beitreten</a>
         </div>
       </div>
 
@@ -67,7 +67,7 @@
         <div>
           <h4>TeamSpeak</h4>
           <p>Du findest unsere Support-Mitarbeiter auch auf unserem TeamSpeak Server.</p>
-          <a href="#" class="support-link">firephenix.de</a>
+          <a href="ts3server://firephenix.de?port=9987" class="support-link">firephenix.de</a>
         </div>
       </div>
     </div>

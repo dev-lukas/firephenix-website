@@ -36,9 +36,9 @@ const route = useRoute();
 const activeTab = ref('rangsystem');
 
 const tabs = [
-  { id: 'rangsystem', name: 'Rangsystem', icon: ['fas', 'info-circle'] },
-  { id: 'saison', name: 'Season', icon: ['fas', 'book-open'] },
-  { id: 'garry', name: 'Garrys Mod', icon: ['fas', 'gavel'] },
+  { id: 'rangsystem', name: 'Rangsystem', icon: ['fas', 'fa-ranking-star'] },
+  { id: 'saison', name: 'Season', icon: ['fas', 'fa-chart-simple'] },
+  { id: 'garry', name: 'Garrys Mod', icon: ['fas', 'fa-person-rifle'] },
   { id: 'faq', name: 'Support & FAQ', icon: ['fas', 'question-circle'] },
 ];
 
