@@ -80,8 +80,8 @@ const levelRewards = {
   6: 'Temporärer Channel erstellen',
   11: 'Dateien-Upload',
   15: 'Erstellen von Semi-permanenten Channel',
-  20: 'Moverechte für Spieler ohne Moveshield',
-  21: 'Erstellen eines eigenen Channels',
+  20: 'Erstellen eines eigenen permanenten Channels',
+  21: 'Moverechte für Spieler ohne Moveshield',
   25: 'Upgraden des Channels zu einem Apex-Channel',
 }
 

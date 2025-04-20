@@ -1,112 +1,131 @@
 <!-- components/profile/ChannelCreation.vue -->
 <template>
-  <div class="verification-container">
-    <base-box>
-      <h2 class="verification-title">Channel Erstellung</h2>
-      <p class="verification-subtext">
-        Erstelle deinen eigenen permanenten Voice Channel
-      </p>
-      <div class="platform-sections">
-        <!-- Level Lock Section -->
-        <base-box
-          v-if="(userData?.level ?? 0) < 20"
-          elevated
-          hoverable
-          class="platform-section locked-section"
-        >
-          <div class="platform-header">
-            <font-awesome-icon :icon="faLock" class="platform-icon" />
-            <h3>Gesperrt</h3>
-          </div>
-          <div class="platform-content">
-            <div class="locked-message">
-              <img
-                src="/src/assets/images/level/20.png"
-                alt="Lock"
-                class="lock-icon"
-              />
-              <p class="hint-text">
-                Du musst Level 20 erreichen um eigene permanenten Channel zu
-                erstellen.
-              </p>
-            </div>
-          </div>
-        </base-box>
+  <div class="settings-section-container">
+    <h2 class="section-title">Channel Erstellung</h2>
+    <p class="section-subtext">
+      Erstelle deinen eigenen permanenten Voice Channel auf Discord oder TeamSpeak.
+      Du musst Level 20 erreicht haben und den entsprechenden Account verknüpft haben.
+    </p>
 
-        <!-- Channel Creation Sections -->
-        <template v-else>
-          <!-- Discord Channel -->
-          <base-box elevated hoverable class="platform-section discord-section">
-            <div class="platform-header">
-              <h3>Discord Channel</h3>
-            </div>
-            <div class="platform-content">
-              <div
-                v-if="!userData?.discord_id"
-                class="channel-warning"
-              >
-                <i class="fas fa-check-circle"></i> Verbinde zuerst dein Discord
-                Account!
-              </div>
-              <div v-else-if="userData?.discord_channel" class="channel-status">
-                <i class="fas fa-check-circle"></i> Channel bereits erstellt
-              </div>
-              <div v-else class="button-container">
-                <base-button
-                  variant="primary"
-                  glow
-                  @click="createChannel('discord')"
-                  :full-width="true"
-                >
-                  <i class="fas fa-plus"></i>
-                  Channel erstellen
-                </base-button>
-              </div>
-            </div>
-          </base-box>
-
-          <!-- TeamSpeak Channel -->
-          <base-box
-            elevated
-            hoverable
-            class="platform-section teamspeak-section"
-          >
-            <div class="platform-header">
-              <h3>TeamSpeak Channel</h3>
-            </div>
-            <div class="platform-content">
-              <div
-                v-if="
-                  !userData?.teamspeak_id
-                "
-                class="channel-warning"
-              >
-                <i class="fas fa-check-circle"></i> Verbinde zuerst dein
-                TeamSpeak Account!
-              </div>
-              <div
-                v-else-if="userData?.teamspeak_channel"
-                class="channel-status"
-              >
-                <i class="fas fa-check-circle"></i> Channel bereits erstellt
-              </div>
-              <div v-else class="button-container">
-                <base-button
-                  variant="primary"
-                  glow
-                  @click="createChannel('teamspeak')"
-                  :full-width="true"
-                >
-                  <i class="fas fa-plus"></i>
-                  Channel erstellen
-                </base-button>
-              </div>
-            </div>
-          </base-box>
-        </template>
+    <div class="settings-list">
+      <!-- Level Lock Section -->
+      <div
+        v-if="(userData?.level ?? 0) < 20"
+        class="setting-item locked-item"
+      >
+        <div class="item-info">
+          <font-awesome-icon :icon="faLock" class="item-icon locked-icon" />
+          <h3>Gesperrt</h3>
+        </div>
+        <div class="item-control locked-control">
+          <img
+            src="/src/assets/images/level/20.png"
+            alt="Level 20"
+            class="level-lock-icon"
+          />
+          <p class="locked-message">
+            Erreiche Level 20 um eigene permanente Channel zu erstellen.
+          </p>
+        </div>
       </div>
-    </base-box>
 
+      <!-- Channel Creation Sections -->
+      <template v-else>
+        <!-- Discord Channel -->
+        <div class="setting-item">
+          <div class="item-info">
+            <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
+            <h3>Discord Channel</h3>
+          </div>
+          <div class="item-control">
+            <div v-if="!userData?.discord_id" class="channel-warning">
+              <font-awesome-icon :icon="faExclamationTriangle" /> Account nicht verbunden
+            </div>
+            <div v-else-if="userData?.discord_channel" class="channel-status">
+              <font-awesome-icon :icon="faCheckCircle" /> Channel erstellt
+              <BaseButton
+                v-if="userData?.apex_rank || userData?.apex_division"
+                variant="primary"
+                size="small"
+                @click="upgradeChannel('discord')"
+                class="upgrade-button"
+                :disabled="userData?.discord_upgraded"
+              >
+                <font-awesome-icon :icon="faStar" /> Apex Upgrade
+              </BaseButton>
+              <BaseButton
+                v-else
+                variant="primary"
+                size="small"
+                disabled
+                class="upgrade-button-disabled"
+              >
+                <font-awesome-icon :icon="faStar" /> Apex Upgrade
+              </BaseButton>
+              <div v-if="userData?.discord_upgraded" class="channel-upgraded">
+                <font-awesome-icon :icon="faCrown" /> Apex Upgraded
+              </div>
+            </div>
+            <BaseButton
+              v-else
+              variant="primary"
+              size="small"
+              @click="createChannel('discord')"
+            >
+              <font-awesome-icon :icon="faPlus" /> Erstellen
+            </BaseButton>
+          </div>
+        </div>
+
+        <!-- TeamSpeak Channel -->
+        <div class="setting-item">
+          <div class="item-info">
+            <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
+            <h3>TeamSpeak Channel</h3>
+          </div>
+          <div class="item-control">
+            <div v-if="!userData?.teamspeak_id" class="channel-warning">
+               <font-awesome-icon :icon="faExclamationTriangle" /> Account nicht verbunden
+            </div>
+            <div v-else-if="userData?.teamspeak_channel" class="channel-status">
+              <font-awesome-icon :icon="faCheckCircle" /> Channel erstellt
+              <BaseButton
+                v-if="userData?.apex_rank || userData?.apex_division"
+                variant="primary"
+                size="small"
+                @click="upgradeChannel('teamspeak')"
+                class="upgrade-button"
+                :disabled="userData?.teamspeak_upgraded"
+              >
+                <font-awesome-icon :icon="faStar" /> Apex Upgrade
+              </BaseButton>
+              <BaseButton
+                v-else
+                variant="primary"
+                size="small"
+                disabled
+                class="upgrade-button-disabled"
+              >
+                <font-awesome-icon :icon="faStar" /> Apex Upgrade
+              </BaseButton>
+              <div v-if="userData?.teamspeak_upgraded" class="channel-upgraded">
+                <font-awesome-icon :icon="faCrown" /> Apex Upgraded
+              </div>
+            </div>
+            <BaseButton
+              v-else
+              variant="primary"
+              size="small"
+              @click="createChannel('teamspeak')"
+            >
+               <font-awesome-icon :icon="faPlus" /> Erstellen
+            </BaseButton>
+          </div>
+        </div>
+      </template>
+    </div>
+
+    <!-- Creation Modal -->
     <base-modal v-model="showCreationModal">
       <template #title>
         {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
@@ -140,18 +159,57 @@
         </base-button>
       </template>
     </base-modal>
+
+    <!-- Upgrade Modal -->
+    <base-modal v-model="showUpgradeModal">
+      <template #title>
+        {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
+        Apex Upgrade
+      </template>
+
+      <div class="creation-modal-content">
+        <div v-if="loading" class="loading-message">
+          <div class="spinner"></div>
+          <p>Dein Channel wird auf Apex upgradet...</p>
+        </div>
+        <div v-else>
+          <p>
+            Möchtest du wirklich deinen
+            {{ currentPlatform === 'discord' ? 'Discord' : 'TeamSpeak' }} Channel
+            auf Apex upgraden?
+          </p>
+          <p class="info-text">
+            <font-awesome-icon :icon="faInfoCircle" />
+            Das Apex Upgrade gewährt dir erweiterte Funktionen.
+          </p>
+        </div>
+      </div>
+
+      <template #footer>
+        <base-button v-if="!loading" variant="secondary" @click="closeModal">
+          Abbrechen
+        </base-button>
+        <base-button v-if="!loading" variant="primary" glow @click="confirmChannelUpgrade">
+          Upgraden
+        </base-button>
+      </template>
+    </base-modal>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import type { UserProfile } from '../../types/user';
-import BaseBox from '../base/BaseBox.vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
 import { 
   faLock, 
   faInfoCircle,
+  faPlus,
+  faCheckCircle,
+  faExclamationTriangle,
+  faStar,
+  faCrown
 } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
@@ -164,6 +222,7 @@ const emit = defineEmits<{
 }>();
 
 const showCreationModal = ref(false);
+const showUpgradeModal = ref(false);
 const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
 const loading = ref(false);
 
@@ -192,172 +251,211 @@ const confirmChannelCreation = async () => {
   }
 };
 
+const upgradeChannel = (platform: 'discord' | 'teamspeak') => {
+  currentPlatform.value = platform;
+  showUpgradeModal.value = true;
+};
+
+const confirmChannelUpgrade = async () => {
+  loading.value = true;
+  try {
+    const response = await fetch('/api/user/profile/channel/apex', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ platform: currentPlatform.value }),
+    });
+
+    if (response.ok) {
+      emit('channel-created');
+      closeModal();
+    }
+  } catch (error) {
+    console.error('Channel apex upgrade failed:', error);
+  } finally {
+    loading.value = false;
+  }
+};
+
 const closeModal = () => {
   showCreationModal.value = false;
+  showUpgradeModal.value = false;
   currentPlatform.value = null;
 };
 </script>
 
 <style scoped>
-.locked-section {
-  text-align: center;
-  grid-column: 1 / -1;
-  max-width: 600px;
-  margin: 0 auto;
-}
-
-.lock-icon {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 1.5rem;
-}
-
-.hint-text {
-  color: var(--clr-text-secondary);
-  font-size: 1.1rem;
-  line-height: 1.6;
-  margin-top: 1rem;
-}
-
-.channel-warning {
-  color: var(--clr-text-secondary);
-  font-weight: 500;
-  padding: 1rem;
-  text-align: center;
-  border: 2px solid var(--clr-border);
-  border-radius: 8px;
-}
-
-.channel-status {
-  color: #4caf50;
-  font-weight: 500;
-  padding: 1rem;
-  text-align: center;
-  border: 2px solid var(--clr-border);
-  border-radius: 8px;
-}
-
-.verification-container {
+.settings-section-container {
   width: 100%;
-  margin: 3rem auto;
+  margin-bottom: 3rem;
   color: var(--clr-text-primary);
 }
 
-.verification-title {
-  text-align: center;
-  font-size: 2.2rem;
-  margin-bottom: 0.8rem;
-  padding-top: 1rem;
-}
-
-.verification-subtext {
-  text-align: center;
-  color: var(--clr-text-secondary);
-  width: 100%;
-  max-width: 1400px;
-  margin: 0 auto 2rem;
-}
-
-.platform-sections {
-  display: grid;
-  gap: 2rem;
-  grid-template-columns: repeat(2, 1fr);
-  margin-top: 2rem;
-  justify-items: center;
-}
-
-.platform-section {
-  background: var(--clr-surface-elevated-1);
-  border: 2px solid var(--clr-border);
-  border-radius: 12px;
-  width: 100%;
-  max-width: 800px;
-  padding: 2rem;
-  margin: 1rem 0;
-  box-shadow: 0 2px 2px var(--clr-border);
-  transition: all 0.3s ease;
-}
-
-.platform-section:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px var(--clr-border);
-}
-
-.platform-header {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  padding-bottom: 1rem;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.platform-icon {
+.section-title {
   font-size: 1.8rem;
-  color: var(--clr-primary);
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-text-primary);
 }
 
-.verify-button {
-  position: relative;
-  width: 100%;
-  padding: 1rem;
-  background: var(--clr-primary);
-  border: none;
-  border-radius: 8px;
-  color: white;
+.section-subtext {
+  color: var(--clr-text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.settings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--clr-surface-elevated-1);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  transition: background-color 0.2s ease;
+}
+
+.setting-item:hover {
+  background-color: var(--clr-surface-elevated-2);
+}
+
+.locked-item {
+  background-color: var(--clr-surface-elevated-1);
+}
+
+.locked-item:hover {
+  background-color: var(--clr-surface-elevated-1);
+}
+
+.item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.item-info h3 {
+  font-size: 1.1rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  overflow: hidden;
+  margin: 0;
+  color: var(--clr-text-primary);
 }
 
-.verify-button:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+.platform-logo-small {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
-.button-glow {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(249, 133, 0, 0.2),
-    transparent
-  );
-  transition: 0.5s;
+.item-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.verify-button:hover:not(:disabled) .button-glow {
-  left: 100%;
+.item-icon.locked-icon {
+  color: var(--clr-text-secondary);
+  font-size: 1.3rem;
+}
+
+.locked-control {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.level-lock-icon {
+  width: 32px;
+  height: 32px;
+}
+
+.locked-message {
+  color: var(--clr-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.channel-warning {
+  color: var(--clr-warning);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.channel-status {
+  color: var(--clr-success);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.channel-upgraded {
+  color: var(--clr-accent);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+.item-control .base-button {
+   padding: 0.5rem 1rem;
+   font-size: 0.9rem;
+}
+
+.upgrade-button {
+  background-color: var(--clr-accent);
+  color: var(--clr-text-primary);
+}
+
+.upgrade-button-disabled {
+  background-color: var(--clr-surface-elevated-1);
+  color: var(--clr-text-secondary);
 }
 
 @media (max-width: 768px) {
-  .platform-sections {
-    grid-template-columns: 1fr;
+  .setting-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.8rem;
   }
+  .item-control {
+    width: 100%;
+    justify-content: flex-end;
+  }
+  .locked-control {
+    width: 100%;
+    justify-content: flex-start;
+    padding-top: 0.5rem;
+    border-top: 1px solid var(--clr-border);
+    margin-top: 0.8rem;
+  }
+}
 
-  .verification-box {
-    padding: 2rem 1.5rem;
-  }
+/* Modal styles */
+.creation-modal-content {
+  text-align: center;
+  padding: 1rem 0;
 }
 
 .info-text {
   margin-top: 1rem;
   color: var(--clr-text-secondary);
   font-size: 0.9rem;
-}
-
-.info-text i {
-  color: var(--clr-primary);
-  margin-right: 0.5rem;
-}
-
-.button-container {
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin-top: 1rem;
+  gap: 0.5rem;
 }
 
 .loading-message {
@@ -369,9 +467,9 @@ const closeModal = () => {
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 5px solid rgba(255, 255, 255, 0.1);
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
   border-radius: 50%;
   border-top-color: var(--clr-primary);
   animation: spin 1s ease-in-out infinite;

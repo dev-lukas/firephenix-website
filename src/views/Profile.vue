@@ -76,7 +76,7 @@
           <p>Lade Daten...</p>
         </div>
 
-        <div class="achievements-container" v-if="activeTab === 'cosmetics'">
+        <div class="settings-container" v-if="activeTab === 'cosmetics'">
           <ChannelCreation
             :user-data="userData"
             @channel-created="refreshUserData"
@@ -135,7 +135,7 @@ const loading = ref(true);
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
-  { id: 'cosmetics', label: 'Kosmetik' },
+  { id: 'cosmetics', label: 'Freischaltbares' },
   { id: 'settings', label: 'Einstellungen' },
 ];
 

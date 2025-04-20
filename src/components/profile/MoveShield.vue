@@ -8,20 +8,20 @@
       <div class="settings-list">
         <!-- Level Lock Section -->
         <div
-          v-if="(userData?.level ?? 0) < 5"
+          v-if="(userData?.level ?? 0) < 2"
           class="setting-item locked-item"
         >
           <div class="locked-content">
             <font-awesome-icon :icon="faLock" class="lock-icon-indicator" />
             <div class="locked-text">
-              <h3>Gesperrt bis Level 5</h3>
+              <h3>Gesperrt bis Level 2</h3>
               <p>
-                Du musst Level 5 erreichen um das Move Shield zu aktivieren.
+                Du musst Level 2 erreichen um das Move Shield zu aktivieren.
               </p>
             </div>
             <img
-              src="/src/assets/images/level/5.png"
-              alt="Level 5"
+              src="/src/assets/images/level/2.png"
+              alt="Level 2"
               class="level-lock-icon"
             />
           </div>
@@ -104,7 +104,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
+import { ref } from 'vue';
 import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
@@ -250,9 +250,6 @@ const closeModal = () => {
   display: flex;
   align-items: center;
   gap: 0.3rem;
-}
-
-.item-control {
 }
 
 .locked-item {

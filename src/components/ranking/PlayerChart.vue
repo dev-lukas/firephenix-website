@@ -84,7 +84,7 @@ const createChart = () => {
           callbacks: {
             label: function (context) {
               const hours = Math.floor(context.raw / 60);
-              const minutes = context.raw % 60;
+              const minutes = Math.round(context.raw % 60);
               return `${hours} Std ${minutes} Min`;
             },
           },
