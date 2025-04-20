@@ -63,7 +63,7 @@
                 <font-awesome-icon :icon="faStar" /> Apex Upgrade
               </BaseButton>
               <div v-if="userData?.discord_upgraded" class="channel-upgraded">
-                <font-awesome-icon :icon="faCrown" /> Apex Upgraded
+                <font-awesome-icon :icon="faCrown" /> Apex Upgradet
               </div>
             </div>
             <BaseButton
@@ -180,7 +180,7 @@
           </p>
           <p class="info-text">
             <font-awesome-icon :icon="faInfoCircle" />
-            Das Apex Upgrade gewährt dir erweiterte Funktionen.
+            Das Apex Upgrade gewährt dir die beste Position auf den Servern für deinen Channel.
           </p>
         </div>
       </div>
