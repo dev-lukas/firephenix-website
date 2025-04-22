@@ -77,7 +77,7 @@
         </div>
 
         <div class="settings-container" v-if="activeTab === 'cosmetics'">
-
+          <SkinUnlocker />
         </div>
 
         <div class="settings-container" v-if="activeTab === 'settings'">
@@ -128,6 +128,7 @@ import GameComparison from '../components/ranking/GameComparison.vue';
 import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 import MoveShield from '../components/profile/MoveShield.vue';
 import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
+import SkinUnlocker from '../components/profile/SkinUnlocker.vue'; // Import the new component
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
