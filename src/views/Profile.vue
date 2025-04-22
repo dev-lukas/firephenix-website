@@ -77,10 +77,7 @@
         </div>
 
         <div class="settings-container" v-if="activeTab === 'cosmetics'">
-          <ChannelCreation
-            :user-data="userData"
-            @channel-created="refreshUserData"
-          />
+
         </div>
 
         <div class="settings-container" v-if="activeTab === 'settings'">
@@ -91,6 +88,10 @@
           <MoveShield
             :user-data="userData"
             @reload-data="refreshUserData"
+            @channel-created="refreshUserData"
+          />
+          <ChannelCreation
+            :user-data="userData"
             @channel-created="refreshUserData"
           />
 
@@ -135,7 +136,7 @@ const loading = ref(true);
 
 const tabs = [
   { id: 'stats', label: 'Statistiken' },
-  { id: 'cosmetics', label: 'Freischaltbares' },
+  { id: 'cosmetics', label: 'Kosmetik' },
   { id: 'settings', label: 'Einstellungen' },
 ];
 

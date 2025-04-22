@@ -416,11 +416,13 @@ const closeModal = () => {
 .upgrade-button {
   background-color: var(--clr-accent);
   color: var(--clr-text-primary);
+  margin-left: 1rem;
 }
 
 .upgrade-button-disabled {
   background-color: var(--clr-surface-elevated-1);
   color: var(--clr-text-secondary);
+  margin-left: 1rem;
 }
 
 @media (max-width: 768px) {
