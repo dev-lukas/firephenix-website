@@ -78,18 +78,6 @@ const servers = ref([
     currentMap: 'ttt_minecraft_b5',
     connectUrl: 'steam://connect/ttt.firephenix.de:27015',
   },
-  {
-    id: 'ttt2',
-    name: 'TTT Server #2',
-    image: '/src/assets/images/games/phoenix-agent.png',
-    description:
-      'Für die Profis unter euch. Hier gibt es zusätzliche Rollen und spezielle Events.',
-    online: true,
-    currentPlayers: Math.floor(Math.random() * 20),
-    maxPlayers: 24,
-    currentMap: 'ttt_minecraft_haven',
-    connectUrl: 'steam://connect/ttt2.firephenix.de:27016',
-  },
 ]);
 
 const connectToServer = (url: string) => {
