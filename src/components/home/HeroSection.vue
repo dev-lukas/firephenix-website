@@ -6,6 +6,7 @@
     <div class="content-overlay">
       <div class="hero-content">
         <h1 class="hero-title">FirePhenix</h1>
+        <p class="hero-subtitle">Spiele mit Freunden und lerne neue Leute kennen</p>
         <base-button
           variant="secondary"
           class="scroll-button"
@@ -70,8 +71,15 @@ const scrollToContent = () => {
 .hero-title {
   color: white;
   font-size: 3rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-subtitle {
+  color: #fff;
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
 }
 
 .scroll-button {
