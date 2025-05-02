@@ -4,13 +4,13 @@
     <h2 class="section-title">Channel Erstellung</h2>
     <p class="section-subtext">
       Erstelle deinen eigenen permanenten Voice Channel auf Discord oder TeamSpeak.
-      Du musst Level 20 erreicht haben und den entsprechenden Account verknüpft haben.
+      Du musst Level 19 erreicht haben und den entsprechenden Account verknüpft haben.
     </p>
 
     <div class="settings-list">
       <!-- Level Lock Section -->
       <div
-        v-if="(userData?.level ?? 0) < 20"
+        v-if="(userData?.level ?? 0) < 19"
         class="setting-item locked-item"
       >
         <div class="item-info">
@@ -19,12 +19,12 @@
         </div>
         <div class="item-control locked-control">
           <img
-            src="/src/assets/images/level/20.png"
-            alt="Level 20"
+            src="/src/assets/images/level/19.png"
+            alt="Level 19"
             class="level-lock-icon"
           />
           <p class="locked-message">
-            Erreiche Level 20 um eigene permanente Channel zu erstellen.
+            Erreiche Level 19 um eigene permanente Channel zu erstellen.
           </p>
         </div>
       </div>

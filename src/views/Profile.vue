@@ -77,7 +77,12 @@
         </div>
 
         <div class="settings-container" v-if="activeTab === 'cosmetics'">
-          <SkinUnlocker />
+          <ProfileBorderDisplay 
+            :bestDivision="userData?.best_division_achieved || 0"
+          />
+          <SkinUnlocker 
+            :bestDivision="userData?.best_division_achieved || 0"
+          />
         </div>
 
         <div class="settings-container" v-if="activeTab === 'settings'">
@@ -129,6 +134,7 @@ import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 import MoveShield from '../components/profile/MoveShield.vue';
 import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
 import SkinUnlocker from '../components/profile/SkinUnlocker.vue'; // Import the new component
+import ProfileBorderDisplay from '../components/profile/ProfileBorderDisplay.vue'; // Import the border display component
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
