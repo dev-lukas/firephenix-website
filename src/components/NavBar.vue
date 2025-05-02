@@ -30,6 +30,11 @@
               Game-Server
             </base-nav-item>
           </li>
+          <li>
+            <base-nav-item to="/community" @click="closeMenu">
+              Community Inhalte
+            </base-nav-item>
+          </li>
           <li class="profile-divider">
             <base-nav-item to="/wiki" @click="closeMenu">
               Informationen

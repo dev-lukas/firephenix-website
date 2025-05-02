@@ -48,10 +48,9 @@ import BaseSection from '../components/base/BaseSection.vue';
 import BaseServerCard from '../components/base/BaseServerCard.vue';
 
 const images = [
-  '/src/assets/images/server/ttt1.jpg',
-  '/src/assets/images/server/ttt2.jpg',
-  '/src/assets/images/server/prophunt1.jpg',
-  '/src/assets/images/server/prophunt2.jpg',
+  '/src/assets/images/games/ttt_play.jpg',
+  '/src/assets/images/games/ttt_tokyo.jpeg',
+  '/src/assets/images/games/ttt_rooftop.jpeg',
 ];
 
 const currentImage = ref(0);
@@ -68,15 +67,15 @@ const nextImage = () => {
 const servers = ref([
   {
     id: 'ttt1',
-    name: 'TTT Server #1',
+    name: 'TTT Server',
     image: '/src/assets/images/games/phoenix-agent.png',
     description:
-      'Der klassische TTT Server mit custom Rollen und Waffen. Perfekt für Einsteiger und erfahrene Spieler.',
+      'Der klassische TTT Server mit custom Waffen, Skins, Gambling für Tote und vielem mehr! Perfekt für Einsteiger und erfahrene Spieler.',
     online: true,
     currentPlayers: Math.floor(Math.random() * 20),
     maxPlayers: 24,
     currentMap: 'ttt_minecraft_b5',
-    connectUrl: 'steam://connect/ttt.firephenix.de:27015',
+    connectUrl: 'steam://connect/gaming.firephenix.de:27015',
   },
 ]);
 
