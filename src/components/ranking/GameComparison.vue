@@ -4,21 +4,13 @@
     <div class="games-list">
       <div class="games-column">
         <div v-for="(game, index) in leftGames" :key="index" class="game-entry">
-          <span class="count">{{
-            calculateCount(totalTime, game.divisor)
-          }}</span>
+          <span class="count">{{ leftGameCounts[index].value }}</span>
           <span>{{ game.label }}</span>
         </div>
       </div>
       <div class="games-column">
-        <div
-          v-for="(game, index) in rightGames"
-          :key="index"
-          class="game-entry"
-        >
-          <span class="count">{{
-            calculateCount(totalTime, game.divisor)
-          }}</span>
+        <div v-for="(game, index) in rightGames" :key="index" class="game-entry">
+          <span class="count">{{ rightGameCounts[index].value }}</span>
           <span>{{ game.label }}</span>
         </div>
       </div>
@@ -27,6 +19,8 @@
 </template>
 
 <script setup>
+import { ref, onMounted, defineProps } from 'vue';
+
 const props = defineProps({
   totalTime: {
     type: Number,
@@ -49,6 +43,37 @@ const rightGames = [
 ];
 
 const calculateCount = (time, divisor) => Math.floor(time / divisor);
+
+const leftGameCounts = leftGames.map(() => ref(0));
+const rightGameCounts = rightGames.map(() => ref(0));
+
+function animateValue(refValue, target, duration = 1200) {
+  const start = 0;
+  const startTime = performance.now();
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    refValue.value = Math.round(start + (target - start) * eased);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      refValue.value = target;
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+onMounted(() => {
+  leftGames.forEach((game, i) => {
+    const count = calculateCount(props.totalTime, game.divisor);
+    animateValue(leftGameCounts[i], count);
+  });
+  rightGames.forEach((game, i) => {
+    const count = calculateCount(props.totalTime, game.divisor);
+    animateValue(rightGameCounts[i], count);
+  });
+});
 </script>
 
 <style scoped>

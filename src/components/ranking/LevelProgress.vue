@@ -34,8 +34,8 @@
       </template>
       <template v-else>
         <div class="progress-bar-container">
-          <div class="progress-bar" :style="{ width: `${levelProgressPercentage}%` }">
-            <span class="progress-text">{{ levelProgressPercentage }}%</span>
+          <div class="progress-bar" :style="{ width: `${animatedLevelPercentage}%` }">
+            <span class="progress-text">{{ animatedLevelPercentage }}%</span>
           </div>
         </div>
         <div class="time-remaining">
@@ -77,8 +77,8 @@
       </template>
       <template v-else>
         <div class="progress-bar-container">
-          <div class="progress-bar rank-bar" :style="{ width: `${divisionProgressPercentage}%` }">
-            <span class="progress-text">{{ divisionProgressPercentage }}%</span>
+          <div class="progress-bar rank-bar" :style="{ width: `${animatedDivisionPercentage}%` }">
+            <span class="progress-text">{{ animatedDivisionPercentage }}%</span>
           </div>
         </div>
         <div class="time-remaining">
@@ -92,7 +92,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 
 const MAX_LEVEL = 25;
 const MAX_DIVISION = 6;
@@ -146,6 +146,39 @@ const divisionProgressPercentage = computed(() => {
   if (isMaxDivision.value) return 100;
   const divisionRequirement = props.timeToNextDivision + props.seasonTime;
   return Math.min(Math.floor((props.seasonTime / divisionRequirement) * 100), 100);
+});
+
+const animatedLevelPercentage = ref(0);
+const animatedDivisionPercentage = ref(0);
+
+function animateProgress(target, animatedRef) {
+  let start = 0;
+  const duration = 800; // ms
+  const startTime = performance.now();
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    animatedRef.value = Math.floor(progress * target);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      animatedRef.value = target;
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+onMounted(() => {
+  animateProgress(levelProgressPercentage.value, animatedLevelPercentage);
+  animateProgress(divisionProgressPercentage.value, animatedDivisionPercentage);
+});
+
+watch(levelProgressPercentage, (newVal) => {
+  animateProgress(newVal, animatedLevelPercentage);
+});
+
+watch(divisionProgressPercentage, (newVal) => {
+  animateProgress(newVal, animatedDivisionPercentage);
 });
 
 const currentRank = computed(() => {
@@ -234,6 +267,28 @@ const formatTime = (minutes) => {
   align-items: center;
   justify-content: flex-end; /* Align text to the right */
   padding-right: 8px; /* Add padding for text */
+  overflow: hidden; /* Ensure shimmer stays within filled area */
+}
+
+.progress-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 60%; /* Slightly wider for a smooth exit */
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+  animation: shimmer 2.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%; /* End just after the fill */
+  }
 }
 
 /* Specific gradient for rank bar */
@@ -244,6 +299,11 @@ const formatTime = (minutes) => {
     var(--clr-accent, #ea580c) 0%, /* Fallback: orange-600 */
     var(--clr-accent-light, #fb923c) 100% /* Fallback: orange-400 */
   );
+}
+
+.progress-bar.rank-bar::after {
+  /* Inherit shimmer for rank bar */
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
 }
 
 .progress-text {

@@ -10,7 +10,10 @@
       </div>
     </div>
     <div class="percentile-bar-container">
-      <div class="percentile-bar" :style="{ width: `${topPercentage}%` }">
+      <div
+        class="percentile-bar"
+        :style="{ width: animatedWidth + '%' }"
+      >
         <div class="marker">
           <i class="fas fa-caret-up"></i>
           <span>Du</span>
@@ -21,6 +24,7 @@
 </template>
 
 <script setup>
+import { ref, onMounted, watch } from 'vue';
 const props = defineProps({
   rankPercentage: {
     type: Number,
@@ -29,9 +33,22 @@ const props = defineProps({
   },
 });
 
-
 const displayPercentage = parseFloat(props.rankPercentage).toFixed(1);
 const topPercentage = Math.max(1, Math.ceil(100 - props.rankPercentage));
+
+const animatedWidth = ref(0);
+onMounted(() => {
+  setTimeout(() => {
+    animatedWidth.value = topPercentage;
+  }, 200);
+});
+watch(() => props.rankPercentage, (newVal) => {
+  const newTop = Math.max(1, Math.ceil(100 - newVal));
+  animatedWidth.value = 0;
+  setTimeout(() => {
+    animatedWidth.value = newTop;
+  }, 200);
+});
 </script>
 
 <style scoped>
@@ -88,9 +105,31 @@ const topPercentage = Math.max(1, Math.ceil(100 - props.rankPercentage));
     var(--clr-primary-light) 100%
   );
   border-radius: 12px;
-  transition: width 0.3s ease;
+  transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
   position: relative;
   min-width: 24px;
+  overflow: hidden;
+}
+
+.percentile-bar::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -40%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+  animation: shimmer 2.2s infinite;
+  pointer-events: none;
+}
+
+@keyframes shimmer {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
 }
 
 .marker {

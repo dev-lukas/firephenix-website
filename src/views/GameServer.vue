@@ -1,6 +1,6 @@
 // views/GameServer.vue
 <template>
-  <base-section>
+  <base-section class="game-server-page">
     <h1 class="page-title">Unsere Game Server</h1>
 
     <div class="server-carousel">
@@ -34,6 +34,7 @@
         :players="server.currentPlayers"
         :max-players="server.maxPlayers"
         :map="server.currentMap"
+        :is-loading="server.isLoading"
         @connect="connectToServer(server.connectUrl)"
       >
         {{ server.description }}
@@ -68,14 +69,15 @@ const servers = ref([
   {
     id: 'ttt1',
     name: 'TTT Server',
-    image: '/src/assets/images/games/phoenix-agent.png',
+    image: '/src/assets/images/games/ttt.png',
     description:
-      'Der klassische TTT Server mit custom Waffen, Skins, Gambling für Tote und vielem mehr! Perfekt für Einsteiger und erfahrene Spieler.',
-    online: true,
-    currentPlayers: Math.floor(Math.random() * 20),
-    maxPlayers: 24,
-    currentMap: 'ttt_minecraft_b5',
+      'Der klassische TTT Server ist zurück! Mit Custom Waffen, Balancing, Skins, Gambling für Tote, einer handverlesenen Map Auswahl und vielem mehr! Perfekt für Einsteiger und erfahrene Spieler.',
+    online: false,
+    currentPlayers: 0,
+    maxPlayers: 0,
+    currentMap: 'Lade...',
     connectUrl: 'steam://connect/gaming.firephenix.de:27015',
+    isLoading: true,
   },
 ]);
 
@@ -83,17 +85,44 @@ const connectToServer = (url: string) => {
   window.location.href = url;
 };
 
-// Update player counts periodically
-const updatePlayerCounts = () => {
-  servers.value = servers.value.map((server) => ({
-    ...server,
-    currentPlayers: Math.floor(Math.random() * server.maxPlayers),
-  }));
+// Fetch server information from API
+const fetchServerInfo = async () => {
+  try {
+    const response = await fetch('/api/server/ttt?address=gaming.firephenix.de&port=27015');
+    const data = await response.json();
+    
+    servers.value = servers.value.map(server => {
+      if (server.id === 'ttt1') {
+        return {
+          ...server,
+          online: data.online,
+          currentPlayers: data.players,
+          maxPlayers: data.max_players,
+          currentMap: data.current_map || 'Unbekannt',
+          isLoading: false
+        };
+      }
+      return server;
+    });
+  } catch (error) {
+    console.error('Failed to fetch server information:', error);
+    servers.value = servers.value.map(server => {
+      if (server.id === 'ttt1') {
+        return {
+          ...server,
+          online: false,
+          isLoading: false
+        };
+      }
+      return server;
+    });
+  }
 };
 
 onMounted(() => {
   carouselInterval = setInterval(nextImage, 5000);
-  setInterval(updatePlayerCounts, 30000); // Update every 30 seconds
+  fetchServerInfo();
+  setInterval(fetchServerInfo, 60000);
 });
 
 onUnmounted(() => {
@@ -102,6 +131,13 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.game-server-page {
+  min-height: 100vh;
+  background-color: var(--clr-background);
+  padding: 80px 40px 40px;
+  color: var(--clr-text-secondary);
+}
+
 .page-title {
   font-size: 2.5rem;
   color: var(--clr-text-primary);

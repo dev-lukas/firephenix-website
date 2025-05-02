@@ -4,30 +4,28 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'users']" />
       <div class="stat-info">
-        <span class="stat-value">{{ stats.total_users || 0 }}</span>
+        <span class="stat-value">{{ animatedStats.total_users }}</span>
         <span class="stat-label">Nutzer</span>
       </div>
     </div>
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'signal']" />
       <div class="stat-info">
-        <span class="stat-value">{{ stats.online_users || 0 }}</span>
+        <span class="stat-value">{{ animatedStats.online_users }}</span>
         <span class="stat-label">Online</span>
       </div>
     </div>
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
-        <span class="stat-value">{{
-          formatMinutes(stats.total_time || 0)
-        }}</span>
+        <span class="stat-value">{{ animatedStats.total_time }}</span>
         <span class="stat-label">Spielstunden</span>
       </div>
     </div>
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'sign-in-alt']" />
       <div class="stat-info">
-        <span class="stat-value">{{ stats.total_logins || 0 }}</span>
+        <span class="stat-value">{{ animatedStats.total_logins }}</span>
         <span class="stat-label">Logins</span>
       </div>
     </div>
@@ -42,7 +40,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch } from 'vue';
 
 const stats = ref({
   total_users: 0,
@@ -52,11 +50,41 @@ const stats = ref({
   total_logins: 0,
 });
 
+const animatedStats = ref({
+  total_users: 0,
+  total_time: 0,
+  online_users: 0,
+  total_logins: 0,
+});
+
+const animateValue = (key, to, duration = 1000) => {
+  const start = animatedStats.value[key];
+  const change = to - start;
+  const startTime = performance.now();
+  const step = (now) => {
+    const elapsed = now - startTime;
+    if (elapsed < duration) {
+      animatedStats.value[key] = Math.round(start + change * (elapsed / duration));
+      requestAnimationFrame(step);
+    } else {
+      animatedStats.value[key] = to;
+    }
+  };
+  requestAnimationFrame(step);
+};
+
 const fetchStats = async () => {
   try {
     const response = await fetch('/api/ranking/stats');
     if (!response.ok) throw new Error('Network response was not ok');
-    stats.value = await response.json();
+    const data = await response.json();
+    // Animate each stat
+    animateValue('total_users', data.total_users || 0);
+    animateValue('online_users', data.online_users || 0);
+    animateValue('total_logins', data.total_logins || 0);
+    // For total_time, animate Spielstunden (minutes to hours)
+    animateValue('total_time', Math.round((data.total_time || 0) / 60));
+    stats.value = data;
   } catch (error) {
     console.error('Error fetching stats:', error);
   }

@@ -3,7 +3,7 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'fire']" />
       <div class="stat-info">
-        <span class="stat-value">{{ bestStreak }}</span>
+        <span class="stat-value">{{ displayBestStreak }}</span>
         <span class="stat-label">Beste Streak</span>
       </div>
     </div>
@@ -11,7 +11,7 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'clock']" />
       <div class="stat-info">
-        <span class="stat-value">{{ formatTime(totalTime) }}</span>
+        <span class="stat-value">{{ formatTime(displayTotalTime) }}</span>
         <span class="stat-label">Gesamtzeit</span>
       </div>
     </div>
@@ -19,7 +19,7 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'calendar-alt']" />
       <div class="stat-info">
-        <span class="stat-value">{{ formatTime(monthlyTime) }}</span>
+        <span class="stat-value">{{ formatTime(displayMonthlyTime) }}</span>
         <span class="stat-label">Diesen Monat</span>
       </div>
     </div>
@@ -27,7 +27,7 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'calendar-week']" />
       <div class="stat-info">
-        <span class="stat-value">{{ formatTime(weeklyTime) }}</span>
+        <span class="stat-value">{{ formatTime(displayWeeklyTime) }}</span>
         <span class="stat-label">Diese Woche</span>
       </div>
     </div>
@@ -35,7 +35,7 @@
     <div class="stat-card">
       <font-awesome-icon :icon="['fas', 'trophy']" />
       <div class="stat-info">
-        <span class="stat-value">{{ formatTime(seasonTime) }}</span>
+        <span class="stat-value">{{ formatTime(displaySeasonTime) }}</span>
         <span class="stat-label">Season Zeit</span>
       </div>
     </div>
@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, ref, onMounted } from 'vue';
 
 const props = defineProps({
   totalTime: {
@@ -89,6 +89,39 @@ const formatTime = (minutes) => {
   if (hours === 1) return '1 Stunde';
   return `${hours} Stunden`;
 };
+
+// --- Count up animation logic ---
+const displayTotalTime = ref(0);
+const displayMonthlyTime = ref(0);
+const displayWeeklyTime = ref(0);
+const displaySeasonTime = ref(0);
+const displayBestStreak = ref(0);
+
+function animateValue(refValue, target, duration = 1200) {
+  const start = 0;
+  const startTime = performance.now();
+  function animate(now) {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out (decelerate)
+    const eased = 1 - Math.pow(1 - progress, 3);
+    refValue.value = Math.round(start + (target - start) * eased);
+    if (progress < 1) {
+      requestAnimationFrame(animate);
+    } else {
+      refValue.value = target;
+    }
+  }
+  requestAnimationFrame(animate);
+}
+
+onMounted(() => {
+  animateValue(displayTotalTime, props.totalTime);
+  animateValue(displayMonthlyTime, props.monthlyTime);
+  animateValue(displayWeeklyTime, props.weeklyTime);
+  animateValue(displaySeasonTime, props.seasonTime);
+  animateValue(displayBestStreak, bestStreak.value);
+});
 </script>
 
 <style scoped>

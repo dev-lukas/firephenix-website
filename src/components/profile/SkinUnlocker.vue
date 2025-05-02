@@ -2,7 +2,11 @@
   <div class="skin-unlocker-container">
     <h2>TTT Skins - Season I</h2>
     <div class="skins-grid">
-      <div v-for="(skin, index) in skins" :key="index" class="skin-card">
+      <div v-for="(skin, index) in skins" :key="index" class="skin-card" 
+        @mousemove="handleCardMouseMove($event, index)"
+        @mouseleave="resetCardTransform(index)"
+        :style="cardTransforms[index]"
+      >
         <div class="skin-image-container">
           <img :src="skin.image" :alt="skin.name" class="skin-image" />
         </div>
@@ -79,7 +83,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
 import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
@@ -127,6 +131,32 @@ const loading = ref(false);
 const currentSkinId = ref<number | null>(null);
 const showErrorModal = ref(false);
 const errorMessage = ref('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+
+const cardTransforms = reactive<{ [key: number]: any }>({});
+
+function handleCardMouseMove(e: MouseEvent, idx: number) {
+  const card = (e.currentTarget as HTMLElement);
+  const rect = card.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+  const centerX = rect.width / 2;
+  const centerY = rect.height / 2;
+  const rotateX = ((y - centerY) / centerY) * 8; // max 8deg
+  const rotateY = ((x - centerX) / centerX) * -8;
+  cardTransforms[idx] = {
+    '--rotate-x': `${rotateX}deg`,
+    '--rotate-y': `${rotateY}deg`,
+    'zIndex': 2
+  };
+}
+
+function resetCardTransform(idx: number) {
+  cardTransforms[idx] = {
+    '--rotate-x': '0deg',
+    '--rotate-y': '0deg',
+    'zIndex': 1
+  };
+}
 
 const openUnlockModal = (skinId: number) => {
   currentSkinId.value = skinId;
@@ -210,12 +240,24 @@ const confirmUnlock = async () => {
   flex-direction: column;
   align-items: center;
   gap: 1.2rem; 
-  transition: transform 0.3s ease, box-shadow 0.3s ease; 
+  transition: transform 0.18s cubic-bezier(.4,2,.6,1), box-shadow 0.18s cubic-bezier(.4,2,.6,1), filter 0.18s cubic-bezier(.4,2,.6,1);
+  transform: perspective(700px) rotateX(var(--rotate-x, 0deg)) rotateY(var(--rotate-y, 0deg));
+  filter: drop-shadow(0 0 8px rgba(255, 200, 80, 0.08));
+  position: relative;
+  box-shadow: 0 0 0 0 rgba(255, 200, 80, 0.12), 0 2px 16px 0 rgba(0,0,0,0.10), 0 0 16px 2px rgba(255, 200, 80, 0.08);
 }
 
 .skin-card:hover {
-  transform: translateY(-8px); 
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15); 
+  box-shadow: 0 0 0 4px rgba(255, 200, 80, 0.18), 0 8px 32px 0 rgba(0,0,0,0.18), 0 0 32px 8px rgba(255, 200, 80, 0.18);
+  filter: drop-shadow(0 0 16px rgba(255, 200, 80, 0.18));
+  animation: bling 0.7s cubic-bezier(.4,2,.6,1);
+}
+
+@keyframes bling {
+  0% { filter: brightness(1) drop-shadow(0 0 8px #ffe066); }
+  30% { filter: brightness(1.15) drop-shadow(0 0 24px #ffe066); }
+  60% { filter: brightness(1.05) drop-shadow(0 0 12px #ffe066); }
+  100% { filter: brightness(1) drop-shadow(0 0 8px #ffe066); }
 }
 
 .skin-image-container {
