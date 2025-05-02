@@ -82,6 +82,7 @@
           />
           <SkinUnlocker 
             :bestDivision="userData?.best_division_achieved || 0"
+            :seasonUnlockData="userData?.season_one_skins_unlocked"
           />
         </div>
 

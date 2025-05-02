@@ -7,21 +7,83 @@
           <img :src="skin.image" :alt="skin.name" class="skin-image" />
         </div>
         <BaseButton
+          v-if="!seasonUnlockData[skin.requiredDivision as keyof typeof seasonUnlockData]"
           variant="primary"
-          @click="unlockSkin(index + 1)"
-          :disabled="bestDivision < skin.requiredDivision"
+          @click="openUnlockModal(index + 1)"
+          :disabled="(bestDivision < skin.requiredDivision)"
         >
           Freischalten
         </BaseButton>
+        <BaseButton
+          v-else
+          variant="secondary"
+          :disabled="true"
+        >
+        Freigeschaltet
+        </BaseButton>  
       </div>
     </div>
   </div>
+
+  <!-- Unlock Modal -->
+  <base-modal v-model="showUnlockModal">
+    <template #title>
+      Skin Freischalten
+    </template>
+
+    <div class="unlock-modal-content">
+      <div v-if="loading" class="loading-message">
+        <div class="spinner"></div>
+        <p>Dein Skin wird freigeschaltet...</p>
+      </div>
+      <div v-else>
+        <p>
+          Möchtest du wirklich diesen Skin freischalten?
+        </p>
+        <p class="info-text">
+          <font-awesome-icon :icon="faInfoCircle" />
+          Du solltest bereits einmal auf dem TTT Server gespielt haben um den Skin erfolgreich abzuholen.
+        </p>
+      </div>
+    </div>
+
+    <template #footer>
+      <base-button v-if="!loading" variant="secondary" @click="closeModal">
+        Abbrechen
+      </base-button>
+      <base-button v-if="!loading" variant="primary" glow @click="confirmUnlock">
+        Freischalten
+      </base-button>
+    </template>
+  </base-modal>
+
+  <!-- Error Modal -->
+  <base-modal v-model="showErrorModal">
+    <template #title>
+      Fehler beim Freischalten
+    </template>
+
+    <div class="error-modal-content">
+      <div class="error-icon">
+        <font-awesome-icon :icon="faExclamationTriangle" />
+      </div>
+      <p>{{ errorMessage }}</p>
+    </div>
+
+    <template #footer>
+      <base-button variant="primary" @click="closeErrorModal">
+        Verstanden
+      </base-button>
+    </template>
+  </base-modal>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
 import BaseButton from '../base/BaseButton.vue';
+import BaseModal from '../base/BaseModal.vue';
+import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-// Import images using relative paths
 import tttSilver from '../../assets/images/games/ttt_reward_silver.png';
 import tttGold from '../../assets/images/games/ttt_reward_gold.png';
 import tttPlatinum from '../../assets/images/games/ttt_reward_platinum.png';
@@ -33,19 +95,85 @@ defineProps({
     type: Number,
     required: true,
   },
+  seasonUnlockData: {
+    type: Object as () => {
+      2: boolean;
+      3: boolean;
+      4: boolean;
+      5: boolean;
+      6: boolean;
+    },
+    required: true,
+    default: () => ({
+      2: false,
+      3: false,
+      4: false,
+      5: false,
+      6: false
+    })
+  }
 });
 
 const skins = [
-  { name: 'Silver Skin', image: tttSilver, requiredDivision: 2 },
+  { name: 'Silber Skin', image: tttSilver, requiredDivision: 2 },
   { name: 'Gold Skin', image: tttGold, requiredDivision: 3 },
-  { name: 'Platinum Skin', image: tttPlatinum, requiredDivision: 4 },
-  { name: 'Diamond Skin', image: tttDiamond, requiredDivision: 5 },
-  { name: 'Phoenix Skin', image: tttPhoenix, requiredDivision: 6 },
+  { name: 'Platin Skin', image: tttPlatinum, requiredDivision: 4 },
+  { name: 'Diamant Skin', image: tttDiamond, requiredDivision: 5 },
+  { name: 'Phönix Skin', image: tttPhoenix, requiredDivision: 6 },
 ];
 
-const unlockSkin = (skinId: number) => {
-  console.log(`Attempting to unlock skin ${skinId}`);
-  // Add unlock logic here
+const showUnlockModal = ref(false);
+const loading = ref(false);
+const currentSkinId = ref<number | null>(null);
+const showErrorModal = ref(false);
+const errorMessage = ref('Ein Fehler ist aufgetreten. Bitte versuche es später erneut.');
+
+const openUnlockModal = (skinId: number) => {
+  currentSkinId.value = skinId;
+  showUnlockModal.value = true;
+};
+
+const closeModal = () => {
+  showUnlockModal.value = false;
+  currentSkinId.value = null;
+};
+
+const closeErrorModal = () => {
+  showErrorModal.value = false;
+};
+
+const confirmUnlock = async () => {
+  if (currentSkinId.value === null) return;
+  
+  loading.value = true;
+  try {
+    const response = await fetch('/api/user/profile/skins', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ 
+        platform: 'garrysmod', 
+        tier: currentSkinId.value + 1 
+      }),
+    });
+
+    if (response.ok) {
+      // Handle success
+      console.log(`Successfully unlocked skin ${currentSkinId.value + 1}`);
+    } else {
+      // Parse error response
+      const errorData = await response.json().catch(() => null);
+      errorMessage.value = errorData?.message || 'Fehler beim Freischalten des Skins. Bitte versuche es später erneut.';
+      showErrorModal.value = true;
+      console.error('Failed to unlock skin:', errorData);
+    }
+  } catch (error) {
+    console.error('Skin unlock failed:', error);
+    errorMessage.value = 'Ein Netzwerkfehler ist aufgetreten. Bitte überprüfe deine Internetverbindung.';
+    showErrorModal.value = true;
+  } finally {
+    loading.value = false;
+    closeModal();
+  }
 };
 </script>
 
@@ -123,5 +251,59 @@ const unlockSkin = (skinId: number) => {
   opacity: 0.5; 
   background-color: var(--clr-button-secondary-bg); 
   color: var(--clr-text-disabled);
+}
+
+/* Modal styles */
+.unlock-modal-content {
+  text-align: center;
+  padding: 1rem 0;
+}
+
+.info-text {
+  margin-top: 1rem;
+  color: var(--clr-text-secondary);
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+}
+
+.spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  border-top-color: var(--clr-primary);
+  animation: spin 1s ease-in-out infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Error modal styles */
+.error-modal-content {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.error-icon {
+  font-size: 2rem;
+  color: #e74c3c;
+  margin-bottom: 0.5rem;
 }
 </style>
