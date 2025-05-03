@@ -1,46 +1,6 @@
 <template>
   <div class="garrys-mod-wiki">
-    <h2>Garrys Mod - TTT</h2>
-    <p>
-      Willkommen bei unserer Garrys Mod Wiki zu unserem TTT Server. Hier findest du alle wichtigen Informationen zu unserem Server, Anleitungen und hilfreiche Tipps.
-    </p>
-
-    <h3>Über unseren TTT Server</h3>
-    <div class="server-features">
-      <div class="feature">
-        <div class="feature-header">
-          <font-awesome-icon icon="fa-solid fa-server" class="feature-icon" />
-          <h4>TTT 2</h4>
-        </div>
-        <p>Unser Server basiert auf dem aktuellen TTT2. Dieses wird immernoch weiter entwickelt und enthält viele QoL Verbesserungen zum Vorgänger.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-header">
-          <font-awesome-icon icon="fa-solid fa-users" class="feature-icon" />
-          <h4>Skin Shop</h4>
-        </div>
-        <p>Unser TTT Server besitzt einen Skinshop mit ausgewählten Skins mit fairen Hitboxen. Das beste ist: Du kannst dir jeden Skin erspielen!</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-header">
-          <font-awesome-icon icon="fa-solid fa-puzzle-piece" class="feature-icon" />
-          <h4>Angepasste Addons</h4>
-        </div>
-        <p>Wir verwenden speziell angepasste Addons, um das Spielerlebnis zu verbessern und einzigartige Features anzubieten.</p>
-      </div>
-
-      <div class="feature">
-        <div class="feature-header">
-          <font-awesome-icon icon="fa-solid fa-map" class="feature-icon" />
-          <h4>Ausgesuchte Karten</h4>
-        </div>
-        <p>Entdecke unsere ausgewählten Karten mit toller Grafik und noch besserem Spielspaß.</p>
-      </div>
-    </div>
-
-    <h3>Serverregeln</h3>
+    <h2>Serverregeln</h2>
     <div class="rules-section">
       <div class="rule">
         <div class="rule-header">
@@ -75,7 +35,7 @@
       </div>
     </div>
 
-    <h3>Installation der Counter-Strike Texturen</h3>
+    <h2>Installation der Counter-Strike Texturen</h2>
     <div class="installation-guide">
       <div class="step">
         <div class="step-header">
@@ -168,13 +128,13 @@
           <code>steam\steamapps\common\GarrysMod\garrysmod\cfg\mount.cfg</code>
         </div>
         <p>
-          Bearbeite die cfg-Datei und füge "cstrike" hinzu:
+          Bearbeite die cfg-Datei und füge "csstrike" hinzu:
         </p>
         <div class="code-block">
 <pre>
 "mountcfg"
 {
-    "cstrike"	"{Dein Steam Bibliothek Pfad}\steamapps\common\GarrysMod\cstrike"
+    "cstrike"	"{Dein Steam Bibliothek Pfad}\steamapps\common\GarrysMod\csstrike"
 //	"tf"		"C:\mytf2server\tf"
 }
 </pre>

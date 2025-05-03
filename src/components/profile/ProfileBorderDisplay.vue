@@ -1,8 +1,7 @@
 <template>
   <div class="border-display-container">
     <h3>Profilrahmen</h3>
-    <p v-if="bestDivision === 0" class="no-border-message">Du hast noch keinen Rahmen freigeschaltet.</p>
-    <div v-else class="borders-grid">
+    <div class="borders-grid">
       <div 
         v-for="(border, index) in borders" 
         :key="border.name"
@@ -14,6 +13,7 @@
         <span v-if="index + 1 === bestDivision" class="current-border-label">Dein momentaner Rahmen</span>
       </div>
     </div>
+    <p v-if="bestDivision === 0" class="no-border-message">Du hast noch keinen Rahmen freigeschaltet.</p>
   </div>
 </template>
 
@@ -61,6 +61,7 @@ const getBorderImagePath = (division: number) => {
 }
 
 .no-border-message {
+  padding-top: 2rem;
   color: var(--clr-text-secondary);
 }
 

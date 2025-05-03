@@ -262,8 +262,8 @@ const confirmUnlock = async () => {
 
 .skin-image-container {
   width: 100%;
-  max-width: 125px;
-  max-height: 3250px;
+  max-width: 10vh;
+  max-height: 28vh;
   background-color: var(--clr-surface-elevated-2);
   border-radius: 8px;
   display: flex;
