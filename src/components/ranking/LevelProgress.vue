@@ -9,7 +9,7 @@
             :alt="`Level ${level}`"
           />
           <span v-if="level <= 20">Level {{ level }}</span>
-          <span v-if="level > 20">Prestige {{ level - 20 }}</span>
+          <span v-if="level > 20">Prestige {{ getRomanTimeString(level - 20 )}}</span>
         </div>
         <div v-if="!isMaxLevel" class="next-level">
           <img
@@ -17,7 +17,7 @@
             :alt="`Level ${level + 1}`"
           />
           <span v-if="level + 1 <= 20">Level {{ level + 1 }}</span>
-          <span v-if="level > 20">Prestige {{ (level + 1) - 20 }}</span>
+          <span v-if="level > 20">Prestige {{ getRomanTimeString((level + 1) - 20) }}</span>
         </div>
       </div>
 
@@ -93,6 +93,7 @@
 
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue';
+import { getRomanTimeString } from '../../services/romanTimeString';
 
 const MAX_LEVEL = 25;
 const MAX_DIVISION = 6;

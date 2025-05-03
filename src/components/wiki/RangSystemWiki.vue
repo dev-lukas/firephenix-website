@@ -43,7 +43,9 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
+import { getRomanTimeString } from '../../services/romanTimeString';
+
 const levelTimeRequirements = {
     1: '0 Stunden',
     2: '5 Stunden',
@@ -103,35 +105,6 @@ const getLevelTime = (level) => {
 const getLevelRewards = (level) => {
   return levelRewards[level] || ' '
 }
-
-const getRomanTimeString = (time: number): string => {
-  const romanNumerals = [
-    { value: 1000, numeral: 'M' },
-    { value: 900, numeral: 'CM' },
-    { value: 500, numeral: 'D' },
-    { value: 400, numeral: 'CD' },
-    { value: 100, numeral: 'C' },
-    { value: 90, numeral: 'XC' },
-    { value: 50, numeral: 'L' },
-    { value: 40, numeral: 'XL' },
-    { value: 10, numeral: 'X' },
-    { value: 9, numeral: 'IX' },
-    { value: 5, numeral: 'V' },
-    { value: 4, numeral: 'IV' },
-    { value: 1, numeral: 'I' }
-  ];
-
-  let result = '';
-  
-  for (const { value, numeral } of romanNumerals) {
-    while (time >= value) {
-      result += numeral;
-      time -= value;
-    }
-  }
-  
-  return result;
-};
 </script>
 
 <style scoped>

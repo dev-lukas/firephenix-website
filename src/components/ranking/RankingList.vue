@@ -92,6 +92,7 @@
           <div class="table-header">
             <span>Rang</span>
             <span>Level</span>
+            <span></span>
             <span>Spieler</span>
             <span>Zeit</span>
           </div>
@@ -110,6 +111,8 @@
                 />
               </div>
             </span>
+            <span v-if="player.level <= 20">Level {{ player.level }}</span>
+            <span v-else>Prestige {{ getRomanTimeString(player.level - 20) }}</span>
             <div class="player-cell">
               <span>{{ player.name }}</span>
             </div>
@@ -125,6 +128,7 @@
 import { ref, watch, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import BaseButton from '../base/BaseButton.vue';
+import { getRomanTimeString } from '../../services/romanTimeString';
 
 const router = useRouter();
 const selectedPeriod = ref('total');
@@ -457,7 +461,7 @@ watch(
 
 .table-header {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 1fr 1fr;
+  grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
   padding: 1.2rem 2rem;
   background: rgba(255, 255, 255, 0.05);
   color: #999;
@@ -468,7 +472,7 @@ watch(
 
 .table-row {
   display: grid;
-  grid-template-columns: 0.5fr 0.5fr 1fr 1fr;
+  grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
   padding: 1rem 2rem;
   align-items: center;
   border-bottom: 1px solid rgba(255, 255, 255, 0.03);

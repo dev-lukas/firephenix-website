@@ -10,7 +10,7 @@
         </base-box>
         <div class="level-badge">
           <span v-if="level <= 20" class="level-text">Level {{ level }}</span>
-          <span v-if="level > 20" class="level-text">Prestige {{ level - 20 }}</span>
+          <span v-if="level > 20" class="level-text">Prestige {{ getRomanTimeString(level - 20 ) }}</span>
         </div>
       </div>
       <div class="player-rank" :class="getRankGlowClass(bestDivision)">
@@ -27,6 +27,7 @@
 
 <script setup>
 import BaseBox from '../base/BaseBox.vue';
+import { getRomanTimeString } from '../../services/romanTimeString';
 
 defineProps({
   name: {
