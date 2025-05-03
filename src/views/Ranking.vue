@@ -98,10 +98,11 @@ watch(activeRanking, (newTab) => {
   margin-bottom: 2rem;
   text-align: center;
 }
+
 .ranking-page {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 80px 20px 40px;
+  padding: 40px 20px 40px;
 }
 
 .ranking-toggle {

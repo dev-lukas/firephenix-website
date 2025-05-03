@@ -6,7 +6,7 @@
     <div class="content-overlay">
       <div class="hero-content">
         <h1 class="hero-title">FirePhenix</h1>
-        <p class="hero-subtitle">Spiele mit Freunden und lerne neue Leute kennen</p>
+        <p class="hero-subtitle">Spiele mit Freunden und lerne neue Leute kennen.<br>Eine Gaming Community seit über 10 Jahren.</p>
         <base-button
           variant="secondary"
           class="scroll-button"

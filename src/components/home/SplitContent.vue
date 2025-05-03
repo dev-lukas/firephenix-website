@@ -1,6 +1,7 @@
 // components/SplitContent.vue
 <template>
   <section class="content-section">
+    <p class="explore-text explore-topright" :class="{ 'fade-in': showExplore }">Oder erkunde unsere Website →</p>
     <div class="headline-container" ref="headlineRef">
       <h2 class="main-headline" :class="{ 'fade-in': isVisible }">
         Wähle und<br />beginne deine Reise
@@ -63,30 +64,31 @@ const openLink = (url) => {
 
 const headlineRef = ref(null);
 const isVisible = ref(false);
+const showExplore = ref(false);
+let exploreTimeout = null;
+
+function checkScroll() {
+  const scrollPosition = window.scrollY + window.innerHeight;
+  const threshold = document.body.scrollHeight - window.innerHeight * 0.2; 
+  isVisible.value = scrollPosition >= threshold;
+  if (exploreTimeout) {
+    clearTimeout(exploreTimeout);
+    exploreTimeout = null;
+  }
+  if (isVisible.value && window.innerWidth > 1024) {
+    exploreTimeout = setTimeout(() => { showExplore.value = true; }, 400);
+  } else {
+    showExplore.value = false;
+  }
+}
 
 onMounted(() => {
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          isVisible.value = true;
-          observer.disconnect();
-        }
-      });
-    },
-    {
-      threshold: 0.1,
-      rootMargin: '-10% 0px',
-    }
-  );
+  window.addEventListener('scroll', checkScroll);
+  checkScroll();
+});
 
-  if (headlineRef.value) {
-    observer.observe(headlineRef.value);
-  }
-
-  onUnmounted(() => {
-    observer.disconnect();
-  });
+onUnmounted(() => {
+  window.removeEventListener('scroll', checkScroll);
 });
 </script>
 
@@ -94,7 +96,7 @@ onMounted(() => {
 .headline-container {
   position: absolute;
   width: 100%;
-  top: 15%;
+  top: 35%; /* Lowered for desktop */
   transform: translateY(-200%);
   text-align: center;
   z-index: 10;
@@ -114,6 +116,34 @@ onMounted(() => {
 .main-headline.fade-in {
   opacity: 1;
   transform: translateY(0);
+}
+
+.explore-text {
+  color: white;
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  display: block;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.explore-text.fade-in {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+.explore-topright {
+  position: fixed;
+  top: 0.5vh;
+  right: 4vw;
+  z-index: 900;
+  display: none;
+}
+
+@media (min-width: 1025px) {
+  .explore-topright {
+    display: block;
+  }
 }
 
 .content-section {
@@ -285,6 +315,10 @@ onMounted(() => {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) rotate(90deg);
+  }
+
+  .headline-container {
+    top: 15%; 
   }
 
   .main-headline {

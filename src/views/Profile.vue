@@ -1,5 +1,5 @@
 <template>
-  <div class="ranking-page">
+  <div class="profile-page">
     <div v-if="!isAuthenticated">
       <Login />
     </div>
@@ -238,6 +238,12 @@ const handleLogout = async () => {
   display: none;
 }
 
+.profile-page {
+  min-height: 100vh;
+  background-color: var(--clr-background);
+  padding: 40px 20px 40px;
+}
+
 .ranking-toggle {
   display: flex;
   justify-content: center;
@@ -314,9 +320,9 @@ const handleLogout = async () => {
 }
 
 .profile-container h1 {
+  font-size: 2.5rem;
   color: var(--clr-text-primary);
-  font-size: 3.5rem;
-  padding-bottom: 2rem;
+  margin-bottom: 2rem;
   text-align: center;
 }
 

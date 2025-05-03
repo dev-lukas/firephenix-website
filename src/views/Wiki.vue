@@ -66,7 +66,7 @@ onMounted(() => {
 .wiki-page {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 80px 40px 40px;
+  padding: 40px 40px 40px;
   color: var(--clr-text-secondary);
 }
 
