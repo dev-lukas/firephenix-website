@@ -42,34 +42,47 @@
           </tbody>
         </table>
       </div>
-      <h3>Belohnungen</h3>
-      <h4>Profil-Rahmen</h4>
-      <div class="rewards-showcase">
-        <p>Je nach Rang erhältst du einen speziellen Glanzeffekt für dein Profilbild, welcher jedem Spieler der dein Profil besucht zeigt, wie hoch du in der letzten Season abgeschlossen hast:</p>
-        
-        <div class="glow-effects-container">
-          <div v-for="division in 6" :key="division" class="glow-effect-example">
-            <div class="glow-frame" :class="`division-${division}`">
-              <div class="glow-content">
-                <img :src="getDivisionIconPath(division)" :alt="`Division ${division}`" class="glow-icon" />
+      <h2>Belohnungen</h2>
+      <div class="rewards-section">
+        <div class="reward-card">
+          <div class="reward-header">
+            <img src="/src/assets/images/ranks/diamond.png" alt="Profil-Rahmen Icon" class="reward-icon" />
+            <h3>Profil-Rahmen</h3>
+          </div>
+          <p>Je nach Rang erhältst du einen speziellen Glanzeffekt für dein Profilbild, welcher jedem Spieler der dein Profil besucht zeigt, wie hoch du in der letzten Season abgeschlossen hast:</p>
+          <div class="glow-effects-container">
+            <div v-for="division in 6" :key="division" class="glow-effect-example">
+              <div class="glow-frame" :class="`division-${division}`">
+                <div class="glow-content">
+                  <img :src="getDivisionIconPath(division)" :alt="`Division ${division}`" class="glow-icon" />
+                </div>
               </div>
+              <span class="glow-label">{{ getDivisionName(division) }}</span>
             </div>
-            <span class="glow-label">{{ getDivisionName(division) }}</span>
           </div>
         </div>
+        <div class="reward-card">
+          <div class="reward-header">
+            <img src="/src/assets/images/games/ttt.png" alt="TTT Skins Icon" class="reward-icon" />
+            <h3>Skins</h3>
+          </div>
+          <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
+          <div class="ttt-rewards-container">
+            <img src="/src/assets/images/games/ttt_rewards.png" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
+          </div>
+          <p class="reward-note">Bitte beachte, dass dies nur eine Abbildung der TTT Skins sind. Die Ingame-Version kann etwas vom Artwork abweichen. Du kannst die Skins aber jederzeit bereits im Ingame Skinshop betrachten.</p>
+        </div>
+        <div class="reward-card">
+          <div class="reward-header">
+            <img src="/src/assets/images/achievements/apex.png" alt="Apex Channel Icon" class="reward-icon" />
+            <h3>Apex Channel</h3>
+          </div>
+          
+          <p>Solltest du als bester einer Season abschließen, erhälst du zusätzlich, was sonst nur Prestige V Spielern vorenthalten ist: <br><br> Du kannst deinen Channel aufwerten zu einem Apex Channel. Dies ist ein permanenter Channel welcher an der höchsten Stelle des Discords und TeamSpeak Servers trohnt. Zeige allen Spielern, dass du zum Apex gehörst!</p>
+          <img src="/src/assets/images/achievements/apex.png" alt="Apex Channel Achievement" class="apex-image" />
+          <p class="reward-note">Bitte beachte, dass dies nur eine Upgrade für deinen permanenten Channel ist. Du musst trotzdem Prestige I erreichen.</p>
+        </div>
       </div>
-      <h4>TTT-Skins</h4>
-      <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
-        
-      <div class="ttt-rewards-container">
-        <img src="/src/assets/images/games/ttt_rewards.png" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
-      </div>
-      <p>Bitte beachte, dass dies nur eine Abbildung der TTT Skins sind. Die Ingame-Version kann etwas vom Artwork abweichen. Du kannst die Skins aber jederzeit bereits im Ingame Skinshop betrachten.</p>
-      <h4>Apex Channel</h4>
-      <p>Solltest du als bester einer Season abschließen, erhälst du zusätzlich, was sonst nur Prestige V Spielern vorenthalten ist: Du kannst deinen Channel aufwerten zu einem Apex Channel.
-        Dies ist ein permanenter Channel welcher an der höchsten Stelle des Discords und TeamSpeak Servers trohnt. Zeige allen Spielern, dass du zum Apex gehörst!
-      </p>
-    
     </div>
   </template>
   
@@ -141,6 +154,10 @@
     margin-bottom: 0.5rem;
   }	
   
+  .reward-showcase {
+    margin-top: 3rem;
+  }
+
   .range-system-wiki h2,
   .range-system-wiki h3 {
     color: #FFA500;
@@ -417,13 +434,101 @@
   .ttt-rewards-container {
     display: flex;
     justify-content: center;
+    align-items: center;
     margin: 1.5rem 0;
+    width: 100%;
+    max-width: 100%;
   }
   
   .ttt-rewards-image {
-    max-width: 750px;
+    max-width: 100%;
+    height: auto;
     border: 4px solid rgb(48, 47, 47);
     border-radius: 8px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    display: block;
+  }
+
+  .rewards-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin: 2.5rem 0 3rem 0;
+    justify-content: flex-start;
+  }
+
+  .reward-card {
+    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    border-radius: 18px;
+    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    padding: 2.5rem 2.5rem 2rem 2.5rem;
+    max-width: 540px;
+    min-width: 320px;
+    flex: 1 1 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    border: 1.5px solid #333;
+    transition: box-shadow 0.3s, border 0.3s;
+  }
+  .reward-card:hover {
+    box-shadow: 0 10px 40px rgba(255,165,0,0.12);
+    border: 1.5px solid #FFA500;
+  }
+  .reward-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .reward-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: #222;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    object-fit: contain;
+  }
+  .reward-card h3 {
+    color: #FFA500;
+    margin: 0;
+    font-size: 1.35rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .reward-card p {
+    color: #e0e0e0;
+    margin-bottom: 1.1rem;
+    text-align: center;
+  }
+  .reward-note {
+    font-size: 0.85rem;
+    color: #bdbdbd;
+    margin-top: auto;
+  }
+  
+  @media (max-width: 1100px) {
+    .rewards-section {
+      flex-direction: column;
+      align-items: center;
+      gap: 2rem;
+    }
+    .reward-card {
+      max-width: 95vw;
+      min-width: 0;
+      width: 100%;
+      padding: 1.5rem 1rem 1rem 1rem;
+    }
+  }
+
+  .apex-image {
+    max-width: 120px;
+    width: 100%;
+    height: auto;
+    margin: 0.5rem 0 1rem 0;
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
   }
   </style>

@@ -37,8 +37,10 @@ import {
   faChartSimple,
   faPersonRifle,
   faPalette,
+  faGavel,
   faCog,
-  faPlus
+  faPlus,
+  faFileAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();
@@ -75,6 +77,8 @@ library.add(
   faChartSimple,
   faPersonRifle,
   faPalette,
+  faGavel,
+  faFileAlt,
   faCog,
   faSquarePollVertical
 );

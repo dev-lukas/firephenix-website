@@ -15,9 +15,12 @@
     </div>
 
     <div class="tab-content">
+      <RulesWiki v-if="activeTab === 'rules'" />
       <RangSystemWiki v-if="activeTab === 'rangsystem'" />
       <SaisonWiki v-if="activeTab === 'saison'" />
       <GarrysModWiki v-if="activeTab === 'garry'" />
+      <TeamWiki v-if="activeTab === 'team'" />
+      <PatchnotesWiki v-if="activeTab === 'patchnotes'" />
       <SupportWiki v-if="activeTab === 'faq'" />
     </div>
   </div>
@@ -26,19 +29,25 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import RulesWiki from '../components/wiki/RulesWiki.vue';
 import RangSystemWiki from '../components/wiki/RangSystemWiki.vue';
 import SaisonWiki from '../components/wiki/SeasonWiki.vue';
 import GarrysModWiki from '../components/wiki/GarrysModWiki.vue';
 import SupportWiki from '../components/wiki/SupportWiki.vue';
+import TeamWiki from '../components/wiki/TeamWiki.vue';
+import PatchnotesWiki from '../components/wiki/PatchnotesWiki.vue';
 
 const router = useRouter();
 const route = useRoute();
 const activeTab = ref('rangsystem');
 
 const tabs = [
+  { id: 'rules', name: 'Server Regeln', icon: ['fas', 'fa-gavel'] },
   { id: 'rangsystem', name: 'Rangsystem', icon: ['fas', 'fa-ranking-star'] },
   { id: 'saison', name: 'Season', icon: ['fas', 'fa-chart-simple'] },
   { id: 'garry', name: 'Garrys Mod', icon: ['fas', 'fa-person-rifle'] },
+  { id: 'patchnotes', name: 'Patchnotes', icon: ['fas', 'fa-file-alt'] },
+  { id: 'team', name: 'Team', icon: ['fas', 'fa-users'] },
   { id: 'faq', name: 'Support & FAQ', icon: ['fas', 'question-circle'] },
 ];
 

@@ -6,7 +6,7 @@
     <div v-else>
       <div class="profile-container">
         <div class="profile-header">
-          <h1>Profil</h1>
+          <h1>Mein Profil</h1>
         </div>
 
         <div class="ranking-toggle">
