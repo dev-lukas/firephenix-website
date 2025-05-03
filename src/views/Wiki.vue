@@ -15,7 +15,7 @@
     </div>
 
     <div class="tab-content">
-      <RangeSystemWiki v-if="activeTab === 'rangsystem'" />
+      <RangSystemWiki v-if="activeTab === 'rangsystem'" />
       <SaisonWiki v-if="activeTab === 'saison'" />
       <GarrysModWiki v-if="activeTab === 'garry'" />
       <SupportWiki v-if="activeTab === 'faq'" />
@@ -26,7 +26,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
-import RangeSystemWiki from '../components/wiki/RangeSystemWiki.vue';
+import RangSystemWiki from '../components/wiki/RangSystemWiki.vue';
 import SaisonWiki from '../components/wiki/SeasonWiki.vue';
 import GarrysModWiki from '../components/wiki/GarrysModWiki.vue';
 import SupportWiki from '../components/wiki/SupportWiki.vue';

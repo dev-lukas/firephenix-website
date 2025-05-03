@@ -30,7 +30,8 @@
                 <div class="level-icon-container">
                   <img :src="getLevelIconPath(level)" :alt="`Level ${level} Icon`" class="level-icon" />
                 </div>
-                <span>Level {{ level }}</span>
+                <span v-if="level <= 20">Level {{ level }}</span>
+                <span v-else>Prestige {{ getRomanTimeString(level - 20) }}</span>
               </div>
             </td>
             <td>{{ getLevelTime(level) }}</td>
@@ -42,7 +43,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 const levelTimeRequirements = {
     1: '0 Stunden',
     2: '5 Stunden',
@@ -84,10 +85,10 @@ const levelRewards = {
   15: 'Teamspeak - Semi-permanenten Channel erstellen',
   16: 'Teamspeak - Upload 50MB pro Monat',
   18: 'TeamSpeak - 5MB Avatar',
-  19: 'Eigenen permanenten Channels erstellen',
   20: 'Moverechte für Spieler ohne Moveshield',
-  21: 'Teamspeak - Reservierte Slots nutzen',
+  21: 'Eigenen permanenten Channels erstellen',
   22: 'Teamspeak - Upload 200MB pro Monat',
+  23: 'Teamspeak - Reservierte Slots nutzen',
   25: 'Upgraden des Channels zu einem Apex-Channel',
 }
 
@@ -102,6 +103,35 @@ const getLevelTime = (level) => {
 const getLevelRewards = (level) => {
   return levelRewards[level] || ' '
 }
+
+const getRomanTimeString = (time: number): string => {
+  const romanNumerals = [
+    { value: 1000, numeral: 'M' },
+    { value: 900, numeral: 'CM' },
+    { value: 500, numeral: 'D' },
+    { value: 400, numeral: 'CD' },
+    { value: 100, numeral: 'C' },
+    { value: 90, numeral: 'XC' },
+    { value: 50, numeral: 'L' },
+    { value: 40, numeral: 'XL' },
+    { value: 10, numeral: 'X' },
+    { value: 9, numeral: 'IX' },
+    { value: 5, numeral: 'V' },
+    { value: 4, numeral: 'IV' },
+    { value: 1, numeral: 'I' }
+  ];
+
+  let result = '';
+  
+  for (const { value, numeral } of romanNumerals) {
+    while (time >= value) {
+      result += numeral;
+      time -= value;
+    }
+  }
+  
+  return result;
+};
 </script>
 
 <style scoped>
