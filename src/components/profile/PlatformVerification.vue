@@ -9,7 +9,7 @@
     </p>
     <div class="settings-list">
 
-      <!-- Steam Section -->
+
       <div class="setting-item">
         <div class="item-info">
           <img src="/src/assets/images/other/steam-blue.png" alt="Steam" class="platform-logo-small"/>
@@ -22,7 +22,6 @@
         </div>
       </div>
 
-      <!-- Discord Section -->
       <div class="setting-item">
         <div class="item-info">
           <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
@@ -55,7 +54,6 @@
         </div>
       </div>
 
-      <!-- TeamSpeak Section -->
       <div class="setting-item">
         <div class="item-info">
            <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
@@ -89,7 +87,6 @@
       </div>
     </div>
 
-    <!-- Verification Modal -->
     <base-modal v-model="showVerificationModal">
       <template #title> Verifizierungscode </template>
 

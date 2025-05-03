@@ -15,7 +15,6 @@
     
     <div v-else class="achievements-grid">
       
-      <!-- Logins Achievement -->
       <div
         v-for="(level, index) in maxLevels.logins"
         :key="`logins-${index}`"
@@ -36,7 +35,6 @@
         </div>
       </div>
 
-      <!-- Time Achievement -->
       <div
         v-for="(level, index) in maxLevels.time"
         :key="`time-${index}`"
@@ -59,7 +57,6 @@
         </div>
       </div>      
 
-      <!-- Heatmap Achievement -->
       <div
         v-for="(level, index) in maxLevels.heatmap"
         :key="`heatmap-${index}`"
@@ -80,7 +77,6 @@
         </div>
       </div>
 
-      <!-- Streak Achievement -->
       <div
         v-for="(level, index) in maxLevels.streak"
         :key="`streak-${index}`"
@@ -101,7 +97,6 @@
         </div>
       </div>
 
-      <!-- Division Achievement -->
       <div
         v-for="(level, index) in maxLevels.division"
         :key="`division-${index}`"
@@ -121,7 +116,6 @@
         </div>
       </div>
 
-      <!-- Apex Achievement -->
       <div
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.apex?.achievement_level === 0 }"
@@ -139,7 +133,6 @@
         </div>
       </div>
 
-      <!-- Old Member Achievement -->
       <div
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.old_member?.achievement_level === 0 }"
@@ -157,7 +150,6 @@
         </div>
       </div>
 
-      <!-- Legacy Supporter Achievement -->
       <div
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.legacy_supporter?.achievement_level === 0 }"
@@ -478,7 +470,6 @@ const unlockedCount = computed(() => {
   color: var(--clr-text-secondary);
 }
 
-/* Position fixes for tooltips near viewport edges */
 .achievement-item:first-child .achievement-tooltip,
 .achievement-item:nth-child(2) .achievement-tooltip {
   left: 0;
@@ -498,8 +489,8 @@ const unlockedCount = computed(() => {
   }
 
   .achievement-item {
-    width: 70px; /* Increased from 48px */
-    height: 70px; /* Increased from 48px */
+    width: 70px; 
+    height: 70px; 
   }
 
   .achievement-tooltip {

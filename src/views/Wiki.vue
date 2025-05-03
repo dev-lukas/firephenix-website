@@ -149,14 +149,14 @@ onMounted(() => {
     padding: 80px 20px 40px;
   }
   .wiki-tabs {
-    flex-wrap: wrap; /* Allow tabs to wrap on smaller screens */
+    flex-wrap: wrap; 
     justify-content: flex-start;
     gap: 0.5rem;
   }
   .tab-button {
-    flex-grow: 1; /* Allow buttons to take available space */
+    flex-grow: 1; 
     justify-content: center;
-    min-width: 120px; /* Minimum width for tabs */
+    min-width: 120px; 
   }
   .tab-content {
     padding: 1.5rem;

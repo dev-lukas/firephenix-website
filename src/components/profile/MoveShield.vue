@@ -6,7 +6,6 @@
         Aktiviere ein Move Shield damit andere Mitglieder dich nicht bewegen können.
       </p>
       <div class="settings-list">
-        <!-- Level Lock Section -->
         <div
           v-if="(userData?.level ?? 0) < 2"
           class="setting-item locked-item"
@@ -27,9 +26,7 @@
           </div>
         </div>
 
-        <!-- Channel Creation Sections -->
         <template v-else>
-          <!-- Discord Shield -->
           <div class="setting-item">
             <div class="item-info">
               <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
@@ -47,7 +44,6 @@
             </div>
           </div>
 
-          <!-- TeamSpeak Shield -->
           <div class="setting-item">
             <div class="item-info">
               <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
@@ -299,22 +295,22 @@ const closeModal = () => {
   vertical-align: middle;
 }
 
-/* Modal Content Styling */
+
 .creation-modal-content {
-  text-align: center; /* Center align all content */
-  padding: 1rem 0; /* Add some padding */
+  text-align: center; 
+  padding: 1rem 0;
 }
 
 .loading-message, .success-message, .error-message {
   display: flex;
-  flex-direction: column; /* Stack icon and text vertically */
-  align-items: center; /* Center items horizontally */
-  gap: 1rem; /* Space between icon and text */
+  flex-direction: column; 
+  align-items: center; 
+  gap: 1rem; 
 }
 
-.success-message .svg-inline--fa, /* Target FontAwesome icon */
+.success-message .svg-inline--fa, 
 .error-message .svg-inline--fa {
-  font-size: 3rem; /* Increase icon size */
+  font-size: 3rem; 
 }
 
 .success-message {
@@ -328,13 +324,13 @@ const closeModal = () => {
 .loading-message p,
 .success-message p,
 .error-message p {
-  margin: 0; /* Remove default margins */
+  margin: 0; 
   font-size: 1rem;
   color: var(--clr-text-secondary);
 }
 
 .success-message p {
-  color: var(--clr-text-primary); /* Make success text primary */
+  color: var(--clr-text-primary); 
 }
 
 .spinner {
@@ -344,7 +340,7 @@ const closeModal = () => {
   width: 40px;
   height: 40px;
   animation: spin 1s linear infinite;
-  margin-bottom: 1rem; /* Add space below spinner */
+  margin-bottom: 1rem; 
 }
 
 @keyframes spin {

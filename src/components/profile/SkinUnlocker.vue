@@ -29,7 +29,6 @@
     </div>
   </div>
 
-  <!-- Unlock Modal -->
   <base-modal v-model="showUnlockModal">
     <template #title>
       Skin Freischalten
@@ -333,7 +332,6 @@ const confirmUnlock = async () => {
   to { transform: rotate(360deg); }
 }
 
-/* Error modal styles */
 .error-modal-content {
   text-align: center;
   padding: 1.5rem 1rem;

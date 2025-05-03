@@ -166,7 +166,6 @@ const fetchData = async (page = 1, append = false) => {
       
       totalItems.value = data.total;
       
-      // Update hasMore flag based on whether we've loaded all items
       hasMore.value = players.value.length < totalItems.value;
       
       loading.value = false;
@@ -184,7 +183,6 @@ const handleScroll = () => {
   
   const { scrollTop, scrollHeight, clientHeight } = rankingContainer.value;
   
-  // Load more when user scrolls to 80% of the container
   if (scrollTop + clientHeight >= scrollHeight * 0.8) {
     currentPage.value++;
     fetchData(currentPage.value, true);
@@ -198,14 +196,12 @@ const resetAndFetch = () => {
 };
 
 const resetAndSearch = () => {
-  // Use debounce for search
   if (loadingTimeout.value) clearTimeout(loadingTimeout.value);
   loadingTimeout.value = setTimeout(() => {
     resetAndFetch();
   }, 400);
 };
 
-// Watch for search query changes
 watch(searchQuery, () => {
   resetAndSearch();
 });

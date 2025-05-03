@@ -52,10 +52,9 @@ const fetchDistributionData = async () => {
 };
 
 const createColorPalette = (count) => {
-  // Base colors: Discord blue, Orange, and variations
   const colors = [
-    '#5865F2', // Discord blue
-    'rgba(249, 133, 0, 0.9)', // Orange to match site theme
+    '#5865F2', 
+    'rgba(249, 133, 0, 0.9)', 
     'rgba(249, 133, 0, 0.7)',
     'rgba(88, 101, 242, 0.8)',
     'rgba(249, 133, 0, 0.5)',
@@ -66,7 +65,6 @@ const createColorPalette = (count) => {
     '#3641A3'
   ];
   
-  // If more colors needed, generate them
   while (colors.length < count) {
     const r = Math.floor(Math.random() * 200) + 55;
     const g = Math.floor(Math.random() * 200) + 55;
@@ -80,27 +78,27 @@ const createColorPalette = (count) => {
 const getRankColor = (rank) => {
   const rankNum = parseInt(rank);
   
-  if (rankNum >= 1 && rankNum <= 5) return '#CD7F32'; // Bronze/Brown
-  if (rankNum >= 6 && rankNum <= 10) return '#C0C0C0'; // Silver
-  if (rankNum >= 11 && rankNum <= 15) return '#FFD700'; // Gold/Yellow
-  if (rankNum >= 16 && rankNum <= 20) return '#9370DB'; // Violet
-  if (rankNum >= 21 && rankNum <= 22) return '#4169E1'; // Blue
-  if (rankNum >= 23 && rankNum <= 25) return '#FF4500'; // Red
+  if (rankNum >= 1 && rankNum <= 5) return '#CD7F32'; 
+  if (rankNum >= 6 && rankNum <= 10) return '#C0C0C0'; 
+  if (rankNum >= 11 && rankNum <= 15) return '#FFD700'; 
+  if (rankNum >= 16 && rankNum <= 20) return '#9370DB'; 
+  if (rankNum >= 21 && rankNum <= 22) return '#4169E1'; 
+  if (rankNum >= 23 && rankNum <= 25) return '#FF4500'; 
   
-  return 'rgba(249, 133, 0, 0.7)'; // Default orange
+  return 'rgba(249, 133, 0, 0.7)'; 
 };
 
 const getDivisionColor = (division) => {
   const divNum = parseInt(division);
   
   switch (divNum) {
-    case 1: return '#CD7F32'; // Bronze/Brown
-    case 2: return '#C0C0C0'; // Silver
-    case 3: return '#FFD700'; // Gold/Yellow
-    case 4: return '#E5E4E2'; // Platinum silver
-    case 5: return '#9370DB'; // Violet
-    case 6: return '#FF4500'; // Red
-    default: return 'rgba(249, 133, 0, 0.7)'; // Default orange
+    case 1: return '#CD7F32'; 
+    case 2: return '#C0C0C0'; 
+    case 3: return '#FFD700'; 
+    case 4: return '#E5E4E2'; 
+    case 5: return '#9370DB'; 
+    case 6: return '#FF4500';
+    default: return 'rgba(249, 133, 0, 0.7)'; 
   }
 };
 
@@ -118,8 +116,8 @@ const createPlatformChart = (data) => {
       datasets: [{
         data: [data.total_discord_users, data.total_teamspeak_users],
         backgroundColor: [
-          '#5865F2', // Discord blue
-          'rgba(249, 133, 0, 0.9)' // Orange to match site theme
+          '#5865F2', 
+          'rgba(249, 133, 0, 0.9)' 
         ],
         borderColor: ['#ffffff', '#ffffff'],
         borderWidth: 2

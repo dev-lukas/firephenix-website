@@ -182,7 +182,7 @@ watch(divisionProgressPercentage, (newVal) => {
 });
 
 const currentRank = computed(() => {
-  return ranks.find(r => r.id === props.division) || ranks[0]; // Default to Bronze if not found
+  return ranks.find(r => r.id === props.division) || ranks[0]; 
 });
 
 const nextRank = computed(() => {
@@ -193,7 +193,7 @@ const nextRank = computed(() => {
 const formatTime = (minutes) => {
   if (minutes <= 0) return '0 Min';
   const hours = Math.floor(minutes / 60);
-  const remainingMinutes = Math.round(minutes % 60); // Round minutes
+  const remainingMinutes = Math.round(minutes % 60);
   let result = '';
   if (hours > 0) {
     result += `${hours} Std `;
@@ -212,21 +212,21 @@ const formatTime = (minutes) => {
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem; /* Add gap between level and division sections */
+  gap: 2rem; 
 }
 
 .progress-info {
   display: flex;
   justify-content: space-between;
   margin-bottom: 1rem;
-  align-items: center; /* Vertically align items */
+  align-items: center; 
 }
 
 .current-level,
 .next-level {
   display: flex;
   align-items: center;
-  gap: 0.75rem; /* Increased gap slightly */
+  gap: 0.75rem; 
 }
 
 .current-level img,
@@ -234,13 +234,13 @@ const formatTime = (minutes) => {
   width: 40px;
   height: 40px;
   border-radius: 8px;
-  object-fit: contain; /* Ensure rank images fit well */
+  object-fit: contain; 
 }
 
 .current-level span,
 .next-level span {
-  color: var(--clr-text-primary); /* Use primary text color */
-  font-size: 1rem; /* Slightly larger font */
+  color: var(--clr-text-primary); 
+  font-size: 1rem; 
   font-weight: 500;
 }
 
@@ -249,7 +249,7 @@ const formatTime = (minutes) => {
   background: var(--clr-surface-elevated-1);
   border-radius: 12px;
   overflow: hidden;
-  margin-bottom: 0.75rem; /* Reduced margin */
+  margin-bottom: 0.75rem;
 }
 
 .progress-bar {
@@ -259,15 +259,15 @@ const formatTime = (minutes) => {
     var(--clr-primary) 0%,
     var(--clr-primary-light) 100%
   );
-  border-radius: 12px 0 0 12px; /* Keep left radius */
+  border-radius: 12px 0 0 12px;
   transition: width 0.3s ease;
   position: relative;
-  min-width: 30px; /* Ensure text is visible */
+  min-width: 30px; 
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* Align text to the right */
-  padding-right: 8px; /* Add padding for text */
-  overflow: hidden; /* Ensure shimmer stays within filled area */
+  justify-content: flex-end; 
+  padding-right: 8px; 
+  overflow: hidden; 
 }
 
 .progress-bar::after {
@@ -275,7 +275,7 @@ const formatTime = (minutes) => {
   position: absolute;
   top: 0;
   left: -40%;
-  width: 60%; /* Slightly wider for a smooth exit */
+  width: 60%; 
   height: 100%;
   background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
   animation: shimmer 2.2s infinite;
@@ -287,31 +287,28 @@ const formatTime = (minutes) => {
     left: -40%;
   }
   100% {
-    left: 100%; /* End just after the fill */
+    left: 100%; 
   }
 }
 
-/* Specific gradient for rank bar */
+
 .progress-bar.rank-bar {
-   /* Added fallback colors */
    background: linear-gradient(
     90deg,
-    var(--clr-accent, #ea580c) 0%, /* Fallback: orange-600 */
-    var(--clr-accent-light, #fb923c) 100% /* Fallback: orange-400 */
+    var(--clr-accent, #ea580c) 0%, 
+    var(--clr-accent-light, #fb923c) 100% 
   );
 }
 
 .progress-bar.rank-bar::after {
-  /* Inherit shimmer for rank bar */
   background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
 }
 
 .progress-text {
-  /* Removed absolute positioning */
   color: white;
   font-size: 0.8rem;
   font-weight: 600;
-  line-height: 24px; /* Match container height */
+  line-height: 24px;
 }
 
 .time-remaining {
@@ -326,17 +323,14 @@ const formatTime = (minutes) => {
   color: var(--clr-primary);
 }
 
-/* Style icon for max division */
 .division-section .time-remaining i {
     color: var(--clr-accent);
 }
 
-/* ... existing max-level-message and animation styles ... */
-
 @media (max-width: 768px) {
   .level-progress {
     padding: 1rem;
-    gap: 1.5rem; /* Adjust gap for smaller screens */
+    gap: 1.5rem; 
   }
 
   .current-level img,
