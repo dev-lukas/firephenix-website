@@ -23,7 +23,7 @@
     </div>
 
     <div class="ranking-table">
-      <div class="table-header">
+      <div class="table-header desktop-only">
         <span>Rang</span>
         <span>Level</span>
         <span></span>
@@ -56,10 +56,11 @@
         <template v-else>
           <div class="table-body">
             <div v-if="players.length > 0" class="table-content">
+              <!-- Desktop Table Rows -->
               <div
                 v-for="player in players"
                 :key="player.rank"
-                class="table-row"
+                class="table-row desktop-only"
                 @click="navigateToProfile(player.id)"
               >
                 <span class="rank">{{ player.rank }}</span>
@@ -75,6 +76,29 @@
                 </div>
                 <span class="time">{{ formatTime(player.minutes) }}</span>
                 <span class="last-online">{{ player.last_online }}</span>
+              </div>
+              <!-- Mobile Card Rows -->
+              <div
+                v-for="player in players"
+                :key="'m' + player.rank"
+                class="table-row mobile-only"
+                @click="navigateToProfile(player.id)"
+              >
+                <div class="mobile-row-header">
+                  <div class="table-avatar">
+                    <img :src="`src/assets/images/level/${player.level}.png`" />
+                  </div>
+                  <div class="mobile-row-main">
+                    <span class="player-name">{{ player.name }}</span>
+                    <span class="player-rank">#{{ player.rank }}</span>
+                  </div>
+                </div>
+                <div class="mobile-row-details">
+                  <span v-if="player.level <= 20">Level {{ player.level }}</span>
+                  <span v-else>Prestige {{ getRomanTimeString(player.level - 20) }}</span>
+                  <span class="time">{{ formatTime(player.minutes) }}</span>
+                  <span class="last-online">{{ player.last_online }}</span>
+                </div>
               </div>
             </div>
             <div v-else class="no-results">
@@ -462,6 +486,107 @@ select option {
 
 .table-body {
   min-height: 200px;
+}
+
+/* Responsive table improvements */
+.desktop-only {
+  display: block;
+}
+.mobile-only {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .desktop-only {
+    display: none !important;
+  }
+  .mobile-only {
+    display: block !important;
+  }
+  .table-header {
+    display: none !important;
+  }
+  .table-row.desktop-only {
+    display: none !important;
+  }
+  .table-row.mobile-only {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    cursor: pointer;
+    border: 1px solid rgba(249, 133, 0, 0.08);
+    transition: background 0.2s;
+  }
+  .table-row.mobile-only:hover {
+    background: rgba(249, 133, 0, 0.05);
+  }
+  .mobile-row-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+  .mobile-row-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+  .player-name {
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1rem;
+  }
+  .player-rank {
+    color: #f98500;
+    font-size: 0.95rem;
+  }
+  .mobile-row-details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem 1.5rem;
+    color: #ccc;
+    font-size: 0.98rem;
+    margin-top: 0.5rem;
+  }
+  .mobile-row-details .time,
+  .mobile-row-details .last-online {
+    color: #999;
+    font-size: 0.95rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .desktop-only {
+    display: block !important;
+  }
+  .mobile-only {
+    display: none !important;
+  }
+  .table-header {
+    display: grid !important;
+    grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
+    padding: 1rem 2rem;
+    background: rgba(255, 255, 255, 0.05);
+    color: #999;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .table-row.desktop-only {
+    display: grid !important;
+    grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
+    padding: 1rem 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    color: white;
+    cursor: pointer;
+    transition:
+      transform 0.2s ease,
+      background-color 0.2s ease;
+  }
 }
 
 @media (max-width: 768px) {
