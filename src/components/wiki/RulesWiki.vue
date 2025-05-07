@@ -2,11 +2,13 @@
   <div class="rules-wiki">
     <h2>Server Regeln</h2>
     <section class="rules-section">
+      <h3><font-awesome-icon :icon="['fas', 'fa-users']" class="icon" />Allgemeine Regeln</h3>
       <ul>
         <li>Respektiere alle Mitglieder. Beleidigungen, Diskriminierung oder Mobbing sind strengstens untersagt.</li>
         <li>Spam, Flooding und Werbung (auch für andere Server) sind verboten.</li>
         <li>Benutze angemessene Nicknamen und Profilbilder.</li>
         <li>Das Teilen oder Übertragen von illegalen, anstößigen oder urheberrechtlich geschützten Inhalten/Dateien ist verboten.</li>
+        <li>Keine Fremdwerbung oder Affiliate-Links</li>
         <li>Keine Viren, Schadsoftware oder schädliche Links verbreiten.</li>
         <li>Private Daten dürfen nicht ohne Zustimmung weitergegeben werden.</li>
         <li>Das Team behält sich vor, geteilte Inhalte zu prüfen und ggf. zu entfernen.</li>

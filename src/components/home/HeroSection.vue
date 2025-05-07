@@ -79,7 +79,7 @@ const scrollToContent = () => {
   color: #fff;
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.7);
+  text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
 .scroll-button {
