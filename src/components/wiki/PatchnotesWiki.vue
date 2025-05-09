@@ -102,6 +102,7 @@ const patchnotes = ref([
         ablösen. Nichts liegt mir ferner. Aber mit der Zeit nutzen immer mehr Leute Discord und da sollte FirePhenix einen anbieten.</p>
      <p>Der Discord sollte in den meisten Fällen Feature-Parität mit dem TeamSpeak haben. Das bedeutet, dass ihr die gleichen Rechte und Möglichkeiten habt wie im TeamSpeak. Move-Rechte, Move-Shields
         Channel-Erstellung mit den zusätzlichen Benefits von Discord (Sticker, Streaming, Soundboard), aber natürlich auch seinen Nachteilen (Datenschutz, Resourcennutzung). Das Rangsystem trackt eure Zeit genauso.</p>
+     <p>Als extra Feature bietet der Discord auch einen 'Frag Ember' Channel. Hier könnt ihr der netten Phönix-KI Ember fragen stellen, die sie nach bestem gewissen beantwortet. Ohne Gewähr versteht sich.</p>
      <p>Beachtet aber, dass ihr, um euren TeamSpeak Rang auf Discord zu erhalten, den Discord Account und euren TeamSpeak Account verbinden müsst. Das ganze ist kinderleicht bei Mein Profil zu machen.</p>
      <p>Mit den Änderungen kann ich stolz nun sagen, dass der Discord der offizielle FirePhenix Discord ist. Mich werdet ihr aber wohl trotzdem meist eher auf dem TeamSpeak antreffen. Die Moderation von dem Discord Server übernimmt Flippster98, Philip.</p>
      <h3>TTT Server</h3>
