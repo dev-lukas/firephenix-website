@@ -220,9 +220,12 @@ watch(
 
 .podium-section {
   margin-top: 0;
-  margin-bottom: 4rem;
-  padding: 2rem;
+  margin-bottom: 1rem;
   border-radius: 24px;
+}
+
+.ranking-list {
+  margin-top: 3rem;
 }
 
 .podium {
