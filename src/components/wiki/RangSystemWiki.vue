@@ -83,6 +83,7 @@ const levelRewards = {
   6: 'Teamspeak - Temporärer Channel erstellen',
   7: 'Discord - Soundboard benutzen',
   8: 'Discord - Server Einladungen erstellen',
+  9: 'TeamSpeak - VPN-Whitelist',
   10: 'Discord - Datein Anhängen',	
   11: 'Teamspeak - Upload 25MB pro Monat',
   15: 'Teamspeak - Semi-permanenten Channel erstellen',
