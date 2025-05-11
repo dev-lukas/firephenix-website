@@ -93,7 +93,7 @@ const handleSteamLogin = () => {
     var(--clr-background) 0%,
     var(--clr-background-dark) 100%
   );
-  padding: 80px 20px 0;
+  padding: 80px 0 0;
   color: var(--clr-text-primary);
   display: flex;
   flex-direction: column;

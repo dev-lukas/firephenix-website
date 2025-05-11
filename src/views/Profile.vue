@@ -241,7 +241,6 @@ const handleLogout = async () => {
 .profile-page {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 40px 20px 40px;
 }
 
 .ranking-toggle {
@@ -317,6 +316,7 @@ const handleLogout = async () => {
   width: 100%;
   margin: 0 auto;
   background-color: var(--clr-card-background);
+  padding: 40px 20px 40px;
 }
 
 .profile-container h1 {
