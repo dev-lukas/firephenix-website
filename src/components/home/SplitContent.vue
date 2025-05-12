@@ -161,15 +161,6 @@ onUnmounted(() => {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #121212;
-}
-
-.left-half {
-  background-color: #121212;
-}
-
-.right-half {
-  background-color: #121212;
 }
 
 .content-wrapper {
@@ -189,7 +180,7 @@ onUnmounted(() => {
 }
 
 .info-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgb(28, 26, 26);
   border-radius: 3vh;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);

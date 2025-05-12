@@ -1,140 +1,59 @@
 // views/GameServer.vue
 <template>
-  <base-section class="game-server-page">
+  <div class="game-server-page">
     <h1 class="page-title">Unsere Game Server</h1>
 
-    <div class="server-carousel">
-      <div class="carousel-images" ref="carousel">
-        <img
-          v-for="(image, index) in images"
-          :key="index"
-          :src="image"
-          :alt="`Server Screenshot ${index + 1}`"
-          :class="{ active: currentImage === index }"
-        />
-      </div>
-      <div class="carousel-dots">
-        <button
-          v-for="(_, index) in images"
-          :key="index"
-          class="dot"
-          :class="{ active: currentImage === index }"
-          @click="setImage(index)"
-        ></button>
-      </div>
+    <!-- Ranking navigation buttons -->
+    <div class="gameserver-toggle">
+      <button 
+        class="toggle-button" 
+        :class="{ active: activeTab === 'ttt' }"
+        @click="navigateToTab('ttt')"
+      >
+        <font-awesome-icon :icon="['fas', 'square-poll-vertical']" class="button-icon" />
+        <span>TTT</span>
+      </button>
+      <button 
+        class="toggle-button" 
+        :class="{ active: activeTab === 'minecraft' }"
+        @click="navigateToTab('minecraft')"
+      >
+        <font-awesome-icon :icon="['fas', 'trophy']" class="button-icon" />
+        <span>Minecraft</span>
+      </button>
     </div>
 
-    <div class="servers-grid">
-      <base-server-card
-        v-for="server in servers"
-        :key="server.id"
-        :title="server.name"
-        :image="server.image"
-        :is-online="server.online"
-        :players="server.currentPlayers"
-        :max-players="server.maxPlayers"
-        :map="server.currentMap"
-        :is-loading="server.isLoading"
-        @connect="connectToServer(server.connectUrl)"
-      >
-        {{ server.description }}
-      </base-server-card>
+    <div v-if="activeTab === 'ttt'">
+      <TttServerSection />
     </div>
-  </base-section>
+    <div v-else-if="activeTab === 'minecraft'">
+      <MinecraftServerSection />
+    </div>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
-import BaseSection from '../components/base/BaseSection.vue';
-import BaseServerCard from '../components/base/BaseServerCard.vue';
+import { ref } from 'vue';
+import TttServerSection from '../components/gameserver/TttServerSection.vue';
+import MinecraftServerSection from '../components/gameserver/MinecraftServerSection.vue';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
-const images = [
-  '/src/assets/images/games/ttt_play.jpg',
-  '/src/assets/images/games/ttt_tokyo.jpeg',
-  '/src/assets/images/games/ttt_rooftop.jpeg',
-];
+const validTabs = ['ttt', 'minecraft'];
+const activeTab = ref('ttt');
 
-const currentImage = ref(0);
-let carouselInterval: number;
-
-const setImage = (index: number) => {
-  currentImage.value = index;
-};
-
-const nextImage = () => {
-  currentImage.value = (currentImage.value + 1) % images.length;
-};
-
-const servers = ref([
-  {
-    id: 'ttt1',
-    name: 'TTT Server',
-    image: '/src/assets/images/games/ttt.png',
-    description:
-      'Der klassische TTT Server ist zurück! Mit Custom Waffen, Balancing, Skins, Gambling für Tote, einer handverlesenen Map Auswahl und vielem mehr! Perfekt für Einsteiger und erfahrene Spieler.',
-    online: false,
-    currentPlayers: 0,
-    maxPlayers: 0,
-    currentMap: 'Lade...',
-    connectUrl: 'steam://connect/gaming.firephenix.de:27015',
-    isLoading: true,
-  },
-]);
-
-const connectToServer = (url: string) => {
-  window.location.href = url;
-};
-
-// Fetch server information from API
-const fetchServerInfo = async () => {
-  try {
-    const response = await fetch('/api/server/ttt?address=gaming.firephenix.de&port=27015');
-    const data = await response.json();
-    
-    servers.value = servers.value.map(server => {
-      if (server.id === 'ttt1') {
-        return {
-          ...server,
-          online: data.online,
-          currentPlayers: data.players,
-          maxPlayers: data.max_players,
-          currentMap: data.current_map || 'Unbekannt',
-          isLoading: false
-        };
-      }
-      return server;
-    });
-  } catch (error) {
-    console.error('Failed to fetch server information:', error);
-    servers.value = servers.value.map(server => {
-      if (server.id === 'ttt1') {
-        return {
-          ...server,
-          online: false,
-          isLoading: false
-        };
-      }
-      return server;
-    });
+const navigateToTab = (tab: string) => {
+  if (validTabs.includes(tab)) {
+    activeTab.value = tab;
+    window.location.hash = tab;
   }
 };
-
-onMounted(() => {
-  carouselInterval = setInterval(nextImage, 5000);
-  fetchServerInfo();
-  setInterval(fetchServerInfo, 60000);
-});
-
-onUnmounted(() => {
-  clearInterval(carouselInterval);
-});
 </script>
 
 <style scoped>
 .game-server-page {
   min-height: 100vh;
   background-color: var(--clr-background);
-  padding: 40px 40px 40px;
+  padding: 40px 0 0;
   color: var(--clr-text-secondary);
 }
 
@@ -145,64 +64,65 @@ onUnmounted(() => {
   text-align: center;
 }
 
-.server-carousel {
-  max-width: 1200px;
-  margin: 0 auto 3rem;
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  aspect-ratio: 16/9;
-}
-
-.carousel-images {
-  width: 100%;
-  height: 100%;
-  position: relative;
-}
-
-.carousel-images img {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.carousel-images img.active {
-  opacity: 1;
-}
-
-.carousel-dots {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
+.gameserver-toggle {
   display: flex;
-  gap: 0.5rem;
+  justify-content: center;
+  gap: 1rem;
+  margin: 1rem 0 2rem;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
-  border: none;
+.toggle-button {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(249, 133, 0, 0.1);
+  border-radius: 12px;
+  padding: 0.8rem 1.5rem;
+  color: #999;
+  font-size: 1rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
   cursor: pointer;
   transition: all 0.3s ease;
+  position: relative;
+  min-width: 180px;
+  justify-content: center;
 }
 
-.dot.active {
-  background: var(--clr-primary);
-  transform: scale(1.2);
+.toggle-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+  color: #fff;
 }
 
-.servers-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.toggle-button.active {
+  background: rgba(249, 133, 0, 0.1);
+  border-color: rgba(249, 133, 0, 0.3);
+  color: #f98500;
+  box-shadow: 0 4px 12px rgba(249, 133, 0, 0.15);
+}
+
+.button-icon {
+  font-size: 1.1rem;
+}
+
+.new-tag {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #ff4500, #ffa500);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: bold;
+  padding: 0.2rem 0.5rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(255, 69, 0, 0.3);
+  animation: pulse 1.5s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.1); }
 }
 
 @media (max-width: 768px) {
@@ -210,9 +130,14 @@ onUnmounted(() => {
     font-size: 2rem;
   }
 
-  .servers-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
+  .ranking-toggle {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .toggle-button {
+    width: 100%;
+    max-width: 300px;
   }
 }
 </style>
