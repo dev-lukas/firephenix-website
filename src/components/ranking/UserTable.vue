@@ -235,21 +235,23 @@ onMounted(() => {
 <style>
 select {
   color-scheme: dark;
-  background-color: #1a1a1a;
-  color: white;
+  background-color: var(--clr-surface);
+  color: var(--clr-text-primary);
 }
 
 select option {
-  background-color: #1a1a1a;
-  color: white;
+  background-color: var(--clr-surface);
+  color: var(--clr-text-primary);
 }
 </style>
 
 <style scoped>
 .data-table-container {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
   border-radius: 15px;
+  z-index: 1;
+  position: relative;
   padding: 2rem;
   margin: 2rem 0;
 }
@@ -271,11 +273,11 @@ select option {
 .page-select,
 .page-size-select,
 .search-input {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   border-radius: 8px;
   padding: 0.8rem 1rem;
-  color: white;
+  color: var(--clr-text-primary);
 }
 
 .search-input {
@@ -283,7 +285,7 @@ select option {
 }
 
 .ranking-table {
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -293,8 +295,8 @@ select option {
   display: grid;
   grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: #999;
+  background: var(--clr-surface-3);
+  color: var(--clr-text-secondary);
   font-size: 0.9rem;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -317,8 +319,8 @@ select option {
   display: grid;
   grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
   padding: 1rem 2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  color: white;
+  border-bottom: 1px solid var(--clr-transparent);
+  color: var(--clr-text-primary);
   cursor: pointer;
   transition:
     transform 0.2s ease,
@@ -326,7 +328,7 @@ select option {
 }
 
 .table-row:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-transparent-light);
 }
 
 .player-cell {
@@ -348,8 +350,8 @@ select option {
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  color: #999;
-  background: rgba(26, 26, 26, 0.8);
+  color: var(--clr-text-secondary);
+  background: var(--clr-surface-2);
   backdrop-filter: blur(4px);
   padding: 2rem;
 }
@@ -357,9 +359,9 @@ select option {
 .loader {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(249, 133, 0, 0.1);
+  border: 3px solid var(--clr-border);
   border-radius: 50%;
-  border-top-color: rgba(249, 133, 0, 0.9);
+  border-top-color: var(--clr-primary);
   animation: spin 1s linear infinite;
 }
 
@@ -371,31 +373,31 @@ select option {
   justify-content: center;
   padding: 2rem;
   text-align: center;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--clr-surface-2);
   border-radius: 12px;
 }
 
 .error-icon {
   font-size: 2rem;
-  color: #cc0033;
+  color: var(--clr-error);
   margin-bottom: 1rem;
 }
 
 .error-title {
-  color: #fff;
+  color: var(--clr-text-primary);
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
 .error-message {
-  color: #999;
+  color: var(--clr-text-secondary);
   margin-bottom: 1.5rem;
 }
 
 .retry-button {
-  background: rgba(249, 133, 0, 0.1);
-  border: 1px solid rgba(249, 133, 0, 0.2);
-  color: #f98500;
+  background: var(--clr-surface-3);
+  border: 1px solid var(--clr-border-strong);
+  color: var(--clr-primary);
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
@@ -406,7 +408,7 @@ select option {
 }
 
 .retry-button:hover {
-  background: rgba(249, 133, 0, 0.2);
+  background: var(--clr-primary-transparent);
 }
 
 .retry-icon {
@@ -421,17 +423,17 @@ select option {
   justify-content: center;
   gap: 1rem;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.02);
+  background: var(--clr-surface-2);
   border-radius: 12px;
 }
 
 .search-icon {
   font-size: 2rem;
-  color: #666;
+  color: var(--clr-text-secondary);
 }
 
 .no-results-text {
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 1.1rem;
 }
 
@@ -456,7 +458,7 @@ select option {
   align-items: center;
   margin-top: 1.5rem;
   padding: 0 1rem;
-  color: #999;
+  color: var(--clr-text-secondary);
 }
 
 .pagination {
@@ -466,9 +468,9 @@ select option {
 }
 
 .page-button {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
-  color: white;
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-primary);
   padding: 0.6rem 1rem;
   border-radius: 8px;
   cursor: pointer;
@@ -476,7 +478,7 @@ select option {
 }
 
 .page-button:hover:not(:disabled) {
-  background: rgba(249, 133, 0, 0.1);
+  background: var(--clr-primary-transparent);
 }
 
 .page-button:disabled {
@@ -488,7 +490,6 @@ select option {
   min-height: 200px;
 }
 
-/* Responsive table improvements */
 .desktop-only {
   display: block;
 }
@@ -509,21 +510,26 @@ select option {
   .table-row.desktop-only {
     display: none !important;
   }
+
+  .ranking-table {
+    background-color: var(--clr-surface);
+  }
+
   .table-row.mobile-only {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--clr-surface-2);
     border-radius: 10px;
     margin-bottom: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px var(--clr-box-shadow);
     cursor: pointer;
-    border: 1px solid rgba(249, 133, 0, 0.08);
+    border: 1px solid var(--clr-border);
     transition: background 0.2s;
   }
   .table-row.mobile-only:hover {
-    background: rgba(249, 133, 0, 0.05);
+    background: var(--clr-border);
   }
   .mobile-row-header {
     display: flex;
@@ -537,24 +543,24 @@ select option {
   }
   .player-name {
     font-weight: 600;
-    color: #fff;
+    color: var(--clr-text-primary);
     font-size: 1.1rem;
   }
   .player-rank {
-    color: #f98500;
+    color: var(--clr-primary);
     font-size: 0.95rem;
   }
   .mobile-row-details {
     display: flex;
     flex-wrap: wrap;
     gap: 0.7rem 1.5rem;
-    color: #ccc;
+    color: var(--clr-text-primary);
     font-size: 0.98rem;
     margin-top: 0.5rem;
   }
   .mobile-row-details .time,
   .mobile-row-details .last-online {
-    color: #999;
+    color: var(--clr-text-secondary);
     font-size: 0.95rem;
   }
 }
@@ -570,8 +576,8 @@ select option {
     display: grid !important;
     grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
     padding: 1rem 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    color: #999;
+    background: var(--clr-surface-3);
+    color: var(--clr-text-secondary);
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -580,8 +586,8 @@ select option {
     display: grid !important;
     grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr 1fr;
     padding: 1rem 2rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    color: white;
+    border-bottom: 1px solid var(--clr-transparent-light);
+    color: var(--clr-text-primary);
     cursor: pointer;
     transition:
       transform 0.2s ease,

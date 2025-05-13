@@ -160,19 +160,19 @@
 
   .range-system-wiki h2,
   .range-system-wiki h3 {
-    color: #FFA500;
+    color: var(--clr-primary);
     margin-bottom: 1rem;
   }
   
   .range-system-wiki h4 {
-    color: #cccccc;
+    color: var(--clr-text-secondary);
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
 
   .range-system-wiki p,
   .range-system-wiki li {
-    color: #cccccc; 
+    color: var(--clr-text-secondary); 
   }
   
   .ranks-table-container {
@@ -184,12 +184,12 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    box-shadow: 0 6px 25px rgba(0, 0, 0, 0.4); 
+    box-shadow: 0 6px 25px var(--clr-box-shadow); 
     border-radius: 12px; 
     overflow: hidden;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-    background: #2c2c2c; 
-    color: #e0e0e0;
+    background: var(--clr-surface-2); 
+    color: var(--clr-text-secondary);
   }
   
   .modern-ranks-table thead {
@@ -203,15 +203,16 @@
     letter-spacing: 0.75px; 
     text-transform: uppercase;
     font-size: 0.85rem; 
-    color: #FFA500;
-    border-bottom: 2px solid #FFA500; 
+    color: var(--clr-primary-light);
+    background-color: var(--clr-surface-3);
+    border-bottom: 2px solid var(--clr-primary-light); 
   }
   
   .modern-ranks-table td {
     padding: 1rem;
-    border-bottom: 1px solid #444444; 
+    border-bottom: 1px solid var(--clr-border); 
     transition: background-color 0.3s ease;
-    color: #cccccc;
+    color: var(--clr-text-secondary);
     vertical-align: middle; 
   }
   
@@ -227,18 +228,18 @@
   
   .rank-row:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 8px 20px var(--clr-box-shadow); 
     z-index: 2;
     background: #3a3a3a; 
   }
   
   .rank-row:hover td {
-    color: #ffffff; 
+    color: var(--clr-text-primary); 
   }
   
   .level-cell {
     min-width: 200px;
-    color: #e0e0e0; 
+    color: var(--clr-text-secondary); 
     font-weight: 500;
   }
   
@@ -255,13 +256,13 @@
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background-color: #444; 
+    background-color: var(--clr-surface-3); 
     border-radius: 50%;
     transition: background-color 0.3s ease;
   }
   
   .rank-row:hover .level-icon-container {
-    background-color: #858585; 
+    background-color: var(--clr-surface-4); 
   }
   
   .level-icon {
@@ -289,7 +290,7 @@
   @media (max-width: 768px) {
     .modern-ranks-table {
       font-size: 0.9rem;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 15px var(--clr-box-shadow);
       border-radius: 8px;
     }
   
@@ -330,7 +331,7 @@
   }
   
   .rewards-showcase h4 {
-    color: #FFA500;
+    color: var(--clr-primary-light);
     margin-bottom: 1rem;
     font-size: 1.2rem;
   }
@@ -364,7 +365,7 @@
     width: 80px;
     height: 80px;
     border-radius: 12px;
-    background-color: #2c2c2c;
+    background-color: var(--clr-surface-3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -378,7 +379,7 @@
   
   .glow-label {
     font-weight: 600;
-    color: #e0e0e0;
+    color: var(--clr-text-primary);
   }
   
   .division-1 {
@@ -443,9 +444,9 @@
   .ttt-rewards-image {
     max-width: 100%;
     height: auto;
-    border: 4px solid rgb(48, 47, 47);
+    border: 4px solid var(--clr-border);
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px var(--clr-box-shadow);
     display: block;
   }
 
@@ -458,9 +459,9 @@
   }
 
   .reward-card {
-    background: linear-gradient(135deg, #232526 0%, #414345 100%);
+    background: linear-gradient(135deg, var(--clr-surface-2) 0%, var(--clr-surface-3) 100%);
     border-radius: 18px;
-    box-shadow: 0 6px 32px rgba(0,0,0,0.35);
+    box-shadow: 0 6px 32px var(--clr-box-shadow);
     padding: 2.5rem 2.5rem 2rem 2.5rem;
     max-width: 540px;
     min-width: 320px;
@@ -469,12 +470,12 @@
     flex-direction: column;
     align-items: center;
     margin-bottom: 1.5rem;
-    border: 1.5px solid #333;
+    border: 1.5px solid var(--clr-border);
     transition: box-shadow 0.3s, border 0.3s;
   }
   .reward-card:hover {
-    box-shadow: 0 10px 40px rgba(255,165,0,0.12);
-    border: 1.5px solid #FFA500;
+    box-shadow: 0 10px 40px var(--clr-box-shadow-orange);
+    border: 1.5px solid var(--clr-primary);
   }
   .reward-header {
     display: flex;
@@ -486,25 +487,25 @@
     width: 48px;
     height: 48px;
     border-radius: 12px;
-    background: #222;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    background: var(--clr-surface-3);
+    box-shadow: 0 2px 8px var(--clr-box-shadow);
     object-fit: contain;
   }
   .reward-card h3 {
-    color: #FFA500;
+    color: var(--clr-primary-light);
     margin: 0;
     font-size: 1.35rem;
     font-weight: 700;
     letter-spacing: 0.5px;
   }
   .reward-card p {
-    color: #e0e0e0;
+    color: var(--clr-text-secondary);
     margin-bottom: 1.1rem;
     text-align: center;
   }
   .reward-note {
     font-size: 0.85rem;
-    color: #bdbdbd;
+    color: var(--clr-text-secondary);
     margin-top: auto;
   }
   
@@ -529,6 +530,6 @@
     margin: 0.5rem 0 1rem 0;
     display: block;
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.18);
+    box-shadow: 0 2px 10px var(--clr-box-shadow);
   }
   </style>

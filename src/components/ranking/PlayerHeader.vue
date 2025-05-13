@@ -129,7 +129,8 @@ const getRankGlowClass = (division) => {
   left: 50%;
   transform: translateX(-50%);
   background: var(--clr-primary);
-  color: white;
+  color: var( --clr-text-primary);
+  z-index: 2;
   padding: 0.3rem 1rem;
   border-radius: 20px;
   text-align: center;

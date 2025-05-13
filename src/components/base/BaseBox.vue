@@ -18,12 +18,13 @@ defineProps<{
   padding: 1.5rem;
   border: 1px solid var(--clr-border);
   backdrop-filter: blur(12px);
+  z-index: 1;
   position: relative;
   overflow: hidden;
 }
 
 .elevated {
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface);
   box-shadow: 0 2px 2px var(--clr-border);
 }
 

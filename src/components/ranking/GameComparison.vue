@@ -82,6 +82,8 @@ onMounted(() => {
   border-radius: 12px;
   padding: 1.5rem;
   border: 1px solid var(--clr-border);
+  z-index: 1;
+  position: relative;
   margin-bottom: 2rem;
 }
 

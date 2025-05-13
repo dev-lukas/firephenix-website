@@ -47,11 +47,13 @@ const getBorderImagePath = (division: number) => {
 <style scoped>
 .border-display-container {
   padding: 2rem;
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface);
   border: 1px solid var(--clr-border);
   border-radius: 10px;
   margin-bottom: 2rem; 
   text-align: center;
+  z-index: 1;
+  position: relative;
 }
 
 .border-display-container h3 {
@@ -89,7 +91,7 @@ const getBorderImagePath = (division: number) => {
   border-radius: 50%;
   object-fit: contain;
   margin-bottom: 0.5rem;
-  filter: grayscale(100%); /* Default to grey */
+  filter: grayscale(100%);
   opacity: 0.6;
   transition: filter 0.3s ease, opacity 0.3s ease;
 }

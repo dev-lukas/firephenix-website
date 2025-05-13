@@ -257,14 +257,14 @@ const closeModal = () => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem 1.5rem;
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface-2);
   border: 1px solid var(--clr-border);
   border-radius: 10px;
   transition: background-color 0.2s ease;
 }
 
 .setting-item:hover {
-  background-color: var(--clr-surface-elevated-2);
+  background-color: var(--clr-surface-3);
 }
 
 .item-info {

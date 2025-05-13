@@ -36,8 +36,8 @@ defineEmits<{
 <style scoped>
 .base-button {
   position: relative;
-  background: var(--clr-surface-elevated-1);
-  border: 1px solid var(--clr-border);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border-strong);
   color: var(--clr-text-primary);
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
@@ -53,19 +53,19 @@ defineEmits<{
 }
 
 .primary {
-  background: var(--clr-primary);
-  border-color: var(--clr-primary);
+  background: var(--clr-primary-transparent);
+  border-color: var(--clr-border-strong);
   box-shadow: 0 4px 12px var(--clr-primary-transparent);
 }
 
 .primarylight {
   background: var(--clr-primary-light);
-  border-color: var(--clr-primary-light);
+  border-color: var(--clr-border);
   box-shadow: 0 4px 12px var(--clr-primary-transparent);
 }
 
 .secondary {
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   border: 1px solid var(--clr-border);
 }
 

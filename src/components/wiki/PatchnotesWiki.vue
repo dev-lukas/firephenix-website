@@ -145,22 +145,22 @@ const patchnotes = ref([
   color: var(--clr-text-secondary);
 }
 .patchnotes-title {
-  color: #FFA500;
+  color: var(--clr-primary);
   margin-bottom: 1rem;
   margin-bottom: 2rem;
   text-align: center;
 }
 .patchnote-card {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   border-radius: 12px;
   margin-bottom: 2.5rem;
   padding: 2rem 1.5rem;
-  box-shadow: 0 2px 8px 0 rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px 0 var(--clr-box-shadow);
   transition: box-shadow 0.2s;
 }
 .patchnote-card:hover {
-  box-shadow: 0 4px 16px 0 rgba(0,0,0,0.08);
+  box-shadow: 0 4px 16px 0 var(--clr-box-shadow);
 }
 .patchnote-header {
   display: flex;
@@ -169,12 +169,12 @@ const patchnotes = ref([
   margin-bottom: 0.7rem;
 }
 .patchnote-version {
-  color: #FFA500;
+  color: var(--clr-primary-light);
   font-size: 1.3rem;
   margin: 0;
 }
 .patchnote-date {
-  color: #f98500;
+  color: var(--clr-primary-light);
   font-size: 0.95rem;
   font-weight: 500;
 }
@@ -221,20 +221,20 @@ const patchnotes = ref([
   padding: 0.1rem 0.7rem;
 }
 .change-label.added {
-  background: #1e7e34;
-  color: #fff;
+  background: var(--clr-added);
+  color: var(--clr-text-primary);
 }
 .change-label.changed {
-  background: #f98500;
-  color: #fff;
+  background: var(--clr-primary);
+  color: var(--clr-text-primary);
 }
 .change-label.fixed {
-  background: #007bff;
-  color: #fff;
+  background: var(--clr-fixed);
+  color: var(--clr-text-primary);
 }
 .change-label.removed {
-  background: #dc3545;
-  color: #fff;
+  background: var(--clr-error);
+  color: var(--clr-text-primary);
 }
 @media (max-width: 768px) {
   .patchnote-card {

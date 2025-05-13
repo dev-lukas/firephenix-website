@@ -116,10 +116,12 @@ onMounted(() => {
 
 <style scoped>
 .usage-chart-container {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
   border-radius: 15px;
   padding: 2rem;
+  z-index: 1;
+  position: relative;
   margin: 2rem 0;
 }
 

@@ -42,7 +42,7 @@
       </div>
     </div>
 
-    <h3>Support kontaktieren</h3>
+    <h2>Support kontaktieren</h2>
     <div class="support-options">
       <div class="support-option">
         <font-awesome-icon icon="fa-brands fa-discord" class="support-icon discord" />
@@ -141,7 +141,7 @@ const toggleQuestion = (index) => {
 <style scoped>
 
 h2 {
-  color: #FFA500;
+  color: var(--clr-primary);
   margin-bottom: 1rem;
 }
 
@@ -155,8 +155,8 @@ h2 {
   padding: 0.8rem 1rem 0.8rem 2.5rem;
   font-size: 1rem;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   color: var(--clr-text-primary);
 }
 
@@ -165,7 +165,7 @@ h2 {
   left: 0.8rem;
   top: 50%;
   transform: translateY(-50%);
-  color: #666;
+  color: var(--clr-text-secondary);
 }
 
 .faq-section {
@@ -176,7 +176,7 @@ h2 {
 }
 
 .faq-item {
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--clr-border);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -186,14 +186,14 @@ h2 {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-surface-2);
   cursor: pointer;
   font-weight: 500;
   color: var(--clr-text-primary);
 }
 
 .faq-question.active {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid var(--clr-border);
 }
 
 .chevron-icon {
@@ -205,7 +205,7 @@ h2 {
   grid-template-rows: 0fr;
   overflow: hidden;
   transition: grid-template-rows 0.3s ease;
-  background: rgba(23, 22, 22, 0.443);
+  background: var(--clr-surface);
 }
 
 .faq-answer > div {
@@ -237,10 +237,10 @@ h2 {
 .support-option {
   display: flex;
   gap: 1rem;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-surface-2);
   padding: 1.5rem;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--clr-border);
 }
 
 .support-icon {
@@ -268,7 +268,7 @@ h2 {
 .support-link {
   display: inline-block;
   margin-top: 0.75rem;
-  color: #f98500;
+  color: var(--clr-primary-light);
   text-decoration: none;
 }
 

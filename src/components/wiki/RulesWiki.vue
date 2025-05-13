@@ -42,21 +42,21 @@
   color: var(--clr-text-secondary);
 }
 .rules-wiki h2 {
-  color: #FFA500;
+  color: var(--clr-primary);
   margin-bottom: 1.5rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
 }
 .rules-section {
-  background: rgba(255,255,255,0.04);
+  background: var(--clr-surface-2);
   border-radius: 10px;
   padding: 1.2rem 1.5rem;
   margin-bottom: 1.5rem;
-  border-left: 4px solid #f98500;
+  border-left: 3px solid var(--clr-primary-light);
 }
 .rules-section h3 {
-  color: #f98500;
+  color: var(--clr-primary-light);
   font-size: 1.2rem;
   margin-bottom: 0.7rem;
   display: flex;
@@ -74,22 +74,22 @@
   line-height: 1.5;
 }
 .icon {
-  color: #f98500;
+  color: var(--clr-primary-light);
 }
 .rules-footer {
   margin-top: 2rem;
-  background: rgba(255, 200, 0, 0.07);
+  background: var(--clr-primary-transparent);
   border-radius: 8px;
   padding: 1rem;
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  color: #f98500;
+  color: var(--clr-primary);
   font-weight: 500;
   font-size: 1rem;
 }
 .icon.warning {
-  color: #ffb300;
+  color: var(--clr-primary-light);
   font-size: 1.3rem;
 }
 @media (max-width: 768px) {

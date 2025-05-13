@@ -426,7 +426,7 @@ onMounted(() => {
 
 .error-icon {
   font-size: 3rem;
-  color: #cc0033;
+  color: var(--clr-error);
   margin-bottom: 1rem;
 }
 
@@ -511,8 +511,8 @@ onMounted(() => {
     background: linear-gradient(
       180deg,
       transparent,
-      rgba(255, 255, 255, 0.1) 20%,
-      rgba(255, 255, 255, 0.1) 80%,
+      var(--clr-transparent-middle) 20%,
+      var(--clr-transparent-middle) 80%,
       transparent
     );
   }

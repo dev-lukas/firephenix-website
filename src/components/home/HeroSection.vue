@@ -69,22 +69,22 @@ const scrollToContent = () => {
 }
 
 .hero-title {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 3rem;
   margin-bottom: 1rem;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .hero-subtitle {
-  color: #fff;
+  color: var(--clr-text-primary);
   font-size: 1.5rem;
   margin-bottom: 2rem;
   text-shadow: 1px 2px 2px rgba(0, 0, 0, 0.7);
 }
 
 .scroll-button {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: black !important;
+  background: var(--clr-white-light) !important;
+  color: var(--clr-background) !important;
   padding: 1rem 2rem !important;
   width: auto !important;
   font-size: 1.2rem !important;
@@ -94,7 +94,7 @@ const scrollToContent = () => {
 
 .scroll-button:hover {
   transform: translateY(-4px);
-  background: rgba(255, 255, 255, 1) !important;
+  background: var(--clr-white) !important;
 }
 
 @media (max-width: 768px) {

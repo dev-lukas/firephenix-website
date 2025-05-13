@@ -32,7 +32,7 @@
           </li>
           <li class="profile-divider">
             <base-nav-item to="/wiki" @click="closeMenu">
-              Informationen
+              Wissenswert
             </base-nav-item>
           </li>
           <li>
@@ -95,7 +95,7 @@ const closeMenu = () => {
   position: absolute;
   height: 3px;
   width: 100%;
-  background: white;
+  background: var(--clr-text-primary);
   border-radius: 3px;
   transition: all 0.3s ease;
 }
@@ -130,10 +130,10 @@ const closeMenu = () => {
   right: -300px;
   width: 300px;
   height: 100vh;
-  background-color: #121212;
+  background-color: var(--clr-background);
   transition: all 0.3s ease;
   z-index: 1000;
-  box-shadow: -10px 0 20px -10px rgba(249, 133, 0, 0.2);
+  box-shadow: -10px 0 20px -10px var(--clr-primary-transparent);
 }
 
 .nav-menu.open {
@@ -150,7 +150,7 @@ const closeMenu = () => {
 }
 
 .profile-divider {
-  border-bottom: 1px solid rgba(249, 133, 0, 0.2);
+  border-bottom: 1px solid var(--clr-primary-transparent);
   margin-bottom: 15px;
   padding-bottom: 25px !important;
 }

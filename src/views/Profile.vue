@@ -76,7 +76,7 @@
           <p>Lade Daten...</p>
         </div>
 
-        <div class="settings-container" v-if="activeTab === 'cosmetics'">
+        <div class="skin-container" v-if="activeTab === 'cosmetics'">
           <ProfileBorderDisplay 
             :bestDivision="userData?.best_division_achieved || 0"
           />
@@ -297,14 +297,21 @@ const handleLogout = async () => {
   }
 }
 
-.stats-container,
-.achievements-container,
+.skin-container,
+.stats-container {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--clr-background);
+}
+
 .settings-container {
   margin-top: 2rem;
   padding: 2rem;
   background: var(--clr-surface);
   border-radius: 12px;
   border: 1px solid var(--clr-border);
+  z-index: 1;
+  position: relative;
 }
 
 .ranking-page {
@@ -406,7 +413,7 @@ const handleLogout = async () => {
 
 .logout-section {
   padding: 2rem;
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface-2);
   border: 1px solid var(--clr-border);
   border-radius: 10px;
   margin-top: 2rem;

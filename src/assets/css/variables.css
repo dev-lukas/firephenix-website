@@ -1,20 +1,42 @@
 :root {
   --clr-background: #121212;
-  --clr-surface: rgba(255, 255, 255, 0.03);
-  --clr-border: rgba(249, 133, 0, 0.1);
+  --clr-surface: #1f1f1f;
+  --clr-surface-2: #282828;
+  --clr-surface-3: #3f3f3f;
+  --clr-surface-4: #575757;
+
   --clr-primary: rgba(249, 133, 0, 0.9);
   --clr-primary-light: rgb(255, 170, 75);
   --clr-primary-transparent: rgba(249, 133, 0, 0.2);
+  --clr-primary-transparent-strong: rgba(249, 133, 0, 0.3);
+
+  --clr-border: rgba(249, 133, 0, 0.1);
+  --clr-border-strong: rgba(249, 133, 0, 0.3);
+  --clr-box-shadow: rgba(0, 0, 0, 0.2);
+  --clr-box-shadow-orange: rgba(255, 69, 0, 0.3);
+
   --clr-text-primary: #ffffff;
   --clr-text-secondary: #999;
+  
+  --clr-white: #ffffff;
+  --clr-white-light: rgba(255, 255, 255, 0.9);
+  --clr-red: #ff4500;
+
+
+  --clr-transparent: rgba(255, 255, 255, 0.3);
+  --clr-transparent-middle: rgba(255, 255, 255, 0.1);
+  --clr-transparent-light: rgba(255, 255, 255, 0.05);
+  
+  --clr-error: #dc3545;
+  --clr-error-hover: #c82333;
+  --clr-experimental: #8E24AA;
+  --clr-added: #1e7e34;
+  --clr-fixed: #007bff;
+
   --clr-surface-elevated-1: #1a1a1a;
   --clr-gradient-dark: rgba(0, 0, 0, 0.9);
   --clr-surface-hover: rgba(255, 255, 255, 0.1);
   --clr-surface-hover-strong: rgba(255, 255, 255, 0.15);
   --clr-dot-inactive: rgba(255, 255, 255, 0.3);
   --clr-overlay-dark: rgba(0, 0, 0, 0.8);
-  --clr-primary-shadow: rgba(249, 133, 0, 0.2);
-  --clr-experimental: #8E24AA;
-  --clr-error: #dc3545;
-  --clr-error-hover: #c82333;
 }

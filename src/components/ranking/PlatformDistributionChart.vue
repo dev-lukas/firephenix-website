@@ -290,15 +290,16 @@ onMounted(() => {
 }
 
 .chart-card {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
   border-radius: 15px;
+  z-index: 1;
   padding: 2rem;
 }
 
 .chart-title {
   text-align: center;
-  color: white;
+  color: var(--clr-text-primary);
   margin-top: 0;
   margin-bottom: 2rem;
 }

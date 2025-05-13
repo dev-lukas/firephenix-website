@@ -58,6 +58,8 @@ watch(() => props.rankPercentage, (newVal) => {
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
+  position: relative;
+  z-index: 1;
 }
 
 .percentile-info {
@@ -91,7 +93,7 @@ watch(() => props.rankPercentage, (newVal) => {
 
 .percentile-bar-container {
   height: 24px;
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   overflow: hidden;
   position: relative;
@@ -118,7 +120,7 @@ watch(() => props.rankPercentage, (newVal) => {
   left: -40%;
   width: 60%;
   height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(120deg, var(--clr-transparent-light) 0%, var(--clr-transparent) 50%, var(--clr-transparent-light) 100%);
   animation: shimmer 2.2s infinite;
   pointer-events: none;
 }

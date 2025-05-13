@@ -133,18 +133,19 @@ onMounted(() => {
 }
 
 .stat-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-surface);
   border-radius: 15px;
   padding: 1.5rem 2.5rem;
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  z-index: 1;
+  border: 1px solid var(--clr-primary-transparent);
 }
 
 .stat-card svg {
   font-size: 2.5rem;
-  color: rgba(249, 133, 0, 0.9);
+  color: var(--clr-primary);
 }
 
 .stat-info {
@@ -153,13 +154,13 @@ onMounted(() => {
 }
 
 .stat-value {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 1.8rem;
   font-weight: bold;
 }
 
 .stat-label {
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 1rem;
 }
 </style>

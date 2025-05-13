@@ -125,13 +125,13 @@ p {
 
 .range-system-wiki h2,
 .range-system-wiki h3 {
-  color: #FFA500;
+  color: var(--clr-primary);
   margin-bottom: 1rem;
 }
 
 .range-system-wiki p,
 .range-system-wiki li {
-  color: #cccccc; 
+  color: var(--clr-text-secondary); 
 }
 
 .ranks-table-container {
@@ -147,12 +147,12 @@ p {
   border-radius: 12px; 
   overflow: hidden;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-  background: #2c2c2c; 
-  color: #e0e0e0;
+  background: var(--clr-surface-2); 
+  color: var(--clr-text-secondary);
 }
 
 .modern-ranks-table thead {
-  background: var(--clr-surface); 
+  background: var(--clr-surface-3); 
 }
 
 .modern-ranks-table th {
@@ -162,15 +162,15 @@ p {
   letter-spacing: 0.75px; 
   text-transform: uppercase;
   font-size: 0.85rem; 
-  color: #FFA500;
-  border-bottom: 2px solid #FFA500; 
+  color: var(--clr-primary-light);
+  border-bottom: 2px solid var(--clr-primary-light); 
 }
 
 .modern-ranks-table td {
   padding: 1rem;
-  border-bottom: 1px solid #444444; 
+  border-bottom: 1px solid var(--clr-border); 
   transition: background-color 0.3s ease;
-  color: #cccccc;
+  color: var(--clr-text-secondary);
   vertical-align: middle; 
 }
 
@@ -186,18 +186,18 @@ p {
 
 .rank-row:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); 
+  box-shadow: 0 8px 20px var(--clr-box-shadow); 
   z-index: 2;
-  background: #3a3a3a; 
+  background: var(--clr-surface-3); 
 }
 
 .rank-row:hover td {
-  color: #ffffff; 
+  color: var(--clr-text-primary); 
 }
 
 .level-cell {
   min-width: 200px;
-  color: #e0e0e0; 
+  color: var(--clr-text-primary); 
   font-weight: 500;
 }
 
@@ -214,13 +214,13 @@ p {
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background-color: #444; 
+  background-color: var(--clr-surface-3); 
   border-radius: 50%;
   transition: background-color 0.3s ease;
 }
 
 .rank-row:hover .level-icon-container {
-  background-color: #858585; 
+  background-color: var(--clr-surface-4); 
 }
 
 .level-icon {
@@ -254,7 +254,7 @@ p {
 @media (max-width: 768px) {
   .modern-ranks-table {
     font-size: 0.9rem;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 15px var(--clr-box-shadow);
     border-radius: 8px;
   }
 

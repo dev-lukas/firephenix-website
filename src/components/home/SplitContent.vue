@@ -103,7 +103,7 @@ onUnmounted(() => {
 }
 
 .main-headline {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 2.5rem;
   opacity: 0;
   transform: translateY(20px);
@@ -119,7 +119,7 @@ onUnmounted(() => {
 }
 
 .explore-text {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 1.2rem;
   margin-top: 1rem;
   display: block;
@@ -180,7 +180,7 @@ onUnmounted(() => {
 }
 
 .info-card {
-  background: rgb(28, 26, 26);
+  background: var(--clr-surface);
   border-radius: 3vh;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -188,7 +188,7 @@ onUnmounted(() => {
   cursor: pointer;
   position: relative;
   overflow: hidden;
-  border: 0.25vh solid rgba(255, 255, 255, 0.1);
+  border: 0.25vh solid var(--clr-border);
 }
 
 .info-card::before {
@@ -201,7 +201,7 @@ onUnmounted(() => {
   background: linear-gradient(
     45deg,
     transparent,
-    rgba(249, 133, 0, 0.1),
+    var(--clr-primary-transparent),
     transparent
   );
   transform: translateX(-100%);
@@ -210,8 +210,8 @@ onUnmounted(() => {
 
 .info-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 30px rgba(249, 133, 0, 0.2);
-  border-color: rgba(249, 133, 0, 0.3);
+  box-shadow: 0 8px 30px var(--clr-primary-transparent);
+  border-color: var(--clr-primary-transparent-strong);
 }
 
 .info-card:hover::before {
@@ -222,23 +222,22 @@ onUnmounted(() => {
   width: 25vh;
   height: 25vh;
   padding: 10px;
-  border: 0.25vh solid rgba(0, 0, 0, 0.2);
+  border: 0.25vh solid var(--clr-border);
   border-radius: 3vh;
-  background-color: rgb(18, 18, 18);
-  background-color: rgba(255, 255, 255, 0.06);
+  background-color: var(--clr-surface-2);
   background-blend-mode: overlay;
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
   z-index: 2;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px var(--clr-box-shadow);
   margin-bottom: 1.5rem;
 }
 
 .app-button:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 12px rgba(249, 133, 0, 0.943);
-  border-color: rgba(249, 133, 0, 0.943);
+  box-shadow: 0 6px 12px var(--clr-primary);
+  border-color: var(--clr-primary);
 }
 
 .app-icon {
@@ -256,11 +255,11 @@ onUnmounted(() => {
 .app-title {
   font-size: 1.4rem;
   margin-bottom: 1rem;
-  color: white;
+  color: var(--clr-text-primary);
 }
 
 .app-description {
-  color: #999;
+  color: var(--clr-text-secondary);
   line-height: 1.6;
   margin-bottom: 1.5rem;
 }
@@ -283,13 +282,13 @@ onUnmounted(() => {
   background: linear-gradient(
     180deg,
     transparent,
-    rgba(255, 255, 255, 0.3),
+    var(--clr-transparent),
     transparent
   );
 }
 
 .divider-or {
-  color: rgba(255, 255, 255, 0.3);
+  color: var(--clr-transparent);
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 2px;

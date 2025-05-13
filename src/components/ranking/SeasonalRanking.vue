@@ -213,12 +213,14 @@ onMounted(() => {
 
 <style scoped>
 .seasonal-ranking-container {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
   border-radius: 15px;
   padding: 2rem;
   margin: 2rem 0;
   height: 80vh;
+  z-index: 1;
+  position: relative;
   display: flex;
   flex-direction: column;
 }
@@ -228,8 +230,8 @@ onMounted(() => {
 }
 
 .search-box {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   border-radius: 12px;
   padding: 0.8rem 1.2rem;
   display: flex;
@@ -239,14 +241,14 @@ onMounted(() => {
 }
 
 .search-icon {
-  color: #999;
+  color: var(--clr-text-secondary);
   margin-right: 0.8rem;
 }
 
 .search-input {
   background: transparent;
   border: none;
-  color: white;
+  color: var(--clr-text-primary);
   width: 100%;
   font-size: 1rem;
   outline: none;
@@ -257,7 +259,7 @@ onMounted(() => {
   overflow-y: auto;
   overflow-x: hidden;
   scrollbar-width: thin;
-  scrollbar-color: rgba(249, 133, 0, 0.5) rgba(255, 255, 255, 0.05);
+  scrollbar-color: var(--clr-border-strong) var(--clr-transparent);
 }
 
 .ranking-content::-webkit-scrollbar {
@@ -265,12 +267,12 @@ onMounted(() => {
 }
 
 .ranking-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-transparent-light);
   border-radius: 4px;
 }
 
 .ranking-content::-webkit-scrollbar-thumb {
-  background: rgba(249, 133, 0, 0.5);
+  background: var(--clr-primary-transparent-strong);
   border-radius: 4px;
 }
 
@@ -283,7 +285,7 @@ onMounted(() => {
 .player-card {
   display: flex;
   align-items: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   padding: 1.2rem;
   transition: all 0.3s ease;
@@ -306,16 +308,15 @@ onMounted(() => {
 }
 
 .player-card:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-surface-3);
   transform: translateY(-2px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 5px 15px var(--clr-box-shadow);
 }
 
 .player-card:hover::before {
   transform: scaleY(1);
 }
 
-/* Division styles */
 .player-card.division-1::before { background: linear-gradient(to bottom, #cd7f32, #a36829); }
 .player-card.division-2::before { background: linear-gradient(to bottom, #c0c0c0, #a2a2a2); }
 .player-card.division-3::before { background: linear-gradient(to bottom, #ffd700, #ccac00); }
@@ -323,7 +324,7 @@ onMounted(() => {
 .player-card.division-5::before { background: linear-gradient(to bottom, #b9f2ff, #76d7eb); }
 .player-card.division-6::before { 
   background: linear-gradient(to bottom, #ff4500, #cc3700);
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  box-shadow: 0 0 10px var(--clr-box-shadow-orange);
 }
 
 .division-6 {
@@ -339,14 +340,14 @@ onMounted(() => {
   border-radius: 50%;
   margin-right: 1.5rem;
   font-weight: bold;
-  background: rgba(255, 255, 255, 0.1);
+  background: var(--clr-transparent);
   transition: all 0.3s ease;
 }
 
 .rank-top {
   background: linear-gradient(135deg, #ff4500, #ffa500);
-  color: white;
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+  color: var(--clr-text-primary);
+  box-shadow: 0 0 10px var(--clr-box-shadow-orange);
   transform: scale(1.2);
 }
 
@@ -362,7 +363,7 @@ onMounted(() => {
 
 .rank-normal {
   background: rgba(255, 255, 255, 0.1);
-  color: #fff;
+  color: var(--clr-text-primary);
 }
 
 .player-info {
@@ -390,11 +391,10 @@ onMounted(() => {
   width: 60px;
   height: 60px;
   object-fit: contain;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+  filter: drop-shadow(0 2px 4px var(--clr-box-shadow));
   transition: transform 0.3s ease;
 }
 
-/* Apply special effects to highest division icons */
 .division-6 .division-icon {
   animation: pulse 1.5s infinite alternate;
   filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.5));
@@ -408,7 +408,6 @@ onMounted(() => {
   transform: scale(1.15);
 }
 
-/* Remove the division badge styling as we're replacing it with an icon */
 .division-badge {
   display: none;
 }
@@ -420,13 +419,13 @@ onMounted(() => {
 .player-name {
   font-size: 1.1rem;
   margin: 0 0 0.5rem 0;
-  color: white;
+  color: var(--clr-text-primary);
 }
 
 .player-stats {
   display: flex;
   gap: 1.5rem;
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 0.9rem;
 }
 
@@ -441,8 +440,8 @@ onMounted(() => {
 }
 
 .view-profile {
-  background: rgba(249, 133, 0, 0.1);
-  color: #f98500;
+  background: var(--clr-surface-3);
+  color: var(--clr-text-primary);
   border: none;
   border-radius: 8px;
   padding: 0.7rem 1.2rem;
@@ -454,7 +453,7 @@ onMounted(() => {
 }
 
 .view-profile:hover {
-  background: rgba(249, 133, 0, 0.2);
+  background: var(--clr-primary-transparent);
 }
 
 .initial-loading,
@@ -468,40 +467,40 @@ onMounted(() => {
   justify-content: center;
   padding: 3rem;
   text-align: center;
-  color: #999;
+  color: var(--clr-text-secondary);
 }
 
 .loader {
   width: 40px;
   height: 40px;
-  border: 3px solid rgba(249, 133, 0, 0.1);
+  border: 3px solid var(--clr-border);
   border-radius: 50%;
-  border-top-color: rgba(249, 133, 0, 0.9);
+  border-top-color: var(--clr-primary);
   animation: spin 1s linear infinite;
   margin-bottom: 1rem;
 }
 
 .error-icon {
   font-size: 2rem;
-  color: #cc0033;
+  color: var(--clr-error);
   margin-bottom: 1rem;
 }
 
 .error-title {
-  color: #fff;
+  color: var(--clr-text-primary);
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
 
 .error-message {
-  color: #999;
+  color: var(--clr-text-secondary);
   margin-bottom: 1.5rem;
 }
 
 .retry-button {
-  background: rgba(249, 133, 0, 0.1);
-  border: 1px solid rgba(249, 133, 0, 0.2);
-  color: #f98500;
+  background: var(--clr-primary-transparen);
+  border: 1px solid var(--clr-border-strong);
+  color: var(--clr-primary);
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
@@ -512,7 +511,7 @@ onMounted(() => {
 }
 
 .retry-button:hover {
-  background: rgba(249, 133, 0, 0.2);
+  background: var(--clr-primary-transparent-strong);
 }
 
 .end-of-list {

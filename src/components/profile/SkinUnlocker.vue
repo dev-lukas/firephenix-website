@@ -209,11 +209,9 @@ const confirmUnlock = async () => {
 <style scoped>
 .skin-unlocker-container {
   padding: 2.5rem; 
-  background: linear-gradient(145deg, var(--clr-surface-elevated-1), var(--clr-surface-elevated-2)); 
-  border: 1px solid var(--clr-border-subtle); 
-  border-radius: 12px; 
+  background: var(--clr-background);
   text-align: center;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); 
+  box-shadow: 0 8px 25px var(--clr-box-shadow);
 }
 
 .skin-unlocker-container h2 {
@@ -263,14 +261,14 @@ const confirmUnlock = async () => {
   width: 100%;
   max-width: 10vh;
   max-height: 28vh;
-  background-color: var(--clr-surface-elevated-2);
+  background-color: var(--clr-surface-2);
   border-radius: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 1rem;
   overflow: hidden;
-  border: 1px solid var(--clr-border-subtle);
+  border: 1px solid var(--clr-border);
 }
 
 .skin-image {
@@ -284,20 +282,22 @@ const confirmUnlock = async () => {
   width: 100%;
   margin-top: auto;
   padding: 0.8rem 1.5rem; 
-  font-size: 0.95rem; 
+  font-size: 0.95rem;
+  box-shadow: 0 4px 12px var(--clr-primary-transparent-strong);
 }
 
 .skin-card .base-button:disabled {
   cursor: not-allowed;
   opacity: 0.5; 
-  background-color: var(--clr-button-secondary-bg); 
-  color: var(--clr-text-disabled);
+  background-color: var(--clr-surface-2); 
+  color: var(--clr-text-secondary);
 }
 
 /* Modal styles */
 .unlock-modal-content {
   text-align: center;
   padding: 1rem 0;
+  color: var(--clr-text-primary);
 }
 
 .info-text {
@@ -339,11 +339,12 @@ const confirmUnlock = async () => {
   flex-direction: column;
   align-items: center;
   gap: 1rem;
+  color: var(--clr-text-secondary);
 }
 
 .error-icon {
   font-size: 2rem;
-  color: #e74c3c;
+  color: var(--clr-error);
   margin-bottom: 0.5rem;
 }
 </style>

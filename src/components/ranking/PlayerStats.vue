@@ -138,6 +138,8 @@ onMounted(() => {
   border-radius: 12px;
   padding: 1.5rem;
   display: flex;
+  z-index: 1;
+  position: relative;
   align-items: center;
   gap: 1rem;
   transition: transform 0.2s ease;
@@ -150,7 +152,7 @@ onMounted(() => {
 .stat-icon {
   font-size: 1.5rem;
   color: var(--clr-primary);
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   padding: 1rem;
   border-radius: 12px;
 }

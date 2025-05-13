@@ -68,17 +68,19 @@ onBeforeUnmount(() => {
 
 <style scoped>
 .season-countdown {
-  background: rgba(255, 255, 255, 0.03);
-  border: 2px solid rgba(249, 133, 0, 0.2);
+  background: var(--clr-surface);
+  border: 2px solid var(--clr-border);
+  z-index: 1;
+  position: relative;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
   text-align: center;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 15px var(--clr-box-shado);
 }
 
 .countdown-title {
-  color: #f98500;
+  color: var(--clr-primary);
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
   font-weight: 600;
@@ -93,7 +95,8 @@ onBeforeUnmount(() => {
 .countdown-item {
   min-width: 80px;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   border-radius: 10px;
   display: flex;
   flex-direction: column;
@@ -103,13 +106,13 @@ onBeforeUnmount(() => {
 .countdown-value {
   font-size: 2rem;
   font-weight: 700;
-  color: #f98500;
+  color: var(--clr-primary);
   margin-bottom: 0.5rem;
 }
 
 .countdown-label {
   font-size: 0.9rem;
-  color: #999;
+  color: var(--clr-text-secondary);
   text-transform: uppercase;
   letter-spacing: 1px;
 }

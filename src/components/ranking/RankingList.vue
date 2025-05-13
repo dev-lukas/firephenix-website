@@ -204,8 +204,8 @@ watch(
 
 <style scoped>
 .ranking-container {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-transparent-light);
+  border: 1px solid var(--clr-border);
   border-radius: 15px;
   padding: 2rem;
   margin: 2rem 0;
@@ -265,12 +265,12 @@ watch(
   padding: 4px;
   background: linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    var(--clr-transparent) 0%,
+    var(--clr-transparent-light) 100%
   );
   border-radius: 50%;
   backdrop-filter: blur(10px);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 32px var(--clr-box-shadow);
 }
 
 .player-avatar img {
@@ -288,7 +288,7 @@ watch(
   border-radius: 12px;
   font-weight: 600;
   font-size: 0.9rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px var(--clr-box-shadow);
 }
 
 .podium-block {
@@ -302,41 +302,40 @@ watch(
 .first .podium-block {
   height: 200px;
   background: linear-gradient(45deg, #ff6b6b, #ff4500);
-  box-shadow: 0 0 30px rgba(255, 107, 107, 0.2);
+  box-shadow: 0 0 30px var(--clr-box-shadow-orange);
 }
 
 .second .podium-block {
   height: 150px;
   background: linear-gradient(45deg, #ff8c42, #ff6b6b);
-  box-shadow: 0 0 25px rgba(255, 140, 66, 0.2);
+  box-shadow: 0 0 25px var(--clr-box-shadow-orange);
 }
 
 .third .podium-block {
   height: 100px;
   background: linear-gradient(45deg, #ffa07a, #ff8c42);
-  box-shadow: 0 0 20px rgba(255, 160, 122, 0.2);
+  box-shadow: 0 0 20px var(--clr-box-shadow-orange);
 }
 
-/* Update rank indicators to match new color scheme */
+
 .gold {
   background: linear-gradient(45deg, #ff6b6b, #ff4500);
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+  box-shadow: 0 4px 15px var(--clr-box-shadow-orange);
 }
 
 .silver {
   background: linear-gradient(45deg, #ff8c42, #ff6b6b);
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 140, 66, 0.3);
+  box-shadow: 0 4px 15px var(--clr-box-shadow-orange);
 }
 
 .bronze {
   background: linear-gradient(45deg, #ffa07a, #ff8c42);
   color: white;
-  box-shadow: 0 4px 15px rgba(255, 160, 122, 0.3);
+  box-shadow: 0 4px 15px var(--clr-box-shadow-orange);
 }
 
-/* Add shine effect to podium blocks */
 .podium-block::after {
   content: '';
   position: absolute;
@@ -347,7 +346,7 @@ watch(
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 255, 255, 0.2),
+    var(--clr-transparent),
     transparent
   );
   animation: shine 3s infinite;
@@ -365,7 +364,6 @@ watch(
   }
 }
 
-/* Update crown color to match new scheme */
 .crown {
   position: absolute;
   top: -40px;
@@ -374,14 +372,13 @@ watch(
   filter: drop-shadow(0 0 10px rgba(255, 107, 107, 0.5));
 }
 
-/* Add glow effect to player avatars in top 3 */
 .podium-spot .avatar-wrapper {
   position: relative;
   padding: 4px;
   background: linear-gradient(
     45deg,
-    rgba(255, 255, 255, 0.1),
-    rgba(255, 255, 255, 0.05)
+    var(--clr-transparent-middle),
+    var(--clr-transparent-light)
   );
   border-radius: 50%;
   backdrop-filter: blur(10px);
@@ -399,7 +396,6 @@ watch(
   box-shadow: 0 0 20px rgba(255, 160, 122, 0.2);
 }
 
-/* Add hover effect to podium spots */
 .podium-spot {
   cursor: pointer;
   transition: transform 0.3s ease;
@@ -430,7 +426,7 @@ watch(
 }
 
 .player-name {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 1.2rem;
   font-weight: 600;
   display: block;
@@ -438,7 +434,7 @@ watch(
 }
 
 .player-time {
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 0.9rem;
   background: rgba(255, 255, 255, 0.05);
   padding: 4px 12px;
@@ -449,8 +445,8 @@ watch(
   width: 160px;
   background: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.1) 0%,
-    rgba(255, 255, 255, 0.05) 100%
+    var(--clr-transparent-middle) 0%,
+    var(--clr-transparent-light) 100%
   );
   border-radius: 16px 16px 0 0;
   backdrop-filter: blur(10px);
@@ -472,14 +468,14 @@ watch(
 }
 
 .ranking-section h2 {
-  color: white;
+  color: var(--clr-text-primary);
   margin-bottom: 2rem;
   font-size: 1.8rem;
   text-align: center;
 }
 
 .ranking-table {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-transparent-light);
   border-radius: 20px;
   overflow: hidden;
   backdrop-filter: blur(10px);
@@ -489,8 +485,8 @@ watch(
   display: grid;
   grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
   padding: 1.2rem 2rem;
-  background: rgba(255, 255, 255, 0.05);
-  color: #999;
+  background: var(--clr-surface-3);
+  color: var(--clr-text-secondary);
   font-size: 0.9rem;
   letter-spacing: 1px;
   text-transform: uppercase;
@@ -501,13 +497,13 @@ watch(
   grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
   padding: 1rem 2rem;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-  color: #fff;
+  border-bottom: 1px solid var(--clr-transparent-light);
+  color: var(--clr-text-primary);
   transition: transform 0.2s ease;
 }
 
 .table-row:hover {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-transparent-light);
   transform: translateX(10px);
 }
 
@@ -562,20 +558,20 @@ watch(
     display: none !important;
   }
   .table-row.mobile-only {
-    background: rgba(255, 255, 255, 0.03);
+    background: var(--clr-transparent-light);
     border-radius: 10px;
     margin-bottom: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 2px 8px var(--clr-box-shadow);
     cursor: pointer;
-    border: 1px solid rgba(249, 133, 0, 0.08);
+    border: 1px solid var(--clr-border);
     transition: background 0.2s;
   }
   .table-row.mobile-only:hover {
-    background: rgba(249, 133, 0, 0.05);
+    background: var(--clr-border);
   }
   .mobile-row-header {
     display: flex;
@@ -589,23 +585,23 @@ watch(
   }
   .player-name {
     font-weight: 600;
-    color: #fff;
+    color: var(--clr-text-primary);
     font-size: 1.1rem;
   }
   .player-rank {
-    color: #f98500;
+    color: var(--clr-primary);
     font-size: 0.95rem;
   }
   .mobile-row-details {
     display: flex;
     flex-wrap: wrap;
     gap: 0.7rem 1.5rem;
-    color: #ccc;
+    color: var(--clr-text-secondary);
     font-size: 0.98rem;
     margin-top: 0.5rem;
   }
   .mobile-row-details .time {
-    color: #999;
+    color: var(--clr-text-secondary);
     font-size: 0.95rem;
   }
 }
@@ -621,8 +617,8 @@ watch(
     display: grid !important;
     grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
     padding: 1.2rem 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    color: #999;
+    background: var(--clr-surface-3);
+    color: var(--clr-text-secondary);
     font-size: 0.9rem;
     letter-spacing: 1px;
     text-transform: uppercase;
@@ -632,8 +628,8 @@ watch(
     grid-template-columns: 0.25fr 0.25fr 0.5fr 1fr 1fr;
     padding: 1rem 2rem;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    color: #fff;
+    border-bottom: 1px solid var(--clr-transparent-light);
+    color: var(--clr-text-primary);
     transition: transform 0.2s ease;
   }
 }
@@ -740,6 +736,6 @@ watch(
 }
 
 .table-row:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-transparent-middle);
 }
 </style>

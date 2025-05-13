@@ -1,40 +1,5 @@
 <template>
   <div class="garrys-mod-wiki">
-    <h2>Serverregeln</h2>
-    <div class="rules-section">
-      <div class="rule">
-        <div class="rule-header">
-          <font-awesome-icon icon="fa-solid fa-check-circle" class="rule-icon" />
-          <h4>Allgemeines Verhalten</h4>
-        </div>
-        <p>Sei respektvoll zu allen Spielern. Beleidigungen, Diskriminierung und Belästigung werden nicht toleriert.</p>
-      </div>
-
-      <div class="rule">
-        <div class="rule-header">
-          <font-awesome-icon icon="fa-solid fa-check-circle" class="rule-icon" />
-          <h4>RDM (Random Death Match)</h4>
-        </div>
-        <p>Das wilde Töten aller anderer Spieler ohne Grund ist verboten. Versuche Hinweise zu finden, wer der Traitor sein könnte!</p>
-      </div>
-
-      <div class="rule">
-        <div class="rule-header">
-          <font-awesome-icon icon="fa-solid fa-check-circle" class="rule-icon" />
-          <h4>Metagaming</h4>
-        </div>
-        <p>Informationen außerhalb des Spiels (Discord, etc.) dürfen nicht im Spiel verwendet werden.</p>
-      </div>
-
-      <div class="rule">
-        <div class="rule-header">
-          <font-awesome-icon icon="fa-solid fa-check-circle" class="rule-icon" />
-          <h4>Cheating/Exploiting</h4>
-        </div>
-        <p>Die Verwendung von Cheats oder das Ausnutzen von Bugs führt zu einem permanenten Bann.</p>
-      </div>
-    </div>
-
     <h2>Installation der Counter-Strike Texturen</h2>
     <div class="installation-guide">
       <div class="step">
@@ -150,12 +115,12 @@
 
 <style scoped>
 .garrys-mod-wiki {
-  color: var(--clr-text-primary);
+  color: var(--clr-text-secondary);
   margin: 0 auto;
 }
 
 h2 {
-  color: #FFA500;
+  color: var(--clr-primary);
   margin-bottom: 2rem;
 }
 
@@ -166,74 +131,7 @@ h3 {
 }
 
 h3, h4 {
-  color: var(--clr-text-primary);
-}
-
-.server-features {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.feature {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.feature:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.feature-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.feature-icon {
-  color: #f98500;
-  font-size: 1.25rem;
-}
-
-.rules-section {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin: 1.5rem 0;
-}
-
-.rule {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.2s ease;
-}
-
-.rule:hover {
-  transform: translateY(-2px);
-}
-
-.rule-header {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 0.75rem;
-}
-
-.rule-icon {
-  color: #f98500;
-  font-size: 1.25rem;
-}
-
-.rule h4 {
-  margin: 0;
+  color: var(--clr-primary-light);
 }
 
 .installation-guide {
@@ -244,10 +142,10 @@ h3, h4 {
 }
 
 .step {
-  background: rgba(255, 255, 255, 0.05);
+  background: var(--clr-surface-2);
   border-radius: 8px;
   padding: 1.75rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--clr-border);
 }
 
 .step-header {
@@ -283,7 +181,7 @@ h3, h4 {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  background-color: #f98500;
+  background-color: var(--clr-primary-light);
   color: #1a1a1a;
   padding: 0.75rem 1.5rem;
   border-radius: 6px;
@@ -293,12 +191,12 @@ h3, h4 {
 }
 
 .download-link a:hover {
-  background-color: #e67a00;
+  background-color: var(--clr-primary);
 }
 
 .command-block {
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 3px solid #f98500;
+  background: var(--clr-background);
+  border-left: 3px solid var(--clr-primary-light);
   padding: 0.8rem 1.2rem;
   margin: 1rem 0;
   border-radius: 4px;
@@ -306,7 +204,7 @@ h3, h4 {
 }
 
 .code-block {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--clr-background);
   border-left: 3px solid #f98500;
   padding: 0.8rem 1.2rem;
   margin: 1rem 0;
@@ -320,42 +218,8 @@ pre {
   white-space: pre-wrap;
 }
 
-.commands-table-container {
-  overflow-x: auto;
-  margin: 1.5rem 0;
-}
-
-.commands-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.commands-table th,
-.commands-table td {
-  padding: 1rem;
-  text-align: left;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.commands-table th {
-  background: rgba(0, 0, 0, 0.2);
-  color: #f98500;
-  font-weight: 600;
-}
-
-.commands-table tr:last-child td {
-  border-bottom: none;
-}
-
-.commands-table tr:hover td {
-  background-color: rgba(255, 255, 255, 0.05);
-}
-
 code {
-  background: rgba(0, 0, 0, 0.3);
+  background: var(--clr-surface-2);
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: 'Consolas', 'Monaco', monospace;

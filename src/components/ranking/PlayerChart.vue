@@ -127,6 +127,8 @@ onMounted(() => {
   padding: 1.5rem;
   margin-bottom: 2rem;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
 }
 
 .chart-header {

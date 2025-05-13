@@ -53,10 +53,16 @@
 .teamwiki {
   text-align: center;
 }
+
+.teamwiki h2 {
+  color: var(--clr-primary);
+  margin-bottom: 1.5rem;
+}
+
 .intro {
   max-width: 600px;
   margin: 0 auto 1.5rem auto;
-  color: #e0e0e0;
+  color: var(--clr-text-secondary);
   font-size: 1.08rem;
   line-height: 1.6;
 }
@@ -79,13 +85,13 @@
   margin-top: 0.5rem;
 }
 .team-card {
-  background: rgba(30, 32, 38, 0.85);
+  background: var(--clr-surface-2);
   border-radius: 22px;
-  box-shadow: 0 6px 32px 0 rgba(249,133,0,0.10), 0 1.5px 8px 0 rgba(0,0,0,0.18);
-  border: 1.5px solid rgba(249,133,0,0.18);
+  box-shadow: 0 6px 32px 0 var(--clr-box-shadow-orange), 0 1.5px 8px 0 var(--clr-box-shadow);
+  border: 1.5px solid var(--clr-border);
   min-width: 260px;
   max-width: 300px;
-  color: #fff;
+  color: var(--clr-text-primary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -98,13 +104,13 @@
 .team-card:hover {
   transform: translateY(-10px) scale(1.035);
   box-shadow: 0 12px 40px 0 rgba(249,133,0,0.22), 0 2px 12px 0 rgba(0,0,0,0.22);
-  border: 1.5px solid #f98500;
+  border: 1.5px solid var(--clr-primary);
 }
 .team-card.admin {
-  border: 1.5px solid #f98500;
+  border: 1.5px solid var(--clr-primary);
 }
 .avatar-wrapper {
-  background: #23272f;
+  background: var(--clr-surface-2);
   border-radius: 50%;
   padding: 4px;
   margin-bottom: 1.2rem;
@@ -117,8 +123,8 @@
   height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  background: #181a1f;
-  border: 2.5px solid #f98500;
+  background: var(--clr-background);
+  border: 2.5px solid var(--clr-primary-light);
   display: block;
 }
 .card-content {
@@ -129,8 +135,8 @@
 }
 .role {
   display: inline-block;
-  background: rgba(249,133,0,0.92);
-  color: #fff;
+  background: var(--clr-primary);
+  color: var(--clr-text-primary);
   font-size: 1.02rem;
   font-weight: 600;
   padding: 0.32rem 1.2rem;
@@ -138,19 +144,19 @@
   margin-bottom: 0.8rem;
   margin-top: 0.25rem;
   letter-spacing: 0.01em;
-  box-shadow: 0 1px 4px 0 rgba(249,133,0,0.10);
+  box-shadow: 0 1px 4px 0 var(--clr-box-shadow);
   transition: background 0.18s;
 }
 .team-card h3 {
   margin: 0.18rem 0 0.12rem;
   font-size: 1.28rem;
-  color: #fff;
+  color: var(--clr-text-primary);
   font-weight: 700;
   letter-spacing: 0.01em;
 }
 .team-card p {
   font-size: 1.01rem;
-  color: #e0e0e0;
+  color: var(--clr-text-primary);
   margin-top: 0.7rem;
   line-height: 1.5;
   text-align: center;

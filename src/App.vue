@@ -80,7 +80,6 @@ onMounted(() => {
       s.x += s.vx;
       s.y += s.vy;
       s.life++;
-      // Fade out and respawn if out of bounds or life ended
       if (s.y < -10 || s.x < -10 || s.x > width + 10 || s.life > s.maxLife) {
         Object.assign(s, randomSpark());
         s.y = height + Math.random() * 20;
@@ -140,13 +139,13 @@ main {
 }
 
 a {
-  color: #FFA500; 
+  color: var(--clr-primary); 
   text-decoration: none;
   transition: color 0.3s ease;
 }
 
 a:hover {
-  color: #ffcc66;
+  color: var(--clr-primary-light);
 }
 
 select {

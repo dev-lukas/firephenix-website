@@ -213,6 +213,8 @@ const formatTime = (minutes) => {
   margin-bottom: 2rem;
   display: flex;
   flex-direction: column;
+  z-index: 1;
+  position: relative;
   gap: 2rem; 
 }
 
@@ -247,7 +249,7 @@ const formatTime = (minutes) => {
 
 .progress-bar-container {
   height: 24px;
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   overflow: hidden;
   margin-bottom: 0.75rem;
@@ -278,7 +280,7 @@ const formatTime = (minutes) => {
   left: -40%;
   width: 60%; 
   height: 100%;
-  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(120deg, var(--clr-transparent-light) 0%, var(--clr-transparent) 50%, var(--clr-transparent-light) 100%);
   animation: shimmer 2.2s infinite;
   pointer-events: none;
 }
@@ -296,17 +298,17 @@ const formatTime = (minutes) => {
 .progress-bar.rank-bar {
    background: linear-gradient(
     90deg,
-    var(--clr-accent, #ea580c) 0%, 
-    var(--clr-accent-light, #fb923c) 100% 
+    var(--clr-red) 0%, 
+    var(--clr-primary) 100% 
   );
 }
 
 .progress-bar.rank-bar::after {
-  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.18) 50%, rgba(255,255,255,0) 100%);
+  background: linear-gradient(120deg, var(--clr-transparent-light) 0%, var(--clr-transparent) 50%, var(--clr-transparent-light) 100%);
 }
 
 .progress-text {
-  color: white;
+  color: var(--clr-text-primary);
   font-size: 0.8rem;
   font-weight: 600;
   line-height: 24px;
@@ -325,7 +327,7 @@ const formatTime = (minutes) => {
 }
 
 .division-section .time-remaining i {
-    color: var(--clr-accent);
+    color: var(--clr-primary);
 }
 
 @media (max-width: 768px) {

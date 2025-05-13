@@ -330,6 +330,8 @@ const unlockedCount = computed(() => {
   padding: 1.5rem;
   border: 1px solid var(--clr-border);
   margin-top: 2rem;
+  z-index: 1;
+  position: relative;
 }
 
 .achievements-header {
@@ -384,7 +386,7 @@ const unlockedCount = computed(() => {
   transition: all 0.2s ease;
   z-index: 100;
   pointer-events: none;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px var(--clr-box-shadow);
   left: 50%;
   transform: translateX(-50%);
 }

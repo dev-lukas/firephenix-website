@@ -1,6 +1,6 @@
 <template>
   <div class="wiki-page">
-    <h1 class="page-title">Wiki</h1>
+    <h1 class="page-title">Wissenswert</h1>
     <div class="wiki-tabs">
       <button
         v-for="tab in tabs"
@@ -91,7 +91,7 @@ onMounted(() => {
   justify-content: center;
   gap: 0.5rem; 
   margin-bottom: 2.5rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 2px solid var(--clr-border);
   padding-bottom: 1rem;
 }
 
@@ -101,7 +101,7 @@ onMounted(() => {
   border-bottom: 3px solid transparent; 
   border-radius: 6px 6px 0 0;
   padding: 0.8rem 1.5rem;
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 1rem;
   font-weight: 500;
   display: flex;
@@ -113,13 +113,13 @@ onMounted(() => {
 }
 
 .tab-button:hover {
-  background: rgba(255, 255, 255, 0.05);
-  color: #fff;
+  background: var(--clr-transparent-light);
+  color: var(--clr-text-primary);
 }
 
 .tab-button.active {
-  color: #f98500;
-  border-bottom-color: #f98500;
+  color: var(--clr-primary);
+  border-bottom-color: var(--clr-primary);
 }
 
 .button-icon {
@@ -127,17 +127,19 @@ onMounted(() => {
 }
 
 .tab-content {
-  background: rgba(255, 255, 255, 0.03);
+  background: var(--clr-surface);
   border-radius: 12px;
   padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--clr-border);
+  z-index: 1;
+  position: relative;
 }
 
 .tab-content h2 {
   color: var(--clr-text-primary);
   margin-bottom: 1rem;
   font-size: 1.8rem;
-  border-bottom: 1px solid rgba(249, 133, 0, 0.2);
+  border-bottom: 1px solid var(--clr-primary-transparent);
   padding-bottom: 0.5rem;
 }
 
