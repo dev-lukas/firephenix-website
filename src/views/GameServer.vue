@@ -13,18 +13,10 @@
         <font-awesome-icon :icon="['fas', 'square-poll-vertical']" class="button-icon" />
         <span>TTT</span>
       </button>
-      <button 
-        class="toggle-button" 
-        :class="{ active: activeTab === 'minecraft' }"
-        @click="navigateToTab('minecraft')"
-      >
-        <font-awesome-icon :icon="['fas', 'trophy']" class="button-icon" />
-        <span>Minecraft</span>
-      </button>
     </div>
 
     <div v-if="activeTab === 'ttt'">
-      <TttServerSection />
+      <TTTServerSection />
     </div>
     <div v-else-if="activeTab === 'minecraft'">
       <MinecraftServerSection />
@@ -34,8 +26,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import TttServerSection from '../components/gameserver/TttServerSection.vue';
-import MinecraftServerSection from '../components/gameserver/MinecraftServerSection.vue';
+import TTTServerSection from '../components/gameserver/TTTServerSection.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const validTabs = ['ttt', 'minecraft'];

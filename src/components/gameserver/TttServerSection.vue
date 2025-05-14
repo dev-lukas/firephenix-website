@@ -1,211 +1,327 @@
 <template>
-  <div>
-    <div class="server-carousel">
-      <div class="carousel-images" ref="carousel">
-        <img
-          v-for="(image, index) in images"
-          :key="index"
-          :src="image"
-          :alt="`Server Screenshot ${index + 1}`"
-          :class="{ active: currentImage === index }"
-        />
-      </div>
-      <div class="carousel-dots">
-        <button
-          v-for="(_, index) in images"
-          :key="index"
-          class="dot"
-          :class="{ active: currentImage === index }"
-          @click="setImage(index)"
-        ></button>
+  <BaseSection class="ttt-server-section">
+    <p class="section-description">Der Klassiker. Revitalisiert. Spiele TTT wie in alten Zeiten und genieße eine Mischung aus neusten TTT Standarts und purer Nostalgie!</p>
+    
+    <div class="accent-path-container">
+      <svg class="accent-path" viewBox="0 0 100 1000" preserveAspectRatio="none">
+        <path 
+          d="M50,0 C70,200 30,400 50,600 C70,800 30,1000 50,1000" 
+          stroke="var(--clr-primary)" 
+          stroke-width="4" 
+          fill="none" 
+          stroke-dasharray="1000"
+          stroke-dashoffset="1000"
+          class="path-animation">
+        </path>
+      </svg>
+      
+      <div class="feature-sections">
+        <div class="feature-section left" v-for="(feature, index) in features" :key="index" :class="{ 'active': activeFeatures[index] }">
+          <div class="feature-content" :class="{ 'left': index % 2 === 0, 'right': index % 2 !== 0 }">
+            <div class="feature-image-container">
+              <img :src="feature.image" :alt="feature.title" class="feature-image" />
+              <div class="feature-image-overlay"></div>
+            </div>
+            <div class="feature-text">
+              <h3>{{ feature.title }}</h3>
+              <p>{{ feature.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-
-    <div class="servers-grid">
-      <base-server-card
-        v-for="server in servers"
-        :key="server.id"
-        :title="server.name"
-        :image="server.image"
-        :is-online="server.online"
-        :players="server.currentPlayers"
-        :max-players="server.maxPlayers"
-        :map="server.currentMap"
-        :is-loading="server.isLoading"
-        @connect="connectToServer(server.connectUrl)"
-      >
-        {{ server.description }}
-      </base-server-card>
+    
+    <div class="cta-container">
+      <a href="steam://connect/gaming.firephenix.de:27015" class="join-server-link">
+        <BaseButton class="join-server-btn">Spiele Jetzt</BaseButton>
+        <p class="server-stats">gaming.firephenix.de</p>
+      </a>
     </div>
-  </div>
+  </BaseSection>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
-import BaseServerCard from '../base/BaseServerCard.vue';
+import BaseSection from '../base/BaseSection.vue';
+import BaseButton from '../base/BaseButton.vue';
 
-const images = [
-  '/src/assets/images/games/ttt_play.jpg',
-  '/src/assets/images/games/ttt_tokyo.jpeg',
-  '/src/assets/images/games/ttt_rooftop.jpeg',
+
+const features = [
+  {
+    title: "Handverlesene Karten",
+    description: "Erlebe unsere handselektierte Auswahl an TTT-Karten, die Spielspaß, Nostalgie und bestmögliche Grafik kombinieren.",
+    image: "/src/assets/images/games/ttt_tokyo.jpeg",
+    position: 5 
+  },
+  {
+    title: "Angepasste Addons",
+    description: "Genieße Addons, die das Gameplay verbessern und die Spielerfahrung auf ein neues Level heben, ohne den Charm des Klassikers zu verlieren.",
+    image: "/src/assets/images/games/detective.png",
+    position: 25
+  },
+  {
+    title: "Skin Shop",
+    description: "Erhalte Punkte für das Spielen und Gewinnen von Runden. Löse sie ein für Skins deiner Wahl.",
+    image: "/src/assets/images/games/ttt_rewards.png",
+    position: 50
+  },
+  {
+    title: "Waffen Balancing",
+    description: "Von permanenten Waffen bis hin zu Balancing Änderungen über bessere Hitboxen, wir haben alles im Griff. Genieße ein faires und spannendes Spielerlebnis.",
+    image: "/src/assets/images/games/phoenix-agent.png",
+    position: 85
+  }
 ];
 
-const currentImage = ref(0);
-let carouselInterval: number;
-
-const setImage = (index: number) => {
-  currentImage.value = index;
-};
-
-const nextImage = () => {
-  currentImage.value = (currentImage.value + 1) % images.length;
-};
-
-const servers = ref([
-  {
-    id: 'ttt1',
-    name: 'TTT Server',
-    image: '/src/assets/images/games/ttt.png',
-    description:
-      'Der klassische TTT Server ist zurück! Mit Custom Waffen, Balancing, Skins, Gambling für Tote, einer handverlesenen Map Auswahl und vielem mehr! Perfekt für Einsteiger und erfahrene Spieler.',
-    online: false,
-    currentPlayers: 0,
-    maxPlayers: 0,
-    currentMap: 'Lade...',
-    connectUrl: 'steam://connect/gaming.firephenix.de:27015',
-    isLoading: true,
-  },
-]);
-
-const connectToServer = (url: string) => {
-  window.location.href = url;
-};
-
-const fetchServerInfo = async () => {
-  try {
-    const response = await fetch('/api/server/ttt?address=gaming.firephenix.de&port=27015');
-    const data = await response.json();
-    
-    servers.value = servers.value.map(server => {
-      if (server.id === 'ttt1') {
-        return {
-          ...server,
-          online: data.online,
-          currentPlayers: data.players,
-          maxPlayers: data.max_players,
-          currentMap: data.current_map || 'Unbekannt',
-          isLoading: false
-        };
-      }
-      return server;
-    });
-  } catch (error) {
-    console.error('Failed to fetch server information:', error);
-    servers.value = servers.value.map(server => {
-      if (server.id === 'ttt1') {
-        return {
-          ...server,
-          online: false,
-          isLoading: false
-        };
-      }
-      return server;
-    });
-  }
-};
+const activeFeatures = ref(features.map(() => false));
+let observers: IntersectionObserver[] = [];
 
 onMounted(() => {
-  carouselInterval = setInterval(nextImage, 5000);
-  fetchServerInfo();
-  setInterval(fetchServerInfo, 60000);
+  document.querySelector('.path-animation')?.classList.add('animate-path');
+  const featureSections = document.querySelectorAll('.feature-section');
+  
+  featureSections.forEach((section, index) => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            activeFeatures.value[index] = true;
+          }
+        });
+      },
+      { 
+        threshold: 0.75
+      }
+    );
+    
+    observer.observe(section);
+    observers.push(observer);
+  });
 });
 
 onUnmounted(() => {
-  clearInterval(carouselInterval);
+  observers.forEach(observer => observer.disconnect());
 });
 </script>
 
 <style scoped>
-.server-carousel {
-  width: 100%;
-  padding: 0 1rem;
-  height: 50vh;
-  margin-bottom: 3rem;
+.ttt-server-section {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 16/9;
+  padding-bottom: 6rem;
 }
 
-.carousel-images {
-  width: 100%;
-  height: 100%;
+.section-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.section-description {
+  font-size: 1.2rem;
+  color: var(--clr-text-secondary);
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto 4rem;
+}
+
+.accent-path-container {
   position: relative;
+  width: 100%;
+  height: 2800px;
+  margin: 2rem 0;
 }
 
-.carousel-images img {
+.accent-path {
   position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 100%;
+  width: 100px;
+  z-index: 1;
+}
+
+.path-animation {
+  animation: drawPath 5s ease-in-out forwards;
+}
+
+@keyframes drawPath {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.feature-sections {
+  position: relative;
+  height: 100%;
+}
+
+.feature-section {
+  position: sticky;
+  transform: translateY(-50%);
+  margin: 30vh 0;
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out, transform 0.8s ease-in-out;
+  z-index: 2;
+}
+
+.feature-section.active {
+  opacity: 1;
+  transform: translateY(-50%) scale(1);
+}
+
+.feature-content {
+  display: flex;
+  align-items: center;
+  max-width: 1000px;
+  margin: 0 auto;
+  background: var(--clr-surface);
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px var(--clr-box-shadow);
+  border: 1px solid var(--clr-border);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.feature-content:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 48px var(--clr-box-shadow-orange);
+  border-color: var(--clr-border-strong);
+}
+
+.feature-content.left {
+  flex-direction: row;
+}
+
+.feature-content.right {
+  flex-direction: row-reverse;
+}
+
+.feature-image-container {
+  flex: 0 0 50%;
+  position: relative;
+  overflow: hidden;
+  height: 300px;
+}
+
+.feature-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 12px;
-  opacity: 0;
-  transition: opacity 0.5s ease;
+  transition: transform 0.5s ease;
 }
 
-.carousel-images img.active {
-  opacity: 1;
-}
-
-.carousel-dots {
+.feature-image-overlay {
   position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 0.5rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(249,133,0,0.2) 100%);
+  z-index: 1;
 }
 
-.dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.5);
+.feature-content:hover .feature-image {
+  transform: scale(1.05);
+}
+
+.feature-text {
+  flex: 0 0 50%;
+  padding: 2rem;
+  z-index: 2;
+}
+
+.feature-text h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--clr-primary-light);
+  margin-bottom: 1rem;
+}
+
+.feature-text p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--clr-text-primary);
+}
+
+.cta-container {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.join-server-btn {
+  font-size: 1.2rem;
+  padding: 12px 36px;
+  background-color: var(--clr-primary);
+  color: var(--clr-text-primary);
   border: none;
+  border-radius: 4px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 12px var(--clr-box-shadow-orange);
 }
 
-.dot.active {
-  background: var(--clr-primary);
-  transform: scale(1.2);
+.join-server-btn:hover {
+  background-color: var(--clr-primary-light);
+  transform: translateY(-2px);
 }
 
-.servers-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
+.server-stats {
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: var(--clr-text-secondary);
+}
+
+.highlight {
+  color: var(--clr-primary);
+  font-weight: bold;
+}
+
+@media (max-width: 992px) {
+  .feature-content {
+    flex-direction: column !important;
+    max-width: 90%;
+  }
+  
+  .feature-image-container,
+  .feature-text {
+    flex: 0 0 100%;
+    width: 80%;
+  }
+
+  .feature-image-container {
+    margin-top: 2vh;
+    border-radius: 15px;
+  }
+  
+  .feature-text {
+    padding: 1.5rem;
+  }
 }
 
 @media (max-width: 768px) {
-  .page-title {
+  .section-title {
     font-size: 2rem;
   }
-
-  .ranking-toggle {
-    flex-direction: column;
-    align-items: center;
+  
+  .section-description {
+    font-size: 1rem;
+    margin-bottom: 2rem;
   }
 
-  .toggle-button {
-    width: 100%;
-    max-width: 300px;
+  .feature-image-container {
+    margin-top: 2vh;
+    border-radius: 15px;
   }
-
-  .servers-grid {
-    grid-template-columns: 1fr;
-    padding: 0 1rem;
+  
+  .feature-text h3 {
+    font-size: 1.5rem;
+  }
+  
+  .feature-text p {
+    font-size: 1rem;
   }
 }
 </style>
