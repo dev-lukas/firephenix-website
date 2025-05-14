@@ -63,8 +63,8 @@
         </div>
         <div class="reward-card">
           <div class="reward-header">
-            <img src="/src/assets/images/games/ttt.png" alt="TTT Skins Icon" class="reward-icon" />
-            <h3>Skins</h3>
+            <img src="/src/assets/images/games/phoenix-agent.png" alt="TTT Skins Icon" class="reward-icon" />
+            <h3>TTT Skins</h3>
           </div>
           <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
           <div class="ttt-rewards-container">
