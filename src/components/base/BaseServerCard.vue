@@ -72,7 +72,7 @@ defineEmits<{
   position: relative;
   width: 100%;
   margin: -1.5rem -1.5rem 1rem -1.5rem;
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   padding: 2rem;
 }
 

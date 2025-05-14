@@ -56,7 +56,7 @@ defineEmits<{
 }
 
 .modal-container {
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   width: 90%;
   max-width: 500px;

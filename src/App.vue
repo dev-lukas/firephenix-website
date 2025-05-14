@@ -150,12 +150,12 @@ a:hover {
 
 select {
   color-scheme: dark;
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface-2);
   color: var(--clr-text-primary);
 }
 
 select option {
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface-2);
   color: var(--clr-text-primary);
 }
 

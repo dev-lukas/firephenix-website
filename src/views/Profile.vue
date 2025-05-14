@@ -335,7 +335,7 @@ const handleLogout = async () => {
 
 .settings-section {
   padding: 2rem;
-  background-color: var(--clr-surface-elevated-1);
+  background-color: var(--clr-surface-2);
   border: 1px solid var(--clr-border);
   border-radius: 10px;
   margin-top: 2rem;
@@ -380,7 +380,7 @@ const handleLogout = async () => {
   align-items: center;
   text-align: center;
   gap: 1.5rem;
-  background: var(--clr-surface-elevated-1);
+  background: var(--clr-surface-2);
   border-radius: 12px;
   padding: 2rem;
   border: 1px solid var(--clr-border);

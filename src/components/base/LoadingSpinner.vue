@@ -25,7 +25,7 @@ defineProps({
 .spinner {
   width: 50px;
   height: 50px;
-  border: 3px solid var(--clr-surface-elevated-1);
+  border: 3px solid var(--clr-surface-2);
   border-top: 3px solid var(--clr-primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;

@@ -32,11 +32,4 @@
   --clr-experimental: #8E24AA;
   --clr-added: #1e7e34;
   --clr-fixed: #007bff;
-
-  --clr-surface-elevated-1: #1a1a1a;
-  --clr-gradient-dark: rgba(0, 0, 0, 0.9);
-  --clr-surface-hover: rgba(255, 255, 255, 0.1);
-  --clr-surface-hover-strong: rgba(255, 255, 255, 0.15);
-  --clr-dot-inactive: rgba(255, 255, 255, 0.3);
-  --clr-overlay-dark: rgba(0, 0, 0, 0.8);
 }
