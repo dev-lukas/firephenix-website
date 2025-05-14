@@ -211,7 +211,6 @@ const confirmUnlock = async () => {
   padding: 2.5rem; 
   background: var(--clr-background);
   text-align: center;
-  box-shadow: 0 8px 25px var(--clr-box-shadow);
 }
 
 .skin-unlocker-container h2 {
