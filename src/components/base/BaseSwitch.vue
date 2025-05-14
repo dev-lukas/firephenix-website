@@ -49,7 +49,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: var(--clr-surface-elevated-2); 
+    background-color: var(--clr-surface-3); 
     border: 1px solid var(--clr-border);
     transition: 0.3s;
     border-radius: 34px;
