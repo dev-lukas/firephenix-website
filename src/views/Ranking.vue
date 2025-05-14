@@ -36,13 +36,13 @@
     </div>
     
     <!-- Components rendered based on active tab -->
-    <UserStats v-if="activeRanking === 'server-stats'" />
-    <UsageChart v-if="activeRanking === 'server-stats'" />
-    <PlatformDistributionChart v-if="activeRanking === 'server-stats'" />
-    <RankingList v-if="activeRanking === 'all-time'" />
-    <UserTable v-if="activeRanking === 'all-time'" />
-    <SeasonCountdown v-if="activeRanking === 'seasonal'" />
-    <SeasonalRanking v-if="activeRanking === 'seasonal'" />
+    <UserStats v-show="activeRanking === 'server-stats'" />
+    <UsageChart v-show="activeRanking === 'server-stats'" />
+    <PlatformDistributionChart v-show="activeRanking === 'server-stats'" />
+    <RankingList v-show="activeRanking === 'all-time'" />
+    <UserTable v-show="activeRanking === 'all-time'" />
+    <SeasonCountdown v-show="activeRanking === 'seasonal'" />
+    <SeasonalRanking v-show="activeRanking === 'seasonal'" />
   </div>
 </template>
 

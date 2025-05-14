@@ -22,7 +22,7 @@
           </button>
         </div>
 
-        <div class="stats-container" v-if="activeTab === 'stats' && !loading">
+        <div class="stats-container" v-show="activeTab === 'stats' && !loading">
           <div v-if="userData?.level == 0" class="info-message">
             <div class="info-icon">
               <font-awesome-icon :icon="['fas', 'info-circle']" />
@@ -76,7 +76,7 @@
           <p>Lade Daten...</p>
         </div>
 
-        <div class="skin-container" v-if="activeTab === 'cosmetics'">
+        <div class="skin-container" v-show="activeTab === 'cosmetics'">
           <ProfileBorderDisplay 
             :bestDivision="userData?.best_division_achieved || 0"
           />
@@ -86,7 +86,7 @@
           />
         </div>
 
-        <div class="settings-container" v-if="activeTab === 'settings'">
+        <div class="settings-container" v-show="activeTab === 'settings'">
           <PlatformVerification
             :user-data="userData"
             @verification-success="refreshUserData"
