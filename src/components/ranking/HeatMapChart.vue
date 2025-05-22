@@ -10,7 +10,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 import Chart from 'chart.js/auto';
 
 const props = defineProps({
@@ -145,6 +145,12 @@ const createChart = () => {
 onMounted(() => {
   createChart();
 });
+
+watch(() => props.heatmapData, (newData) => {
+  if (newData && newData.data) {
+    createChart();
+  }
+}, { deep: true });
 </script>
 
 <style scoped>

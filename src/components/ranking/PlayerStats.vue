@@ -43,7 +43,7 @@
 </template>
 
 <script setup>
-import { computed, defineProps, ref, onMounted } from 'vue';
+import { computed, defineProps, ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
   totalTime: {
@@ -97,19 +97,21 @@ const displayWeeklyTime = ref(0);
 const displaySeasonTime = ref(0);
 const displayBestStreak = ref(0);
 
-function animateValue(refValue, target, duration = 1200) {
-  const start = 0;
+function animateValue(refValue, targetProp, duration = 1200) {
+  const start = 0; // Always animate from 0 for a "count-up" effect
+  const numericTarget = Number(targetProp) || 0; // Ensure target is a number
   const startTime = performance.now();
+
   function animate(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
     // Ease out (decelerate)
     const eased = 1 - Math.pow(1 - progress, 3);
-    refValue.value = Math.round(start + (target - start) * eased);
+    refValue.value = Math.round(start + (numericTarget - start) * eased);
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
-      refValue.value = target;
+      refValue.value = numericTarget;
     }
   }
   requestAnimationFrame(animate);
@@ -121,6 +123,29 @@ onMounted(() => {
   animateValue(displayWeeklyTime, props.weeklyTime);
   animateValue(displaySeasonTime, props.seasonTime);
   animateValue(displayBestStreak, bestStreak.value);
+});
+
+// Watch for prop changes to re-trigger animations
+watch(() => props.totalTime, (newValue) => {
+  animateValue(displayTotalTime, newValue);
+});
+
+watch(() => props.monthlyTime, (newValue) => {
+  animateValue(displayMonthlyTime, newValue);
+});
+
+watch(() => props.weeklyTime, (newValue) => {
+  animateValue(displayWeeklyTime, newValue);
+});
+
+watch(() => props.seasonTime, (newValue) => {
+  animateValue(displaySeasonTime, newValue);
+});
+
+// bestStreak is a computed property based on props.streak.
+// It will update reactively when props.streak changes.
+watch(bestStreak, (newValue) => {
+  animateValue(displayBestStreak, newValue);
 });
 </script>
 

@@ -19,7 +19,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, defineProps } from 'vue';
+import { ref, onMounted, defineProps, watch } from 'vue';
 
 const props = defineProps({
   totalTime: {
@@ -64,7 +64,7 @@ function animateValue(refValue, target, duration = 1200) {
   requestAnimationFrame(animate);
 }
 
-onMounted(() => {
+function updateAndAnimateCounts() {
   leftGames.forEach((game, i) => {
     const count = calculateCount(props.totalTime, game.divisor);
     animateValue(leftGameCounts[i], count);
@@ -73,6 +73,16 @@ onMounted(() => {
     const count = calculateCount(props.totalTime, game.divisor);
     animateValue(rightGameCounts[i], count);
   });
+}
+
+onMounted(() => {
+  updateAndAnimateCounts();
+});
+
+watch(() => props.totalTime, (newValue) => {
+  if (newValue !== undefined) {
+    updateAndAnimateCounts();
+  }
 });
 </script>
 
