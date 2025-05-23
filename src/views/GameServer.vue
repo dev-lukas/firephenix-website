@@ -16,7 +16,7 @@
     </div>
 
     <div v-if="activeTab === 'ttt'">
-      <TTTServerSection />
+      <TttServerSection />
     </div>
     <div v-else-if="activeTab === 'minecraft'">
       <MinecraftServerSection />
@@ -26,7 +26,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import TTTServerSection from '../components/gameserver/TTTServerSection.vue';
+import TttServerSection from '../components/gameserver/TttServerSection.vue';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
 const validTabs = ['ttt', 'minecraft'];
