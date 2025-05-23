@@ -14,18 +14,28 @@
             class="steam-logo-img"
           />
         </div>
-        <button class="steam-login-button" @click="handleSteamLogin">
+        <button 
+          class="steam-login-button" 
+          @click="handleSteamLogin"
+          :disabled="!canLogin"
+          :class="{ 'button-disabled': !canLogin }"
+        >
           <span class="button-content">
             <i class="fab fa-steam"></i>
             Mit Steam einloggen
           </span>
         </button>
         <p class="login-disclaimer">
-          Dies wird dich zu Steams Login-Seite weiterleiten.
+          <span v-if="canLogin">
+            Dies wird dich zu Steams Login-Seite weiterleiten.
+          </span>
+          <span v-else class="cookie-required-notice">
+            <i class="fas fa-exclamation-triangle"></i>
+            Bitte akzeptiere Cookies, um sich einzuloggen.
+          </span>
         </p>
       </div>
-    </div>
-    <div class="login-container">
+    </div>    <div class="login-container">
       <div class="benefits-section">
         <div class="benefits-grid">
           <div
@@ -49,15 +59,30 @@
         Ländern.
       </div>
     </footer>
+    
+    <!-- Cookie Banner -->
+    <cookie-banner @consent-changed="handleConsentChanged" />
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import CookieBanner from '../base/CookieBanner.vue';
+
 interface Benefit {
   icon: string;
   title: string;
   description: string;
 }
+
+interface CookieConsent {
+  essential: boolean;
+  analytics: boolean;
+  functional: boolean;
+  timestamp: number;
+}
+
+const canLogin = ref(false);
 
 const benefits: Benefit[] = [
   {
@@ -81,7 +106,13 @@ const benefits: Benefit[] = [
 ];
 
 const handleSteamLogin = () => {
-  window.location.href = 'http://localhost:5000/api/auth';
+  if (canLogin.value) {
+    window.location.href = 'http://localhost:5000/api/auth';
+  }
+};
+
+const handleConsentChanged = (consent: CookieConsent) => {
+  canLogin.value = consent.functional;
 };
 </script>
 
@@ -287,6 +318,38 @@ const handleSteamLogin = () => {
   left: 100%;
 }
 
+.steam-login-button.button-disabled {
+  background: var(--clr-surface-dark, #3a3a3a);
+  color: var(--clr-text-secondary);
+  cursor: not-allowed;
+  opacity: 0.6;
+  transform: none;
+  box-shadow: none;
+}
+
+.steam-login-button.button-disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.steam-login-button.button-disabled::before {
+  display: none;
+}
+
+.cookie-required-notice {
+  color: var(--clr-accent, #ff4500);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  animation: pulse 2s infinite;
+}
+
+.cookie-required-notice i {
+  color: var(--clr-accent, #ff4500);
+}
+
 @keyframes glowPulse {
   0% {
     opacity: 0.5;
@@ -374,6 +437,18 @@ const handleSteamLogin = () => {
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

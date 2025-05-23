@@ -1,6 +1,6 @@
 // views/Datenschutz.vue
 <template>
-  <base-legal-page title="Datenschutzerklärung" last-updated="02.05.2025">
+  <base-legal-page title="Datenschutzerklärung" last-updated="23.05.2025">
     <h2>1. Datenschutz auf einen Blick</h2>
     <h3>Allgemeine Hinweise</h3>
     <p>
@@ -172,19 +172,46 @@
         DSGVO. Der Websitebetreiber hat ein berechtigtes Interesse an der
         technisch fehlerfreien Darstellung und der Optimierung seiner Website –
         hierzu müssen die Server-Log-Files erfasst werden.
-      </p>
-      <h3>Cookies</h3>
+      </p>      <h3>Cookies</h3>
       <p>
-        Unsere Internetseiten verwenden keine Cookies.
+        Unsere Internetseiten verwenden Cookies. Cookies sind kleine Textdateien, 
+        die auf Ihrem Endgerät gespeichert und abgerufen werden können. Sie dienen 
+        dazu, unser Angebot nutzerfreundlicher, effektiver und sicherer zu machen.
+      </p>
+      <h4>Session-Cookies</h4>
+      <p>
+        Wir verwenden Session-Cookies, um die Anmeldung über Steam OpenID zu 
+        ermöglichen und aufrechtzuerhalten. Diese Cookies enthalten eine 
+        eindeutige Sitzungskennung und werden automatisch gelöscht, wenn Sie 
+        Ihren Browser schließen oder sich abmelden. Die Verarbeitung erfolgt 
+        auf Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung) und 
+        Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der Bereitstellung 
+        einer funktionsfähigen Authentifizierung).
+      </p>
+      <h4>Cookie-Einstellungen (Cookie-Banner)</h4>
+      <p>
+        Wir setzen ein Cookie ein, um Ihre Entscheidung bezüglich der Cookie-Nutzung 
+        zu speichern. Dieses Cookie ist technisch notwendig und wird für die Dauer 
+        von einem Jahr gespeichert. Es verhindert, dass Ihnen bei jedem Besuch 
+        erneut der Cookie-Banner angezeigt wird. Die Rechtsgrundlage ist Art. 6 
+        Abs. 1 lit. f DSGVO (berechtigtes Interesse) bzw. § 25 Abs. 2 Nr. 2 TTDSG 
+        (technisch notwendige Cookies).
+      </p>
+      <p>
+        Sie können Ihren Browser so einstellen, dass Sie über das Setzen von 
+        Cookies informiert werden und Cookies nur im Einzelfall erlauben, die 
+        Annahme von Cookies für bestimmte Fälle oder generell ausschließen sowie 
+        das automatische Löschen der Cookies beim Schließen des Browsers aktivieren. 
+        Bei der Deaktivierung von Cookies kann die Funktionalität dieser Website 
+        eingeschränkt sein.
       </p>
       <h3>Analyse-Tools und Werbung</h3>
       <p>
         Wir nutzen keine Analyse-Tools oder Werbe-Plugins von Drittanbietern auf dieser Website.
       </p>
-    </section>
-
-    <section class="privacy-section">
-      <h2>5. Steam OpenID</h2>
+    </section>    <section class="privacy-section">
+      <h2>5. Steam OpenID und Benutzerkonto-Verwaltung</h2>
+      <h3>Steam OpenID Authentifizierung</h3>
       <p>
         Auf unserer Website wird Steam OpenID als Authentifizierungsdienst
         genutzt, angeboten von der Valve Corporation, Bellevue, WA, USA. Wenn Sie
@@ -192,13 +219,41 @@
         weitergeleitet. Im Rahmen dieses Logins wird ausschließlich Ihre
         eindeutige SteamID (eine numerische Kennung) von Steam an uns
         übermittelt und auf unserem Server gespeichert, um Ihr Benutzerkonto auf
-        unserer Seite zu verwalten. Weitere personenbezogene Daten wie Ihr
-        Steam-Profilname oder Ihre E-Mail-Adresse werden nicht automatisch
-        erhoben oder gespeichert. Die Verarbeitung Ihrer SteamID erfolgt auf
-        Grundlage von Art. 6 Abs. 1 lit. b DSGVO (Vertragserfüllung oder
-        vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. f DSGVO (unser
-        berechtigtes Interesse an einer einfachen und sicheren
-        Authentifizierungsmethode).
+        unserer Seite zu verwalten.
+      </p>
+      <h3>Gespeicherte Benutzerdaten</h3>
+      <p>
+        Wir speichern folgende Daten in Ihrem Benutzerkonto:
+      </p>
+      <ul>
+        <li><strong>Steam-ID (Pflichtdatum):</strong> Eindeutige numerische Kennung Ihres Steam-Accounts</li>
+        <li><strong>TeamSpeak-ID (optional):</strong> Eindeutige Kennung Ihres TeamSpeak-Clients, nur wenn Sie diesen freiwillig mit Ihrem Account verknüpfen</li>
+        <li><strong>Discord-ID (optional):</strong> Eindeutige Kennung Ihres Discord-Accounts, nur wenn Sie diesen freiwillig mit Ihrem Account verknüpfen</li>
+      </ul>
+      <p>
+        Weitere personenbezogene Daten wie Ihr Steam-Profilname oder Ihre 
+        E-Mail-Adresse werden nicht automatisch erhoben oder gespeichert.
+      </p>
+      <h3>Nutzungsverhalten auf unseren Diensten</h3>
+      <p>
+        Wenn Sie unsere TeamSpeak- und Discord-Services nutzen, erfassen wir 
+        automatisch folgende Nutzungsdaten zur Bereitstellung unserer Services:
+      </p>
+      <ul>
+        <li>Verbindungszeiten und -dauer auf TeamSpeak- und Discord-Servern</li>
+        <li>Anzahl der Logins/Verbindungen</li>
+        <li>Channel-Aktivitäten und Bewegungen</li>
+        <li>Zeitstempel der Aktivitäten</li>
+        <li>Server-bezogene Statistiken (z.B. Spielzeit auf Game-Servern)</li>
+      </ul>
+      <p>
+        Diese Daten dienen der Bereitstellung von Ranking-Funktionen, 
+        Level-Systemen, Belohnungen und der technischen Optimierung unserer 
+        Services. Die Verarbeitung erfolgt auf Grundlage von Art. 6 Abs. 1 lit. b 
+        DSGVO (Vertragserfüllung), Art. 6 Abs. 1 lit. f DSGVO (berechtigtes 
+        Interesse an der Bereitstellung und Optimierung unserer Services) und, 
+        soweit eine Einwilligung erforderlich ist, auf Grundlage von Art. 6 Abs. 1 
+        lit. a DSGVO.
       </p>
       <p>
         Weitere Informationen zum Datenschutz bei Steam finden Sie in der
@@ -209,11 +264,58 @@
           rel="noopener noreferrer"
           >https://store.steampowered.com/privacy_agreement/?l=german</a
         >
+      </p>    </section>
+
+    <section class="privacy-section">
+      <h2>6. TeamSpeak- und Discord-Integration</h2>
+      <h3>Freiwillige Verknüpfung</h3>
+      <p>
+        Sie haben die Möglichkeit, Ihr Benutzerkonto freiwillig mit Ihren 
+        TeamSpeak- und/oder Discord-Accounts zu verknüpfen. Diese Verknüpfung 
+        erfolgt ausschließlich auf Ihre ausdrückliche Anfrage hin und kann 
+        jederzeit über Ihr Benutzerprofil rückgängig gemacht werden.
+      </p>
+      <h3>Zweck der Datenverarbeitung</h3>
+      <p>
+        Die Verknüpfung dient folgenden Zwecken:
+      </p>
+      <ul>
+        <li>Synchronisation von Nutzungszeiten und Aktivitäten zwischen den Plattformen</li>
+        <li>Bereitstellung von plattformübergreifenden Level- und Belohnungssystemen</li>
+        <li>Ermöglichung von erweiterten Community-Features (z.B. permanente Channel)</li>
+        <li>Verwaltung von Berechtigungen und Rollen</li>
+      </ul>
+      <h3>Rechtsgrundlage</h3>
+      <p>
+        Die Verarbeitung erfolgt auf Grundlage Ihrer ausdrücklichen Einwilligung 
+        gemäß Art. 6 Abs. 1 lit. a DSGVO. Sie können diese Einwilligung jederzeit 
+        mit Wirkung für die Zukunft widerrufen, indem Sie die Verknüpfung in 
+        Ihrem Benutzerprofil aufheben oder uns per E-Mail an die im Impressum 
+        genannte Adresse kontaktieren.
       </p>
     </section>
 
     <section class="privacy-section">
-      <h2>6. Ihre Rechte als Betroffener</h2>
+      <h2>7. Speicherdauer</h2>
+      <p>
+        Wir speichern Ihre Daten nur so lange, wie es für die jeweiligen Zwecke 
+        erforderlich ist:
+      </p>
+      <ul>
+        <li><strong>Steam-ID:</strong> Solange Ihr Benutzerkonto aktiv ist</li>
+        <li><strong>TeamSpeak-/Discord-IDs:</strong> Bis zur Aufhebung der Verknüpfung</li>
+        <li><strong>Nutzungsstatistiken:</strong> Solange Ihr Benutzerkonto aktiv ist</li>
+        <li><strong>Session-Cookies:</strong> Bis zum Ende der Browser-Sitzung</li>
+        <li><strong>Cookie-Einstellungen:</strong> 1 Jahr ab letztem Besuch</li>
+      </ul>
+      <p>
+        Bei Löschung Ihres Benutzerkontos werden alle personenbezogenen Daten 
+        gelöscht, soweit keine gesetzlichen Aufbewahrungspflichten entgegenstehen.
+      </p>
+    </section>
+
+    <section class="privacy-section">
+      <h2>8. Ihre Rechte als Betroffener</h2>
       <p>
         Ihnen stehen bezüglich Ihrer bei uns gespeicherten Daten verschiedene
         Rechte zu:
@@ -255,13 +357,14 @@
           gegen die Verarbeitung Sie betreffender personenbezogener Daten, die
           aufgrund von Art. 6 Abs. 1 lit. e oder f DSGVO erfolgt, Widerspruch
           einzulegen.
-        </li>
-        <li>
+        </li>        <li>
           <strong>Recht auf Widerruf der Einwilligung (Art. 7 Abs. 3 DSGVO):</strong>
           Sie haben das Recht, Ihre einmal erteilte Einwilligung jederzeit uns
           gegenüber zu widerrufen. Dies hat zur Folge, dass wir die
           Datenverarbeitung, die auf dieser Einwilligung beruhte, für die Zukunft
-          nicht mehr fortführen dürfen.
+          nicht mehr fortführen dürfen. Dies gilt insbesondere für die 
+          Verknüpfung mit TeamSpeak- und Discord-Accounts sowie für die 
+          Cookie-Einstellungen.
         </li>
         <li>
           <strong>Beschwerderecht bei einer Aufsichtsbehörde (Art. 77 DSGVO):</strong>
@@ -271,6 +374,18 @@
           oder unseres Unternehmenssitzes wenden.
         </li>
       </ul>
+      <h3>Widerruf von Einwilligungen und Cookie-Verwaltung</h3>
+      <p>
+        Sie können Ihre Cookie-Einstellungen jederzeit über den Cookie-Banner 
+        auf unserer Website ändern oder uns per E-Mail kontaktieren. Bei 
+        Widerruf Ihrer Einwilligung zur Nutzung funktionaler Cookies kann die 
+        Steam-Login-Funktionalität eingeschränkt werden.
+      </p>
+      <p>
+        Die Verknüpfung mit TeamSpeak- und Discord-Accounts können Sie jederzeit 
+        über Ihr Benutzerprofil aufheben oder durch Kontaktaufnahme mit uns 
+        widerrufen.
+      </p>
       <p>
         Zur Geltendmachung Ihrer Rechte wenden Sie sich bitte an die im Impressum
         genannte verantwortliche Stelle.
