@@ -87,6 +87,8 @@
   </template>
   
   <script setup>
+  import { computed } from 'vue';
+
   const divisionRequirements = {
       1: '0 Stunden',
       2: '50 Stunden',
@@ -114,21 +116,23 @@
     6: 'Phönix',
   }
 
-  const divisionIcon = {
-    1: 'bronze.png',
-    2: 'silver.png',
-    3: 'gold.png',
-    4: 'platinum.png',
-    5: 'diamond.png',
-    6: 'phoenix.png',
-  }
+  const divisionIconUrls = computed(() => {
+    return {
+      1: new URL('../../assets/images/ranks/bronze.png', import.meta.url).href,
+      2: new URL('../../assets/images/ranks/silver.png', import.meta.url).href,
+      3: new URL('../../assets/images/ranks/gold.png', import.meta.url).href,
+      4: new URL('../../assets/images/ranks/platinum.png', import.meta.url).href,
+      5: new URL('../../assets/images/ranks/diamond.png', import.meta.url).href,
+      6: new URL('../../assets/images/ranks/phoenix.png', import.meta.url).href,
+    };
+  });
 
   const getDivisionName = (division) => {
     return divisionName[division] || 'Unbekannt'
   }
 
   const getDivisionIconPath = (division) => {
-    return new URL(`../../assets/images/ranks/${divisionIcon[division]}`, import.meta.url).href;
+    return divisionIconUrls.value[division];
   }
   
   const getDivisionRequirements = (division) => {
