@@ -9,7 +9,7 @@
         </div>
         <div class="steam-logo">
           <img
-            src="../../assets/images/other/steam.png"
+            :src="steamLogo"
             alt="Steam Logo"
             class="steam-logo-img"
           />
@@ -84,6 +84,8 @@ interface CookieConsent {
 
 const canLogin = ref(false);
 
+const steamLogo = new URL('../../assets/images/other/steam.png', import.meta.url).href;
+
 const benefits: Benefit[] = [
   {
     icon: 'fas fa-trophy',
@@ -107,7 +109,7 @@ const benefits: Benefit[] = [
 
 const handleSteamLogin = () => {
   if (canLogin.value) {
-    window.location.href = import.meta.env.VITE_API_URL + '/api/auth';
+    window.location.href = '/api/auth';
   }
 };
 
