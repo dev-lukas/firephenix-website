@@ -4,7 +4,7 @@
     <p class="explore-text explore-topright" :class="{ 'fade-in': showExplore }">Oder erkunde unsere Website →</p>
     <div class="headline-container" ref="headlineRef">
       <h2 class="main-headline" :class="{ 'fade-in': isVisible }">
-        Wähle und<br />beginne deine Reise
+        Wähle dein Weg und<br />beginne deine Reise
       </h2>
     </div>
     <div class="left-half">

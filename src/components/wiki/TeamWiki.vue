@@ -117,8 +117,7 @@ const moderatorProfileUrl = new URL('../../assets/images/staff/moderator.png', i
   margin-bottom: 1.2rem;
   transition: box-shadow 0.22s;
 }
-.team-card:hover .avatar-wrapper {
-}
+
 .avatar {
   width: 110px;
   height: 110px;

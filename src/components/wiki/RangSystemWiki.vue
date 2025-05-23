@@ -76,7 +76,7 @@ const levelTimeRequirements = {
 
 const levelRewards = {
   1: '',
-  2: 'TeamSpeak - Beschreibung',
+  2: 'Move Shields, TeamSpeak - Beschreibung',
   3: 'Discord - externe Sticker & Emojis benutzen',
   4: 'TeamSpeak - Anstupsen',
   5: 'TeamSpeak - 1MB Avatar',
