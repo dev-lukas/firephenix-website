@@ -15,14 +15,47 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}
-          script: |
+          key: ${{ secrets.VPS_SSH_KEY }}          script: |
             cd ~/firephenix-website
-            git pull origin main
-            npm ci
+            
+            # Debug: Check if we're in the right directory
+            echo "Current directory: $(pwd)"
+            
+            # Ensure we have the latest changes
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Debug: Check directory structure
+            echo "Checking directory structure:"
+            ls -la src/components/
+            ls -la src/components/gameserver/
+            
+            # Debug: Check if the problematic file exists and its permissions
+            echo "Checking for TTTServerSection.vue:"
+            ls -la src/components/gameserver/TTTServerSection.vue || echo "File not found!"
+            
+            # Debug: Check GameServer.vue import
+            echo "Checking GameServer.vue import:"
+            grep -n "TTTServerSection" src/views/GameServer.vue || echo "Import not found!"
+            
+            # Clean install
+            rm -rf node_modules package-lock.json
+            npm install
+            
+            # Debug: Show Git status
+            echo "Git status:"
+            git status
+            
+            # Debug: Node and npm versions
+            echo "Node version: $(node --version)"
+            echo "NPM version: $(npm --version)"
+            
+            # Build with verbose output
             npm run build
+            
             # Copy built files to web root (adjust path as needed)
             rm -rf /var/www/firephenix-website/*
             cp -r dist/* /var/www/firephenix-website/
+            
             # Reload web server (adjust for your setup)
             sudo systemctl reload nginx
