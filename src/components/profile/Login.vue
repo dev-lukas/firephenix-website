@@ -107,7 +107,7 @@ const benefits: Benefit[] = [
 
 const handleSteamLogin = () => {
   if (canLogin.value) {
-    window.location.href = 'http://localhost:5000/api/auth';
+    window.location.href = import.meta.env.VITE_API_URL + '/api/auth';
   }
 };
 
