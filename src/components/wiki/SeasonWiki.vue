@@ -46,7 +46,7 @@
       <div class="rewards-section">
         <div class="reward-card">
           <div class="reward-header">
-            <img :src="new URL('../../assets/images/ranks/diamond.png', import.meta.url).href" alt="Profil-Rahmen Icon" class="reward-icon" />
+            <img :src="diamondIcon" alt="Profil-Rahmen Icon" class="reward-icon" />
             <h3>Profil-Rahmen</h3>
           </div>
           <p>Je nach Rang erhältst du einen speziellen Glanzeffekt für dein Profilbild, welcher jedem Spieler der dein Profil besucht zeigt, wie hoch du in der letzten Season abgeschlossen hast:</p>
@@ -63,23 +63,23 @@
         </div>
         <div class="reward-card">
           <div class="reward-header">
-            <img :src="new URL('../../assets/images/games/phoenix-agent.png', import.meta.url).href" alt="TTT Skins Icon" class="reward-icon" />
+            <img :src="tttSkinsIcon" alt="TTT Skins Icon" class="reward-icon" />
             <h3>TTT Skins</h3>
           </div>
           <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
           <div class="ttt-rewards-container">
-            <img :src="new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
+            <img :src="tttRewardsImg" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
           </div>
           <p class="reward-note">Bitte beachte, dass dies nur eine Abbildung der TTT Skins sind. Die Ingame-Version kann etwas vom Artwork abweichen. Du kannst die Skins aber jederzeit bereits im Ingame Skinshop betrachten.</p>
         </div>
         <div class="reward-card">
           <div class="reward-header">
-            <img :src="new URL('../../assets/images/achievements/apex.png', import.meta.url).href" alt="Apex Channel Icon" class="reward-icon" />
+            <img :src="apexIcon" alt="Apex Channel Icon" class="reward-icon" />
             <h3>Apex Channel</h3>
           </div>
           
           <p>Solltest du als bester einer Season abschließen, erhälst du zusätzlich, was sonst nur Prestige V Spielern vorenthalten ist: <br><br> Du kannst deinen Channel aufwerten zu einem Apex Channel. Dies ist ein permanenter Channel welcher an der höchsten Stelle des Discords und TeamSpeak Servers trohnt. Zeige allen Spielern, dass du zum Apex gehörst!</p>
-          <img :src="new URL('../../assets/images/achievements/apex.png', import.meta.url).href" alt="Apex Channel Achievement" class="apex-image" />
+          <img :src="apexIcon" alt="Apex Channel Achievement" class="apex-image" />
           <p class="reward-note">Bitte beachte, dass dies nur eine Upgrade für deinen permanenten Channel ist. Du musst trotzdem Prestige I erreichen.</p>
         </div>
       </div>
@@ -88,6 +88,11 @@
   
   <script setup>
   import { computed } from 'vue';
+
+  const diamondIcon = new URL('../../assets/images/ranks/diamond.png', import.meta.url).href;
+  const tttSkinsIcon = new URL('../../assets/images/games/phoenix-agent.png', import.meta.url).href;
+  const tttRewardsImg = new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href;
+  const apexIcon = new URL('../../assets/images/achievements/apex.png', import.meta.url).href;
 
   const divisionRequirements = {
       1: '0 Stunden',
