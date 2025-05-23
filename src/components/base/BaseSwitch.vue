@@ -17,7 +17,7 @@
     disabled?: boolean;
   }
   
-  const props = defineProps<Props>();
+  defineProps<Props>();
   const emit = defineEmits(['update:modelValue']);
   
   const handleChange = (event: Event) => {

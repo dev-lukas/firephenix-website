@@ -14,9 +14,8 @@
     </div>
     
     <div v-else class="achievements-grid">
-      
-      <div
-        v-for="(level, index) in maxLevels.logins"
+        <div
+        v-for="(_, index) in maxLevels.logins"
         :key="`logins-${index}`"
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.logins?.achievement_level < index + 1 }"
@@ -33,10 +32,8 @@
             <p v-if="achievements.logins?.total_logins">Gesamt: {{ achievements.logins.total_logins }} Logins</p>
           </div>
         </div>
-      </div>
-
-      <div
-        v-for="(level, index) in maxLevels.time"
+      </div>      <div
+        v-for="(_, index) in maxLevels.time"
         :key="`time-${index}`"
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.time?.achievement_level < index + 1 }"
@@ -55,10 +52,8 @@
             </p>
           </div>
         </div>
-      </div>      
-
-      <div
-        v-for="(level, index) in maxLevels.heatmap"
+      </div>          <div
+        v-for="(_, index) in maxLevels.heatmap"
         :key="`heatmap-${index}`"
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.heatmap?.achievement_level < index + 1 }"
@@ -75,10 +70,8 @@
             <p v-if="achievements.heatmap?.active_days">Aktive Tage: {{ achievements.heatmap.active_days }}</p>
           </div>
         </div>
-      </div>
-
-      <div
-        v-for="(level, index) in maxLevels.streak"
+      </div>      <div
+        v-for="(_, index) in maxLevels.streak"
         :key="`streak-${index}`"
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.streak?.achievement_level < index + 3 }"
@@ -95,10 +88,8 @@
             <p v-if="achievements.streak?.longest_streak">Längste Serie: {{ achievements.streak.longest_streak }} Tage</p>
           </div>
         </div>
-      </div>
-
-      <div
-        v-for="(level, index) in maxLevels.division"
+      </div>      <div
+        v-for="(_, index) in maxLevels.division"
         :key="`division-${index}`"
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.division?.achievement_level < index + 1 }"
