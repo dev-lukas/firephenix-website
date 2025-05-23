@@ -19,7 +19,7 @@
               </p>
             </div>
             <img
-              src="/src/assets/images/level/2.png"
+              :src="level2LockIconUrl"
               alt="Level 2"
               class="level-lock-icon"
             />
@@ -29,7 +29,7 @@
         <template v-else>
           <div class="setting-item">
             <div class="item-info">
-              <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
+              <img :src="discordLogoUrl" alt="Discord" class="platform-logo-small"/>
               <h3>Discord Shield <span class="experimental-tag">Experimental</span></h3>
               <p v-if="!userData?.discord_id" class="platform-warning">
                 <font-awesome-icon :icon="faExclamationCircle" /> Verbinde zuerst dein Discord Account!
@@ -46,7 +46,7 @@
 
           <div class="setting-item">
             <div class="item-info">
-              <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
+              <img :src="teamspeakLogoUrl" alt="TeamSpeak" class="platform-logo-small"/>
               <h3>TeamSpeak Shield</h3>
               <p v-if="!userData?.teamspeak_id" class="platform-warning">
                 <font-awesome-icon :icon="faExclamationCircle" /> Verbinde zuerst dein TeamSpeak Account!
@@ -126,6 +126,10 @@ const currentPlatform = ref<'discord' | 'teamspeak' | null>(null);
 const operationType = ref<'activate' | 'deactivate'>('activate');
 const operationSuccess = ref(true);
 const loading = ref(false);
+
+const discordLogoUrl = new URL('../../assets/images/other/discord.png', import.meta.url).href;
+const teamspeakLogoUrl = new URL('../../assets/images/other/teamspeak.png', import.meta.url).href;
+const level2LockIconUrl = new URL('../../assets/images/level/2.png', import.meta.url).href;
 
 const toggleShield = (platform: 'discord' | 'teamspeak', isActive: boolean) => {
   const operation = isActive ? 'activate' : 'deactivate';

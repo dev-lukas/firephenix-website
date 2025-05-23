@@ -45,7 +45,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();
-icon.value = 'src/assets/images/phoenix_icon.png';
+icon.value = new URL('./assets/images/phoenix_icon.png', import.meta.url).href;
 
 library.add(
   faUsers,

@@ -1,8 +1,13 @@
 // components/BackgroundVideo.vue
+<script setup>
+import { computed } from 'vue';
+const videoSrc = computed(() => new URL('../../assets/videos/blur.mp4', import.meta.url).href);
+</script>
+
 <template>
   <div class="video-container">
     <video autoplay loop muted class="background-video">
-      <source src="../../assets/videos/blur.mp4" type="video/mp4" />
+      <source :src="videoSrc" type="video/mp4" />
     </video>
   </div>
 </template>

@@ -14,13 +14,14 @@ import { onMounted, onBeforeUnmount } from 'vue';
 onMounted(() => {
   // Favicon logic
   const link = document.querySelector("link[rel~='icon']");
+  const faviconUrl = new URL('./assets/images/phoenix_icon.png', import.meta.url).href;
   if (!link) {
     const newLink = document.createElement('link');
     newLink.rel = 'icon';
     document.head.appendChild(newLink);
-    newLink.href = '/src/assets/images/phoenix_icon.png';
+    newLink.href = faviconUrl;
   } else {
-    link.href = '/src/assets/images/phoenix_icon.png';
+    link.href = faviconUrl;
   }
 
   // Flame sparks background logic

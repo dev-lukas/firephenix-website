@@ -12,7 +12,7 @@
 
       <div class="setting-item">
         <div class="item-info">
-          <img src="/src/assets/images/other/steam-blue.png" alt="Steam" class="platform-logo-small"/>
+          <img :src="steamImg" alt="Steam" class="platform-logo-small"/>
           <h3>Steam</h3>
         </div>
         <div class="item-control">
@@ -24,7 +24,7 @@
 
       <div class="setting-item">
         <div class="item-info">
-          <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
+          <img :src="discordImg" alt="Discord" class="platform-logo-small"/>
           <h3>Discord</h3>
         </div>
         <div class="item-control">
@@ -56,7 +56,7 @@
 
       <div class="setting-item">
         <div class="item-info">
-           <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
+           <img :src="teamspeakImg" alt="TeamSpeak" class="platform-logo-small"/>
           <h3>TeamSpeak</h3>
         </div>
         <div class="item-control">
@@ -151,6 +151,10 @@ const emit = defineEmits<{
 
 const isDiscordLinked = computed(() => !!userData?.discord_id && userData.discord_id !== 'None');
 const isTeamspeakLinked = computed(() => !!userData?.teamspeak_id && userData.teamspeak_id !== 'None');
+
+const steamImg = computed(() => new URL('../../assets/images/other/steam-blue.png', import.meta.url).href);
+const discordImg = computed(() => new URL('../../assets/images/other/discord.png', import.meta.url).href);
+const teamspeakImg = computed(() => new URL('../../assets/images/other/teamspeak.png', import.meta.url).href);
 
 onMounted(async () => {
   try {

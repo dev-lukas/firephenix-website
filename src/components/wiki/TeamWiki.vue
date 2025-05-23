@@ -6,7 +6,7 @@
       <a href="#admin-profile" class="team-link">
         <div class="team-card admin">
           <div class="avatar-wrapper">
-            <img src="/src/assets/images/staff/admin.png" alt="Admin" class="avatar" />
+            <img :src="new URL('../../assets/images/staff/admin.png', import.meta.url).href" alt="Admin" class="avatar" />
           </div>
           <div class="card-content">
             <h3>Lukas</h3>
@@ -19,7 +19,7 @@
         <a href="#ts-moderator-profile" class="team-link">
           <div class="team-card moderator">
             <div class="avatar-wrapper">
-              <img src="/src/assets/images/staff/moderator.png" alt="Teamspeak Moderator" class="avatar" />
+              <img :src="new URL('../../assets/images/staff/moderator.png', import.meta.url).href" alt="Teamspeak Moderator" class="avatar" />
             </div>
             <div class="card-content">
               <h3>Erik</h3>
@@ -31,7 +31,7 @@
         <a href="#discord-moderator-profile" class="team-link">
           <div class="team-card moderator">
             <div class="avatar-wrapper">
-              <img src="/src/assets/images/staff/moderator.png" alt="Discord Moderator" class="avatar" />
+              <img :src="new URL('../../assets/images/staff/moderator.png', import.meta.url).href" alt="Discord Moderator" class="avatar" />
             </div>
             <div class="card-content">
               <h3>Philip</h3>

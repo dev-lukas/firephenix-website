@@ -19,7 +19,7 @@
         </div>
         <div class="item-control locked-control">
           <img
-            src="/src/assets/images/level/21.png"
+            :src="level21Img"
             alt="Prestige I"
             class="level-lock-icon"
           />
@@ -34,7 +34,7 @@
         <!-- Discord Channel -->
         <div class="setting-item">
           <div class="item-info">
-            <img src="/src/assets/images/other/discord.png" alt="Discord" class="platform-logo-small"/>
+            <img :src="discordImg" alt="Discord" class="platform-logo-small"/>
             <h3>Discord Channel</h3>
           </div>
           <div class="item-control">
@@ -80,7 +80,7 @@
         <!-- TeamSpeak Channel -->
         <div class="setting-item">
           <div class="item-info">
-            <img src="/src/assets/images/other/teamspeak.png" alt="TeamSpeak" class="platform-logo-small"/>
+            <img :src="teamspeakImg" alt="TeamSpeak" class="platform-logo-small"/>
             <h3>TeamSpeak Channel</h3>
           </div>
           <div class="item-control">
@@ -198,7 +198,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
@@ -211,6 +211,10 @@ import {
   faStar,
   faCrown
 } from '@fortawesome/free-solid-svg-icons';
+
+const level21Img = computed(() => new URL('../../assets/images/level/21.png', import.meta.url).href);
+const discordImg = computed(() => new URL('../../assets/images/other/discord.png', import.meta.url).href);
+const teamspeakImg = computed(() => new URL('../../assets/images/other/teamspeak.png', import.meta.url).href);
 
 interface Props {
   userData: UserProfile | null;

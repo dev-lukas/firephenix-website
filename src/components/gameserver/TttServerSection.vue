@@ -50,25 +50,25 @@ const features = [
   {
     title: "Handverlesene Karten",
     description: "Erlebe unsere handselektierte Auswahl an TTT-Karten, die Spielspaß, Nostalgie und bestmögliche Grafik kombinieren.",
-    image: "/src/assets/images/games/ttt_tokyo.jpeg",
+    image: new URL('../../assets/images/games/ttt_tokyo.jpeg', import.meta.url).href,
     position: 5 
   },
   {
     title: "Angepasste Addons",
     description: "Genieße Addons, die das Gameplay verbessern und die Spielerfahrung auf ein neues Level heben, ohne den Charm des Klassikers zu verlieren.",
-    image: "/src/assets/images/games/detective.png",
+    image: new URL('../../assets/images/games/detective.png', import.meta.url).href,
     position: 25
   },
   {
     title: "Skin Shop",
     description: "Erhalte Punkte für das Spielen und Gewinnen von Runden. Löse sie ein für Skins deiner Wahl.",
-    image: "/src/assets/images/games/ttt_rewards.png",
+    image: new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href,
     position: 50
   },
   {
     title: "Waffen Balancing",
     description: "Von permanenten Waffen bis hin zu Balancing Änderungen über bessere Hitboxen, wir haben alles im Griff. Genieße ein faires und spannendes Spielerlebnis.",
-    image: "/src/assets/images/games/phoenix-agent.png",
+    image: new URL('../../assets/images/games/phoenix-agent.png', import.meta.url).href,
     position: 85
   }
 ];

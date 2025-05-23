@@ -8,7 +8,7 @@
         :class="['border-item', { 'unlocked': index + 1 === bestDivision, 'locked': index + 1 > bestDivision }]"
         :style="{ '--glow-color': border.color }"
       >
-        <img :src="getBorderImagePath(index + 1)" :alt="`${border.name} Rahmen`" class="border-image" />
+        <img :src="getBorderImage(index + 1)" :alt="`${border.name} Rahmen`" class="border-image" />
         <span class="border-name">{{ border.name }}</span>
         <span v-if="index + 1 === bestDivision" class="current-border-label">Dein momentaner Rahmen</span>
       </div>
@@ -35,10 +35,10 @@ const borders = [
   { name: 'Phönix', image: 'phoenix', color: 'rgba(255, 89, 0, 0.872)' } 
 ];
 
-const getBorderImagePath = (division: number) => {
-    const border = borders[division - 1]; 
-    if (border) {
-        return `src/assets/images/ranks/${border.image}.png`; 
+const getBorderImage = (division: number) => {
+  const border = borders[division - 1];
+  if (border) {
+    return new URL(`../../assets/images/ranks/${border.image}.png`, import.meta.url).href;
   }
 };
 

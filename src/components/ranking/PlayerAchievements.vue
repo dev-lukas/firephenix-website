@@ -112,7 +112,7 @@
         :class="{ 'achievement-locked': achievements.apex?.achievement_level === 0 }"
       >
         <img
-          src="/src/assets/images/achievements/apex.png"
+          :src="apexImg"
           alt="Apex Predator"
           class="achievement-icon"
         />
@@ -129,7 +129,7 @@
         :class="{ 'achievement-locked': achievements.old_member?.achievement_level === 0 }"
       >
         <img
-          src="/src/assets/images/achievements/anvil.png"
+          :src="anvilImg"
           alt="Old Member"
           class="achievement-icon"
         />
@@ -146,7 +146,7 @@
         :class="{ 'achievement-locked': achievements.legacy_supporter?.achievement_level === 0 }"
       >
         <img
-          src="/src/assets/images/achievements/honor.png"
+          :src="honorImg"
           alt="Legacy Supporter"
           class="achievement-icon"
         />
@@ -214,6 +214,10 @@ const maxLevels = {
   streak: 4,
   time: 4
 };
+
+const apexImg = computed(() => new URL('../../assets/images/achievements/apex.png', import.meta.url).href);
+const anvilImg = computed(() => new URL('../../assets/images/achievements/anvil.png', import.meta.url).href);
+const honorImg = computed(() => new URL('../../assets/images/achievements/honor.png', import.meta.url).href);
 
 const getDivisionDescription = (level: number): string => {
   const descriptions = [
