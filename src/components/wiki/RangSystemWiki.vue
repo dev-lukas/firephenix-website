@@ -97,7 +97,7 @@ const levelRewards = {
 }
 
 const getLevelIconPath = (level) => {
-  return `/src/assets/images/level/${level}.png`
+  return new URL(`../../assets/images/level/${level}.png`, import.meta.url).href;
 }
 
 const getLevelTime = (level) => {
