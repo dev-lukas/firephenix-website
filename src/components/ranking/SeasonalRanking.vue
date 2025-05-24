@@ -134,7 +134,7 @@ const getDivisionIconName = (division) => {
 };
 
 const getDivisionImg = (division) => {
-  return new URL(`../../assets/images/level/${divisionColors[division]?.icon || 'bronze'}.png`, import.meta.url).href;
+  return new URL(`../../assets/images/ranks/${divisionColors[division]?.icon || 'bronze.png'}`, import.meta.url).href;
 };
 
 const getRankClass = (rank) => {
