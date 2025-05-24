@@ -28,7 +28,7 @@ import { ref, onMounted, onBeforeUnmount } from 'vue';
 const getNextSeasonDate = () => {
   const now = new Date();
   const thisYear = now.getFullYear();
-  const julyFirst = new Date(thisYear, 6, 1, 23, 59, 59); // July is month 6 (0-based)
+  const julyFirst = new Date(thisYear, 5, 1, 23, 59, 59); 
   if (now > julyFirst) {
     return new Date(thisYear + 1, 6, 1, 23, 59, 59);
   }
