@@ -130,10 +130,12 @@ const getDivisionName = (division) => {
 };
 
 const getDivisionIconName = (division) => {
-  return divisionColors[division]?.icon || 'bronze.png';
+  return divisionColors[division]?.icon || 'bronze';
 };
 
-const getDivisionImg = (division) => new URL('../../assets/images/ranks/' + getDivisionIconName(division), import.meta.url).href;
+const getDivisionImg = (division) => {
+  return new URL(`../../assets/images/level/${divisionColors[division]?.icon || 'bronze'}.png`, import.meta.url).href;
+};
 
 const getRankClass = (rank) => {
   if (rank <= 3) return 'top';
