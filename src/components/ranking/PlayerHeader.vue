@@ -56,7 +56,7 @@ const getLevelImage = (level) => {
 const getRankImage = (division) => {
   const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'phoenix'];
   const index = Math.min(Math.max(0, division - 1), 5);
-  return `/src/assets/images/ranks/${ranks[index]}.png`;
+  return new URL(`../../assets/images/ranks/${ranks[index]}.png`, import.meta.url).href;
 };
 
 const getRankName = (division) => {

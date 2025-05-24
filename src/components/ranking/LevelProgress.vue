@@ -98,13 +98,15 @@ import { getRomanTimeString } from '../../services/romanTimeString';
 const MAX_LEVEL = 25;
 const MAX_DIVISION = 6;
 
+const getRankImg = (rank) => new URL(`../../assets/images/ranks/${rank}.png`, import.meta.url).href;
+
 const ranks = [
-  { id: 1, name: 'Bronze', image: '/src/assets/images/ranks/bronze.png' },
-  { id: 2, name: 'Silber', image: '/src/assets/images/ranks/silver.png' },
-  { id: 3, name: 'Gold', image: '/src/assets/images/ranks/gold.png' },
-  { id: 4, name: 'Platin', image: '/src/assets/images/ranks/platinum.png' },
-  { id: 5, name: 'Diamant', image: '/src/assets/images/ranks/diamond.png' },
-  { id: 6, name: 'Phönix', image: '/src/assets/images/ranks/phoenix.png' },
+  { id: 1, name: 'Bronze', image: getRankImg('bronze') },
+  { id: 2, name: 'Silber', image: getRankImg('silver') },
+  { id: 3, name: 'Gold', image: getRankImg('gold') },
+  { id: 4, name: 'Platin', image: getRankImg('platinum') },
+  { id: 5, name: 'Diamant', image: getRankImg('diamond') },
+  { id: 6, name: 'Phönix', image: getRankImg('phoenix') },
 ];
 
 const props = defineProps({
