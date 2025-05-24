@@ -6,7 +6,7 @@
     <div class="player-avatars">
       <div class="player-avatar" :class="getRankGlowClass(bestDivision)">
         <base-box elevated>
-          <img :src="`/src/assets/images/level/${level}.png`" :alt="name" />
+          <img :src="getLevelImage(level)" :alt="name" />
         </base-box>
         <div class="level-badge">
           <span v-if="level <= 20" class="level-text">Level {{ level }}</span>
@@ -28,6 +28,7 @@
 <script setup>
 import BaseBox from '../base/BaseBox.vue';
 import { getRomanTimeString } from '../../services/romanTimeString';
+import { computed } from 'vue';
 
 defineProps({
   name: {
@@ -47,6 +48,10 @@ defineProps({
     required: true,
   },
 });
+
+const getLevelImage = (level) => {
+  return new URL(`../../assets/images/level/${level}.png`, import.meta.url).href;
+};
 
 const getRankImage = (division) => {
   const ranks = ['bronze', 'silver', 'gold', 'platinum', 'diamond', 'phoenix'];

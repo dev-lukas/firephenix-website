@@ -21,7 +21,7 @@
         :class="{ 'achievement-locked': achievements.logins?.achievement_level < index + 1 }"
       >
         <img
-          :src="`/src/assets/images/achievements/logins/${index + 1}.png`"
+          :src="getLoginImg(index)"
           :alt="`Logins Level ${index + 1}`"
           class="achievement-icon"
         />
@@ -39,7 +39,7 @@
         :class="{ 'achievement-locked': achievements.time?.achievement_level < index + 1 }"
       >
         <img
-          :src="`/src/assets/images/achievements/time/${index + 1}.png`"
+          :src="getTimeImg(index)"
           :alt="`Time Level ${index + 1}`"
           class="achievement-icon"
         />
@@ -59,7 +59,7 @@
         :class="{ 'achievement-locked': achievements.heatmap?.achievement_level < index + 1 }"
       >
         <img
-          :src="`/src/assets/images/achievements/days/${index + 1}.png`"
+          :src="getHeatmapImg(index)"
           :alt="`Heatmap Level ${index + 1}`"
           class="achievement-icon"
         />
@@ -77,7 +77,7 @@
         :class="{ 'achievement-locked': achievements.streak?.achievement_level < index + 3 }"
       >
         <img
-          :src="`/src/assets/images/achievements/streak/${index + 1}.png`"
+          :src="getStreakImg(index)"
           :alt="`Streak Level ${index + 1}`"
           class="achievement-icon"
         />
@@ -95,7 +95,7 @@
         :class="{ 'achievement-locked': achievements.division?.achievement_level < index + 1 }"
       >
         <img
-          :src="`/src/assets/images/achievements/season/${index + 1}.png`"
+          :src="getDivisionImg(index)"
           :alt="`Division Level ${index + 1}`"
           class="achievement-icon"
         />
@@ -218,6 +218,12 @@ const maxLevels = {
 const apexImg = computed(() => new URL('../../assets/images/achievements/apex.png', import.meta.url).href);
 const anvilImg = computed(() => new URL('../../assets/images/achievements/anvil.png', import.meta.url).href);
 const honorImg = computed(() => new URL('../../assets/images/achievements/honor.png', import.meta.url).href);
+
+const getLoginImg = (index: number) => new URL(`../../assets/images/achievements/logins/${index + 1}.png`, import.meta.url).href;
+const getTimeImg = (index: number) => new URL(`../../assets/images/achievements/time/${index + 1}.png`, import.meta.url).href;
+const getHeatmapImg = (index: number) => new URL(`../../assets/images/achievements/days/${index + 1}.png`, import.meta.url).href;
+const getStreakImg = (index: number) => new URL(`../../assets/images/achievements/streak/${index + 1}.png`, import.meta.url).href;
+const getDivisionImg = (index: number) => new URL(`../../assets/images/achievements/season/${index + 1}.png`, import.meta.url).href;
 
 const getDivisionDescription = (level: number): string => {
   const descriptions = [

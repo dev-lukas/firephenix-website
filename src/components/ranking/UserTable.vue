@@ -66,7 +66,7 @@
                 <span class="rank">{{ player.rank }}</span>
                 <span class="level">
                   <div class="table-avatar">
-                    <img :src="`src/assets/images/level/${player.level}.png`" />
+                    <img :src="getLevelImg(player.level)" />
                   </div>
                 </span>
                 <span v-if="player.level <= 20">Level {{ player.level }}</span>
@@ -86,7 +86,7 @@
               >
                 <div class="mobile-row-header">
                   <div class="table-avatar">
-                    <img :src="`src/assets/images/level/${player.level}.png`" />
+                    <img :src="getLevelImg(player.level)" />
                   </div>
                   <div class="mobile-row-main">
                     <span class="player-name">{{ player.name }}</span>
@@ -192,6 +192,8 @@ const formatTime = (minutes) => {
   const remainingMinutes = minutes % 60;
   return `${hours} Std ${remainingMinutes} Min`;
 };
+
+const getLevelImg = (level) => new URL('../../assets/images/level/' + level + '.png', import.meta.url).href;
 
 const fetchData = async () => {
   try {

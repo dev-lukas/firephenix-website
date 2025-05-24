@@ -24,7 +24,7 @@
             <div class="player-avatar">
               <div class="avatar-wrapper">
                 <img
-                  :src="`src/assets/images/level/${topPlayers[1].level}.png`"
+                  :src="getLevelImg(topPlayers[1].level)"
                   alt="Second Place"
                 />
                 <div class="rank-indicator silver">#2</div>
@@ -47,7 +47,7 @@
             <div class="player-avatar">
               <div class="avatar-wrapper">
                 <img
-                  :src="`src/assets/images/level/${topPlayers[0].level}.png`"
+                  :src="getLevelImg(topPlayers[0].level)"
                   alt="First Place"
                 />
                 <div class="rank-indicator gold">#1</div>
@@ -69,7 +69,7 @@
             <div class="player-avatar">
               <div class="avatar-wrapper">
                 <img
-                  :src="`src/assets/images/level/${topPlayers[2].level}.png`"
+                  :src="getLevelImg(topPlayers[2].level)"
                   alt="Third Place"
                 />
                 <div class="rank-indicator bronze">#3</div>
@@ -107,7 +107,7 @@
             <span class="level">
               <div class="table-avatar">
                 <img
-                  :src="`src/assets/images/level/${player.level}.png`"
+                  :src="getLevelImg(player.level)"
                   :alt="player.name"
                 />
               </div>
@@ -128,7 +128,7 @@
           >
             <div class="mobile-row-header">
               <div class="table-avatar">
-                <img :src="`src/assets/images/level/${player.level}.png`" :alt="player.name" />
+                <img :src="getLevelImg(player.level)" :alt="player.name" />
               </div>
               <div class="mobile-row-main">
                 <span class="player-name">{{ player.name }}</span>
@@ -192,6 +192,8 @@ const fetchRankingData = async (period) => {
     topPlayers.value = [];
   }
 };
+
+const getLevelImg = (level) => new URL('../../assets/images/level/' + level + '.png', import.meta.url).href;
 
 watch(
   selectedPeriod,

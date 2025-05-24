@@ -5,7 +5,7 @@
       <div class="progress-info">
         <div class="current-level">
           <img
-            :src="`/src/assets/images/level/${level}.png`"
+            :src="getLevelImg(level)"
             :alt="`Level ${level}`"
           />
           <span v-if="level <= 20">Level {{ level }}</span>
@@ -13,7 +13,7 @@
         </div>
         <div v-if="!isMaxLevel" class="next-level">
           <img
-            :src="`/src/assets/images/level/${level + 1}.png`"
+            :src="getLevelImg(level + 1)"
             :alt="`Level ${level + 1}`"
           />
           <span v-if="level + 1 <= 20">Level {{ level + 1 }}</span>
@@ -202,6 +202,8 @@ const formatTime = (minutes) => {
   result += `${remainingMinutes} Min`;
   return result.trim();
 };
+
+const getLevelImg = (level) => new URL(`../../assets/images/level/${level}.png`, import.meta.url).href;
 </script>
 
 <style scoped>

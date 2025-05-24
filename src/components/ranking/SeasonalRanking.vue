@@ -49,7 +49,7 @@
           <div class="player-info">
             <div class="player-avatar">
               <img 
-                :src="`src/assets/images/ranks/${getDivisionIconName(player.division)}`" 
+                :src="getDivisionImg(player.division)" 
                 class="division-icon" 
                 :title="getDivisionName(player.division)"
               />
@@ -132,6 +132,8 @@ const getDivisionName = (division) => {
 const getDivisionIconName = (division) => {
   return divisionColors[division]?.icon || 'bronze.png';
 };
+
+const getDivisionImg = (division) => new URL('../../assets/images/ranks/' + getDivisionIconName(division), import.meta.url).href;
 
 const getRankClass = (rank) => {
   if (rank <= 3) return 'top';
