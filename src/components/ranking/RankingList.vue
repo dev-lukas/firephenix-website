@@ -193,7 +193,9 @@ const fetchRankingData = async (period) => {
   }
 };
 
-const getLevelImg = (level) => new URL('../../assets/images/level/' + level + '.png', import.meta.url).href;
+const getLevelImg = (level) => {
+  return new URL(`../../assets/images/level/${level}.png`, import.meta.url).href;
+};
 
 watch(
   selectedPeriod,

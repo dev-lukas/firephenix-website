@@ -193,7 +193,9 @@ const formatTime = (minutes) => {
   return `${hours} Std ${remainingMinutes} Min`;
 };
 
-const getLevelImg = (level) => new URL('../../assets/images/level/' + level + '.png', import.meta.url).href;
+const getLevelImg = (level) => {
+  return new URL(`../../assets/images/level/${level}.png`, import.meta.url).href;
+};
 
 const fetchData = async () => {
   try {
