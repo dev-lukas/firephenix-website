@@ -25,25 +25,31 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
+const getNextSeasonDate = () => {
+  const now = new Date();
+  const thisYear = now.getFullYear();
+  const julyFirst = new Date(thisYear, 6, 1, 23, 59, 59); // July is month 6 (0-based)
+  if (now > julyFirst) {
+    return new Date(thisYear + 1, 6, 1, 23, 59, 59);
+  }
+  return julyFirst;
+};
 
-const targetDate = new Date(new Date().getFullYear(), 11, 31, 23, 59, 59);
-
+let targetDate = getNextSeasonDate();
 
 const days = ref(0);
 const hours = ref(0);
 const minutes = ref(0);
 const seconds = ref(0);
 
-
 let countdownInterval = null;
-
 
 const calculateTimeRemaining = () => {
   const now = new Date();
   const difference = targetDate - now;
   
   if (difference <= 0) {
-    targetDate.setFullYear(targetDate.getFullYear() + 1);
+    targetDate = getNextSeasonDate();
     calculateTimeRemaining();
     return;
   }
