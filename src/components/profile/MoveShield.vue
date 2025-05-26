@@ -255,7 +255,6 @@ const closeModal = () => {
 .locked-item {
   background-color: var(--clr-surface-2);
   border: 1px solid var(--clr-border);
-  opacity: 0.7;
 }
 
 .locked-content {
