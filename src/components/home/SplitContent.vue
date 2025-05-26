@@ -294,7 +294,7 @@ onUnmounted(() => {
   letter-spacing: 2px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
   .left-half,
   .right-half {
     flex: 100%;
@@ -308,6 +308,7 @@ onUnmounted(() => {
   }
 
   .headline-container {
+    display: none;
     top: 15%; 
   }
 

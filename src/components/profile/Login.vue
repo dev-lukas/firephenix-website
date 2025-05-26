@@ -21,7 +21,6 @@
           :class="{ 'button-disabled': !canLogin }"
         >
           <span class="button-content">
-            <i class="fab fa-steam"></i>
             Mit Steam einloggen
           </span>
         </button>
@@ -30,7 +29,7 @@
             Dies wird dich zu Steams Login-Seite weiterleiten.
           </span>
           <span v-else class="cookie-required-notice">
-            <i class="fas fa-exclamation-triangle"></i>
+            <font-awesome-icon :icon="faExclamationTriangle" />
             Bitte akzeptiere Cookies, um sich einzuloggen.
           </span>
         </p>
@@ -44,7 +43,7 @@
             :key="index"
           >
             <div class="benefit-icon">
-              <i :class="benefit.icon"></i>
+              <font-awesome-icon :icon="benefit.icon" />
             </div>
             <h3>{{ benefit.title }}</h3>
             <p>{{ benefit.description }}</p>
@@ -68,6 +67,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import CookieBanner from '../base/CookieBanner.vue';
+import { faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 interface Benefit {
   icon: string;

@@ -1,10 +1,10 @@
 <!-- components/base/CookieBanner.vue -->
 <template>
+  <!-- Cookie Banner -->
   <div v-if="showBanner" class="cookie-banner-overlay">
-    <div class="cookie-banner">
-      <div class="cookie-banner-content">
+    <div class="cookie-banner">      <div class="cookie-banner-content">
         <div class="cookie-icon">
-          <i class="fas fa-cookie-bite"></i>
+          <font-awesome-icon :icon="['fas', 'cookie-bite']" />
         </div>
         <div class="cookie-text">
           <h3>Cookies & Datenschutz</h3>
@@ -15,18 +15,17 @@
             gemäß unserer Datenschutzerklärung zu.
           </p>
           <router-link to="/dataprivacy" class="privacy-link">
-            <i class="fas fa-shield-alt"></i>
+            <font-awesome-icon :icon="['fas', 'shield-alt']" />
             Datenschutzerklärung lesen
           </router-link>
         </div>
-      </div>
-      <div class="cookie-actions">
+      </div>      <div class="cookie-actions">
         <button 
           class="cookie-btn cookie-btn-decline" 
           @click="declineCookies"
           type="button"
         >
-          <i class="fas fa-times"></i>
+          <font-awesome-icon :icon="['fas', 'times']" />
           Ablehnen
         </button>
         <button 
@@ -34,11 +33,20 @@
           @click="acceptCookies"
           type="button"
         >
-          <i class="fas fa-check"></i>
+          <font-awesome-icon :icon="['fas', 'check']" />
           Cookie erlauben
         </button>
       </div>
     </div>
+  </div>
+  <!-- Floating Cookie Icon -->
+  <div 
+    v-if="!showBanner && hasConsent" 
+    class="floating-cookie-icon"
+    @click="showCookieSettings"
+    title="Cookie-Einstellungen ändern"
+  >
+    <font-awesome-icon :icon="['fas', 'cookie-bite']" />
   </div>
 </template>
 
@@ -57,6 +65,7 @@ const emit = defineEmits<{
 }>();
 
 const showBanner = ref(false);
+const hasConsent = ref(false);
 
 const COOKIE_CONSENT_KEY = 'firephenix-cookie-consent';
 const CONSENT_EXPIRY_DAYS = 365;
@@ -70,6 +79,7 @@ const checkExistingConsent = () => {
   
   if (!existingConsent) {
     showBanner.value = true;
+    hasConsent.value = false;
     return;
   }
 
@@ -81,14 +91,17 @@ const checkExistingConsent = () => {
       // Consent expired, show banner again
       localStorage.removeItem(COOKIE_CONSENT_KEY);
       showBanner.value = true;
+      hasConsent.value = false;
     } else {
       // Valid consent exists, emit current consent
+      hasConsent.value = true;
       emit('consentChanged', consent);
     }
   } catch (error) {
     // Invalid consent data, show banner
     localStorage.removeItem(COOKIE_CONSENT_KEY);
     showBanner.value = true;
+    hasConsent.value = false;
   }
 };
 
@@ -102,6 +115,7 @@ const acceptCookies = () => {
   
   saveConsent(consent);
   showBanner.value = false;
+  hasConsent.value = true;
   emit('consentChanged', consent);
 };
 
@@ -115,7 +129,12 @@ const declineCookies = () => {
   
   saveConsent(consent);
   showBanner.value = false;
+  hasConsent.value = true;
   emit('consentChanged', consent);
+};
+
+const showCookieSettings = () => {
+  showBanner.value = true;
 };
 
 const saveConsent = (consent: CookieConsent) => {
@@ -126,10 +145,12 @@ const saveConsent = (consent: CookieConsent) => {
 const resetConsent = () => {
   localStorage.removeItem(COOKIE_CONSENT_KEY);
   showBanner.value = true;
+  hasConsent.value = false;
 };
 
 defineExpose({
-  resetConsent
+  resetConsent,
+  showCookieSettings
 });
 </script>
 
@@ -300,6 +321,52 @@ defineExpose({
   }
 }
 
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.floating-cookie-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 60px;
+  height: 60px;
+  background: var(--clr-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 9999;
+  box-shadow: 0 4px 20px rgba(255, 69, 0, 0.3);
+  transition: all 0.3s ease;
+  animation: float 3s ease-in-out infinite;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+.floating-cookie-icon:hover {
+  background: var(--clr-accent);
+  transform: scale(1.1) translateY(-5px);
+  box-shadow: 0 8px 30px rgba(255, 69, 0, 0.5);
+  animation-play-state: paused;
+}
+
+.floating-cookie-icon svg {
+  font-size: 1.5rem;
+  color: white;
+  animation: bounce 2s infinite;
+}
+
+.floating-cookie-icon:hover svg {
+  animation-play-state: paused;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 768px) {
   .cookie-banner {
@@ -341,6 +408,16 @@ defineExpose({
 
   .privacy-link {
     justify-content: center;
+  }
+  .floating-cookie-icon {
+    width: 50px;
+    height: 50px;
+    bottom: 15px;
+    right: 15px;
+  }
+
+  .floating-cookie-icon svg {
+    font-size: 1.2rem;
   }
 }
 

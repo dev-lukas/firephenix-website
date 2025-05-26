@@ -41,7 +41,11 @@ import {
   faGavel,
   faCog,
   faPlus,
-  faFileAlt
+  faFileAlt,
+  faCookieBite,
+  faShieldAlt,
+  faTimes,
+  faCheck
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();
@@ -75,6 +79,10 @@ library.add(
   faPuzzlePiece,
   faQuestionCircle,
   faTriangleExclamation,
+  faCookieBite,
+  faShieldAlt,
+  faTimes,
+  faCheck,
   faRankingStar,
   faChartSimple,
   faPersonRifle,
