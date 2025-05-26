@@ -215,7 +215,7 @@ const closeModal = () => {
   transition: background-color 0.2s ease;
 }
 
-.setting-item:hover {
+.setting-item:hover:not(.locked-item) {
   background-color: var(--clr-surface-3);
 }
 
@@ -253,8 +253,8 @@ const closeModal = () => {
 }
 
 .locked-item {
-  background-color: var(--clr-surface);
-  border-color: var(--clr-border);
+  background-color: var(--clr-surface-2);
+  border: 1px solid var(--clr-border);
   opacity: 0.7;
 }
 
