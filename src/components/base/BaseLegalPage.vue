@@ -91,8 +91,11 @@ defineProps<{
 }
 
 @media (max-width: 768px) {
+  .legal-page {
+    padding: 80px 10px 20px;
+  }
   .legal-title {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 </style>
