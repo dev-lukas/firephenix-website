@@ -30,11 +30,14 @@
         </div>
       </div>
     </div>
-    
-    <div class="cta-container">
-      <a href="steam://connect/gaming.firephenix.de:27015" class="join-server-link">
-        <BaseButton class="join-server-btn">Spiele Jetzt</BaseButton>
+      <div class="cta-container">
+      <a href="steam://connect/gaming.firephenix.de:27015/ember" class="join-server-link">
+        <BaseButton class="join-server-btn" @click="showPassword = true">Spiele Jetzt</BaseButton>
         <p class="server-stats">gaming.firephenix.de</p>
+        <div v-if="showPassword" class="password-display">
+          <p class="password-label">Server Passwort:</p>
+          <p class="password-text">ember</p>
+        </div>
       </a>
     </div>
   </BaseSection>
@@ -74,6 +77,7 @@ const features = [
 ];
 
 const activeFeatures = ref(features.map(() => false));
+const showPassword = ref(false);
 let observers: IntersectionObserver[] = [];
 
 onMounted(() => {
@@ -272,6 +276,40 @@ onUnmounted(() => {
   margin-top: 1rem;
   font-size: 1rem;
   color: var(--clr-text-secondary);
+}
+
+.password-display {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background-color: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  animation: fadeInPassword 0.3s ease-in-out;
+}
+
+.password-label {
+  font-size: 0.9rem;
+  color: var(--clr-text-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.password-text {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--clr-primary);
+  font-family: monospace;
+  letter-spacing: 0.1em;
+}
+
+@keyframes fadeInPassword {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .highlight {
