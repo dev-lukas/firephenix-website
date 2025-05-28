@@ -35,7 +35,7 @@
       </a>
       <p class="server-stats">gaming.firephenix.de</p>
       <div class="password-display" @click="togglePassword">
-        <p class="password-label">Password: <span class="password-text">{{ passwordDisplay }}</span></p>
+        <p class="password-label">Passwort: <span class="password-text">{{ passwordDisplay }}</span></p>
         <p v-if="passwordCopied" class="copy-feedback">In Zwischenablage kopiert!</p>
       </div>
     </div>
