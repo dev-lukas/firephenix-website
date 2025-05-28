@@ -29,22 +29,21 @@
           </div>
         </div>
       </div>
-    </div>
-      <div class="cta-container">
+    </div>      <div class="cta-container">
       <a href="steam://connect/gaming.firephenix.de:27015/ember" class="join-server-link">
-        <BaseButton class="join-server-btn" @click="showPassword = true">Spiele Jetzt</BaseButton>
-        <p class="server-stats">gaming.firephenix.de</p>
-        <div v-if="showPassword" class="password-display">
-          <p class="password-label">Server Passwort:</p>
-          <p class="password-text">ember</p>
-        </div>
+        <BaseButton class="join-server-btn">Spiele Jetzt</BaseButton>
       </a>
+      <p class="server-stats">gaming.firephenix.de</p>
+      <div class="password-display" @click="togglePassword">
+        <p class="password-label">Password: <span class="password-text">{{ passwordDisplay }}</span></p>
+        <p v-if="passwordCopied" class="copy-feedback">In Zwischenablage kopiert!</p>
+      </div>
     </div>
   </BaseSection>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, computed } from 'vue';
 import BaseSection from '../base/BaseSection.vue';
 import BaseButton from '../base/BaseButton.vue';
 
@@ -78,7 +77,28 @@ const features = [
 
 const activeFeatures = ref(features.map(() => false));
 const showPassword = ref(false);
+const passwordCopied = ref(false);
 let observers: IntersectionObserver[] = [];
+
+const passwordDisplay = computed(() => {
+  return showPassword.value ? 'ember' : '*****';
+});
+
+const togglePassword = async () => {
+  showPassword.value = !showPassword.value;
+  
+  if (showPassword.value) {
+    try {
+      await navigator.clipboard.writeText('ember');
+      passwordCopied.value = true;
+      setTimeout(() => {
+        passwordCopied.value = false;
+      }, 2000);
+    } catch (err) {
+      console.error('Failed to copy password to clipboard:', err);
+    }
+  }
+};
 
 onMounted(() => {
   document.querySelector('.path-animation')?.classList.add('animate-path');
@@ -279,18 +299,21 @@ onUnmounted(() => {
 }
 
 .password-display {
-  margin-top: 1rem;
-  padding: 0.75rem;
-  background-color: var(--clr-surface);
-  border: 1px solid var(--clr-border);
-  border-radius: 8px;
-  animation: fadeInPassword 0.3s ease-in-out;
+  margin-top: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  user-select: none;
+  text-align: center;
+}
+
+.password-display:hover .password-text {
+  color: var(--clr-primary-light);
 }
 
 .password-label {
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--clr-text-secondary);
-  margin-bottom: 0.25rem;
+  margin: 0;
 }
 
 .password-text {
@@ -299,6 +322,15 @@ onUnmounted(() => {
   color: var(--clr-primary);
   font-family: monospace;
   letter-spacing: 0.1em;
+  transition: all 0.3s ease;
+}
+
+.copy-feedback {
+  margin: 0.5rem 0 0 0;
+  font-size: 0.9rem;
+  color: var(--clr-primary);
+  font-weight: 500;
+  animation: fadeInPassword 0.3s ease-in-out;
 }
 
 @keyframes fadeInPassword {
