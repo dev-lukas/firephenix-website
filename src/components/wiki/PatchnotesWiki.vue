@@ -81,8 +81,8 @@ const patchnotes = ref([
   {
     id: 1,
     title: 'v1.0 - FirePhenix Rebirth',
-    date: '6. Oktober 2023',
-    description: 'Major update with new features and improvements.',
+    date: '1. Juni 2025',
+    description: 'Großer Neuanfang mit vielen neuen Features und Verbesserungen',
     blogContent: `
       <h3>Ein völliger Neuanfang!</h3>
       <p>Wie ihr in den letzten Monaten eventuell mitbekommen habt, ist seit dem Server-Umzug letzten Herbst nicht viel passiert. Die Webseite war längere Zeit offline, dem TeamSpeak Server fehlten
