@@ -30,8 +30,14 @@
         <div class="item-control">
           <div v-if="isDiscordLinked" class="linked-status">
             <font-awesome-icon :icon="faCheckCircle" /> Verbunden
-          </div>
-          <div v-else class="connect-controls">
+          </div>          <div v-else class="connect-controls">
+            <button 
+              @click="refreshOnlineUsers('discord')"
+              class="refresh-button"
+              title="Online Benutzer aktualisieren"
+            >
+              <font-awesome-icon :icon="faSync" />
+            </button>
             <select v-model="selectedDiscordUser" class="platform-select-inline">
               <option value="" disabled>Online Benutzer auswählen</option>
               <option
@@ -62,8 +68,14 @@
         <div class="item-control">
           <div v-if="isTeamspeakLinked" class="linked-status">
             <font-awesome-icon :icon="faCheckCircle" /> Verbunden
-          </div>
-          <div v-else class="connect-controls">
+          </div>          <div v-else class="connect-controls">
+            <button 
+              @click="refreshOnlineUsers('teamspeak')"
+              class="refresh-button"
+              title="Online Benutzer aktualisieren"
+            >
+              <font-awesome-icon :icon="faSync" />
+            </button>
             <select v-model="selectedTeamspeakUser" class="platform-select-inline">
               <option value="" disabled>Online Benutzer auswählen</option>
               <option
@@ -124,7 +136,7 @@ import { ref, onMounted, computed } from 'vue';
 import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
-import { faCheckCircle, faLink } from '@fortawesome/free-solid-svg-icons';
+import { faCheckCircle, faLink, faSync } from '@fortawesome/free-solid-svg-icons';
 
 interface Props {
   userData: UserProfile | null;
@@ -226,6 +238,23 @@ const verifyCode = async () => {
 const closeModal = () => {
   showVerificationModal.value = false;
   verificationCode.value = '';
+};
+
+const refreshOnlineUsers = async (platform: 'discord' | 'teamspeak') => {
+  try {
+    const response = await fetch(`/api/user/online?platform=${platform}`);
+    const data = await response.json();
+    
+    if (platform === 'discord') {
+      discordUsers.value = data.users;
+      selectedDiscordUser.value = '';
+    } else {
+      teamspeakUsers.value = data.users;
+      selectedTeamspeakUser.value = '';
+    }
+  } catch (error) {
+    console.error(`Failed to refresh ${platform} users:`, error);
+  }
 };
 </script>
 
@@ -336,6 +365,31 @@ const closeModal = () => {
 .item-control .base-button {
    padding: 0.5rem 1rem;
    font-size: 0.9rem;
+}
+
+.refresh-button {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 6px;
+  padding: 0.5rem;
+  color: var(--clr-text-secondary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+}
+
+.refresh-button:hover {
+  background: var(--clr-surface-3);
+  color: var(--clr-text-primary);
+  border-color: var(--clr-primary);
+}
+
+.refresh-button:active {
+  transform: scale(0.95);
 }
 
 @media (max-width: 768px) {
