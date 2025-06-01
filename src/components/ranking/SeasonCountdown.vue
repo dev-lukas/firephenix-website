@@ -1,5 +1,8 @@
 <template>
   <div class="season-countdown">
+    <router-link to="/wiki?tab=saison" class="help-icon" title="Was ist eine Season?">
+      <span class="question-mark">?</span>
+    </router-link>
     <h2 class="countdown-title">Season endet in:</h2>
     <div class="countdown-container">
       <div class="countdown-item">
@@ -85,6 +88,33 @@ onBeforeUnmount(() => {
   box-shadow: 0 4px 15px var(--clr-box-shado);
 }
 
+.help-icon {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 32px;
+  height: 32px;
+  background: var(--clr-primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.help-icon:hover {
+  background: var(--clr-primary-light);
+  transform: scale(1.1);
+}
+
+.question-mark {
+  color: var(--clr-background);
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
 .countdown-title {
   color: var(--clr-primary);
   font-size: 1.5rem;
@@ -124,6 +154,21 @@ onBeforeUnmount(() => {
 }
 
 @media (max-width: 768px) {
+  .season-countdown {
+    padding: 1rem;
+  }
+  
+  .help-icon {
+    top: 0.8rem;
+    right: 0.8rem;
+    width: 28px;
+    height: 28px;
+  }
+  
+  .question-mark {
+    font-size: 1rem;
+  }
+  
   .countdown-container {
     flex-wrap: wrap;
     gap: 0.8rem;
