@@ -9,6 +9,7 @@ import Impressum from './views/Impressum.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
 import Profile from './views/Profile.vue';
 import Wiki from './views/Wiki.vue';
+import Gmod from './banner/Gmod.vue';
 
 const routes: AppRouteRecord[] = [
   {
@@ -77,6 +78,14 @@ const routes: AppRouteRecord[] = [
       title: 'Profil',
     },
   },
+  {
+    path: '/banner/gmod',
+    name: 'Gmod',
+    component: Gmod,
+    meta: {
+      title: 'Gmod',
+    },
+  }
 ];
 
 const router = createRouter({
