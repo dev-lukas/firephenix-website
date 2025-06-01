@@ -54,10 +54,11 @@ const getBorderImage = (division: number) => {
   position: relative;
 }
 
-.border-display-container h3 {
+.border-display-container h2 {
   color: var(--clr-text-primary);
-  font-size: 1.2rem;
-  margin-bottom: 1.5rem;
+  font-size: 1.8rem; 
+  margin-bottom: 2.5rem; 
+  font-weight: 600; 
 }
 
 .no-border-message {
