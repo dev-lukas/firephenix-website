@@ -1,6 +1,6 @@
 <template>
   <div class="border-display-container">
-    <h3>Profilrahmen</h3>
+    <h2>Profilrahmen</h2>
     <div class="borders-grid">
       <div 
         v-for="(border, index) in borders" 
@@ -47,8 +47,6 @@ const getBorderImage = (division: number) => {
 <style scoped>
 .border-display-container {
   padding: 2rem;
-  background-color: var(--clr-surface);
-  border: 1px solid var(--clr-border);
   border-radius: 10px;
   margin-bottom: 2rem; 
   text-align: center;
@@ -83,6 +81,8 @@ const getBorderImage = (division: number) => {
   border-radius: 8px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  border: 2px solid var(--clr-border);
+  background-color: var(--clr-surface-variant, var(--clr-surface));
 }
 
 .border-image {
