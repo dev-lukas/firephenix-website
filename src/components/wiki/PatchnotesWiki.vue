@@ -1,43 +1,77 @@
 <template>
   <div class="patchnotes-wiki">
     <h2 class="patchnotes-title">Patchnotes</h2>
-    <div v-for="note in patchnotes" :key="note.id" class="patchnote-card">
-      <div class="patchnote-header">
-        <h3 class="patchnote-version">{{ note.title }}</h3>
-        <span class="patchnote-date">{{ note.date }}</span>
-      </div>
-      <div class="patchnote-blog" v-html="note.blogContent"></div>
-      <div v-if="note.images && note.images.length" class="patchnote-images">
-        <img v-for="(img, idx) in note.images" :key="idx" :src="img" class="patchnote-image" alt="Patchnote image" />
-      </div>
-      <div class="patchnote-changes">
-        <div v-if="note.added && note.added.length" class="change-section">
-          <span class="change-label added">Hinzugefügt</span>
-          <ul>
-            <li v-for="(item, idx) in note.added" :key="'a'+idx">{{ item }}</li>
-          </ul>
+    
+    <div v-for="note in patchnotes" :key="note.id" class="patchnote-wrapper">
+      <div class="patchnote-card">
+        <!-- Header Section -->
+        <div class="patchnote-header">
+          <div class="patchnote-header-content">
+            <h3 class="patchnote-version">{{ note.title }}</h3>
+            <div class="patchnote-meta">
+              <span class="patchnote-date">{{ note.date }}</span>
+            </div>
+          </div>
+          <div class="patchnote-header-decoration"></div>
         </div>
-        <div v-if="note.changed && note.changed.length" class="change-section">
-          <span class="change-label changed">Geändert</span>
-          <ul>
-            <li v-for="(item, idx) in note.changed" :key="'c'+idx">{{ item }}</li>
-          </ul>
-        </div>
-        <div v-if="note.fixed && note.fixed.length" class="change-section">
-          <span class="change-label fixed">Fix</span>
-          <ul>
-            <li v-for="(item, idx) in note.fixed" :key="'f'+idx">{{ item }}</li>
-          </ul>
-        </div>
-        <div v-if="note.removed && note.removed.length" class="change-section">
-          <span class="change-label removed">Entfernt</span>
-          <ul>
-            <li v-for="(item, idx) in note.removed" :key="'r'+idx">{{ item }}</li>
-          </ul>
+
+          <!-- Blog Content Section -->
+          <div class="patchnote-content">
+            <div class="patchnote-blog" v-html="note.blogContent"></div>
+            
+            <!-- Images Section -->
+            <div v-if="note.images && note.images.length" class="patchnote-images">
+              <img v-for="(img, idx) in note.images" :key="idx" :src="img" class="patchnote-image" alt="Patchnote image" />
+            </div>
+          </div>
+
+          <!-- Changes Summary Section -->
+          <div class="patchnote-changes-wrapper">
+            <h3 class="changes-title">Änderungsübersicht</h3>
+            <div class="patchnote-changes">
+              <div v-if="note.added && note.added.length" class="change-section added-section">
+                <div class="change-header">
+                  <div class="change-icon">+</div>
+                  <span class="change-label">Hinzugefügt</span>
+                </div>
+                <ul class="change-list">
+                  <li v-for="(item, idx) in note.added" :key="'a'+idx" class="change-item">{{ item }}</li>
+                </ul>
+              </div>
+              
+              <div v-if="note.changed && note.changed.length" class="change-section changed-section">
+                <div class="change-header">
+                  <div class="change-icon">~</div>
+                  <span class="change-label">Geändert</span>
+                </div>
+                <ul class="change-list">
+                  <li v-for="(item, idx) in note.changed" :key="'c'+idx" class="change-item">{{ item }}</li>
+                </ul>
+              </div>
+              
+              <div v-if="note.fixed && note.fixed.length" class="change-section fixed-section">
+                <div class="change-header">
+                  <div class="change-icon">✓</div>
+                  <span class="change-label">Behoben</span>
+                </div>
+                <ul class="change-list">
+                  <li v-for="(item, idx) in note.fixed" :key="'f'+idx" class="change-item">{{ item }}</li>
+                </ul>
+              </div>
+              
+              <div v-if="note.removed && note.removed.length" class="change-section removed-section">
+                <div class="change-header">
+                  <div class="change-icon">−</div>
+                  <span class="change-label">Entfernt</span>
+                </div>
+                <ul class="change-list">
+                  <li v-for="(item, idx) in note.removed" :key="'r'+idx" class="change-item">{{ item }}</li>
+                </ul>
+              </div>            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </template>
 
 <script setup>
@@ -144,126 +178,418 @@ const patchnotes = ref([
 .patchnotes-wiki {
   color: var(--clr-text-secondary);
 }
+
 .patchnotes-title {
-  color: var(--clr-primary);
-  margin-bottom: 1rem;
+  color: var(--clr-text-primary);
   margin-bottom: 2rem;
-  text-align: center;
+  font-size: 1.8rem;
+  border-bottom: 1px solid var(--clr-primary-transparent);
+  padding-bottom: 0.5rem;
 }
+
+.patchnote-wrapper {
+  margin-bottom: 4rem;
+}
+
 .patchnote-card {
   background: var(--clr-surface-2);
-  border: 1px solid var(--clr-border);
-  border-radius: 12px;
-  margin-bottom: 2.5rem;
-  padding: 2rem 1.5rem;
-  box-shadow: 0 2px 8px 0 var(--clr-box-shadow);
-  transition: box-shadow 0.2s;
+  border: 2px solid var(--clr-border);
+  border-radius: 16px;
+  overflow: hidden;
+  position: relative;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
 }
+
+.patchnote-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--clr-primary) 0%, var(--clr-primary-light) 100%);
+}
+
 .patchnote-card:hover {
-  box-shadow: 0 4px 16px 0 var(--clr-box-shadow);
+  transform: translateY(-4px);
+  border-color: var(--clr-border-strong);
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
 }
+
 .patchnote-header {
+  position: relative;
+  padding: 3rem 3rem 2rem;
+  background: linear-gradient(135deg, var(--clr-surface-3) 0%, var(--clr-surface-2) 100%);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.patchnote-header-content {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.7rem;
-}
-.patchnote-version {
-  color: var(--clr-primary-light);
-  font-size: 1.3rem;
-  margin: 0;
-}
-.patchnote-date {
-  color: var(--clr-primary-light);
-  font-size: 0.95rem;
-  font-weight: 500;
-}
-.patchnote-description {
-  margin-bottom: 1.2rem;
-  font-size: 1.05rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
-.blog-image {
-  display: block;
-  max-width: 100%;
-  margin: 1rem 0;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06);
+.patchnote-version {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--clr-primary-light);
+  margin: 0;
+  letter-spacing: -0.5px;
 }
-.patchnote-images {
+
+.patchnote-meta {
   display: flex;
+  align-items: center;
   gap: 1rem;
-  margin-bottom: 1.2rem;
-  flex-wrap: wrap;
 }
-.patchnote-image {
-  max-width: 320px;
-  border-radius: 8px;
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 1px 4px 0 rgba(0,0,0,0.06);
-}
-.patchnote-changes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2.5rem;
-  margin-top: 1.2rem;
-}
-.change-section {
-  min-width: 160px;
-}
-.change-label {
-  display: inline-block;
+
+.patchnote-date {
+  color: var(--clr-text-secondary);
   font-size: 1rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
-  border-radius: 4px;
-  padding: 0.1rem 0.7rem;
+  padding: 0.5rem 1rem;
+  background: var(--clr-surface);
+  border-radius: 20px;
+  border: 1px solid var(--clr-border);
 }
-.change-label.added {
+
+.patchnote-header-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: radial-gradient(circle, var(--clr-primary-transparent) 0%, transparent 70%);
+  opacity: 0.3;
+}
+
+.patchnote-content {
+  padding: 3rem;
+}
+
+.patchnote-images {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.patchnote-image {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 2px solid var(--clr-border);
+  transition: transform 0.3s ease;
+}
+
+.patchnote-image:hover {
+  transform: scale(1.02);
+  border-color: var(--clr-border-strong);
+}
+
+.patchnote-changes-wrapper {
+  margin-top: 3rem;
+  padding: 3rem;
+  background: var(--clr-surface);
+  border-top: 2px solid var(--clr-border);
+}
+
+.changes-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--clr-text-primary);
+  margin: 0 0 2.5rem;
+  text-align: center;
+}
+
+.patchnote-changes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2.5rem;
+}
+
+.change-section {
+  background: var(--clr-surface-2);
+  border-radius: 12px;
+  padding: 2rem;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.change-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+}
+
+.added-section {
+  border-color: var(--clr-added);
+}
+
+.added-section::before {
   background: var(--clr-added);
-  color: var(--clr-text-primary);
 }
-.change-label.changed {
+
+.changed-section {
+  border-color: var(--clr-primary);
+}
+
+.changed-section::before {
   background: var(--clr-primary);
-  color: var(--clr-text-primary);
 }
-.change-label.fixed {
+
+.fixed-section {
+  border-color: var(--clr-fixed);
+}
+
+.fixed-section::before {
   background: var(--clr-fixed);
-  color: var(--clr-text-primary);
 }
-.change-label.removed {
+
+.removed-section {
+  border-color: var(--clr-error);
+}
+
+.removed-section::before {
   background: var(--clr-error);
+}
+
+.change-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.change-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 1.2rem;
   color: var(--clr-text-primary);
 }
-@media (max-width: 768px) {
+
+.added-section .change-icon {
+  background: var(--clr-added);
+}
+
+.changed-section .change-icon {
+  background: var(--clr-primary);
+}
+
+.fixed-section .change-icon {
+  background: var(--clr-fixed);
+}
+
+.removed-section .change-icon {
+  background: var(--clr-error);
+}
+
+.change-label {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--clr-text-primary);
+}
+
+.change-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.change-item {
+  padding: 0.8rem 0;
+  border-bottom: 1px solid var(--clr-border);
+  color: var(--clr-text-secondary);
+  font-size: 1rem;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 1.5rem;
+}
+
+.change-item::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: var(--clr-primary);
+  font-weight: bold;
+}
+
+.change-item:last-child {
+  border-bottom: none;
+}
+
+/* Mobile Responsive */
+@media (max-width: 1024px) {
+  .patchnotes-title {
+    font-size: 1.6rem;
+  }
+  
   .patchnote-card {
-    padding: 1.2rem 0.7rem;
+    border-radius: 12px;
   }
+  
+  .patchnote-header,
+  .patchnote-content,
+  .patchnote-changes-wrapper {
+    padding: 2rem;
+  }
+  
   .patchnote-changes {
-    flex-direction: column;
-    gap: 1.2rem;
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
-  .patchnote-images {
+}
+
+@media (max-width: 768px) {
+  .patchnotes-title {
+    font-size: 1.5rem;
+  }
+  
+  .patchnote-wrapper {
+    margin-bottom: 3rem;
+  }
+  
+  .patchnote-header,
+  .patchnote-content,
+  .patchnote-changes-wrapper {
+    padding: 1.5rem;
+  }
+  
+  .patchnote-header-content {
     flex-direction: column;
-    gap: 0.7rem;
+    text-align: center;
+  }
+  
+  .patchnote-version {
+    font-size: 1.8rem;
+  }
+  
+  .patchnote-images {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .change-section {
+    padding: 1.5rem;
+  }
+  
+  .changes-title {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .patchnote-header,
+  .patchnote-content,
+  .patchnote-changes-wrapper {
+    padding: 1rem;
+  }
+  
+  .patchnote-version {
+    font-size: 1.5rem;
+  }
+  
+  .change-section {
+    padding: 1rem;
   }
 }
 </style>
 
 <style>
 .patchnote-blog {
-  margin-bottom: 1.5rem;
-  font-size: 1.08rem;
-  line-height: 1.7;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--clr-text-secondary);
 }
+
 .patchnote-blog h3 {
-  color: var(--clr-text-primary);
-  margin-top: 1.2rem;
-  margin-bottom: 0.5rem;
-  font-size: 1.15rem;
+  color: var(--clr-primary-light);
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  position: relative;
+  padding-bottom: 0.5rem;
 }
+
+.patchnote-blog h3::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 2px;
+  background: var(--clr-primary);
+}
+
+.patchnote-blog h4 {
+  color: var(--clr-text-primary);
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
 .patchnote-blog p {
-  margin-bottom: 0.7rem;
+  margin-bottom: 1.2rem;
+  color: var(--clr-text-secondary);
+}
+
+.patchnote-blog h3:first-child + p {
+  font-size: 1.15rem;
+  color: var(--clr-text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.patchnote-blog u {
+  text-decoration: none;
+  background: linear-gradient(transparent 50%, var(--clr-primary-transparent) 50%);
+  color: var(--clr-primary-light);
+  padding: 0 0.2rem;
+}
+
+.patchnote-blog i {
+  color: var(--clr-primary-light);
+  font-style: italic;
+}
+
+.patchnote-blog strong {
+  color: var(--clr-text-primary);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .patchnote-blog {
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+  
+  .patchnote-blog h3 {
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+  
+  .patchnote-blog h4 {
+    font-size: 1.1rem;
+    margin-top: 1.5rem;
+  }
+  .patchnote-blog > p:first-of-type {
+    font-size: 1.05rem;
+  }
 }
 </style>
