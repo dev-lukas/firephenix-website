@@ -11,6 +11,7 @@
           <div class="card-content">
             <h3>Lukas</h3>
             <span class="role">Admin</span>
+            <p>~ Alduin86</p>
             <p>Gründer & Hauptverantwortlicher<br />Leitung & Entwicklung<br /></p>
           </div>
         </div>
@@ -24,6 +25,7 @@
             <div class="card-content">
               <h3>Erik</h3>
               <span class="role">Moderator</span>
+              <p>~ Stahlkefer</p>
               <p>Support & Moderation<br />Teamspeak Ansprechpartner<br /></p>
             </div>
           </div>
@@ -36,6 +38,7 @@
             <div class="card-content">
               <h3>Philip</h3>
               <span class="role">Moderator</span>
+              <p>~ Flippster98</p>
               <p>Support & Moderation<br />Discord Ansprechpartner<br /></p>
             </div>
           </div>

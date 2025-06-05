@@ -29,9 +29,9 @@ const props = defineProps({
 });
 
 const leftGames = [
-  { divisor: 5, label: 'TTT Runden spielen' },
+  { divisor: 8, label: 'TTT Runden spielen' },
   { divisor: 35, label: 'League of Legends Runden spielen' },
-  { divisor: 40, label: 'Counter-Strike 2 Runden' },
+  { divisor: 40, label: 'Counter-Strike 2 Runden spielen' },
   { divisor: 3600, label: 'mal Elden Ring durchspielen' },
 ];
 
