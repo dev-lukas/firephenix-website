@@ -79,6 +79,34 @@ import { ref } from 'vue';
 
 const patchnotes = ref([
   {
+    id: 2,
+    title: 'v1.0.1',
+    date: '13. Juni 2025',
+    description: 'Bugfixes und kleine Verbesserungen für die neue Webseite',
+    blogContent: `
+      <h3>QoL und Bugfixes</h3>
+      <p>Seit Launch gab es einige kleine Verbesserungen und Fehler die behoben wurden.</p>
+      <p>Ember wurde etwas verbessert und sollte nun auf Fragen besser eingehen und sich nicht im Kreis drehen. Einige Texte auf der Webseite wurden angepasst.
+      Kleinere Fehler die auftraten wurden behoben.</p>
+      <p>Vielen Dank an alle die Feedback gegeben haben und Fehler gemeldet haben!</p>
+      <p>Lukas ~ Admin</p>
+     `,
+    images: [],
+    added: [],
+    changed: [
+      'Mitglieder-Channel heißen nun sinnvoller Prestige-Channel',
+      'Verbesserte Ember Interaktion',
+      'Kleinere Textanpassungen auf der Webseite',
+      'Heatmap Farben wurden verbessert',
+    ],
+    fixed: [
+      'Kurzzeitige falsche Rangzuweisung zu Level I',
+      'Falsche Zeitangabe zum Levelup im Profil-Tab',
+      'Profil-Settings werden bei einem Merge nicht mehr überschrieben',
+    ],
+    removed: [],
+  },
+  {
     id: 1,
     title: 'v1.0 - FirePhenix Rebirth',
     date: '1. Juni 2025',

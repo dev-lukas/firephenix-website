@@ -48,7 +48,7 @@
         <font-awesome-icon icon="fa-brands fa-discord" class="support-icon discord" />
         <div>
           <h4>Discord</h4>
-          <p>Tritt unserem Discord-Server bei und stelle deine Frage im #support-Kanal.</p>
+          <p>Tritt unserem Discord-Server bei und stelle deine Frage einfach einem Team-Mitglied!</p>
           <a href="https://discord.gg/sT4NPRQSAT" class="support-link">Discord beitreten</a>
         </div>
       </div>
