@@ -35,11 +35,17 @@ const createChart = () => {
   const timeSlots = ['morning', 'noon', 'evening', 'night'];
   const days = ['0', '1', '2', '3', '4', '5', '6'];
   const dayLabels = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
-
   let totalMinutes = 0;
+  let maxMinutes = 0;
+  const allMinutes = [];
+
+  // Collect all minute values and calculate totals
   days.forEach((day) => {
     timeSlots.forEach((slot) => {
-      totalMinutes += Number(props.heatmapData.data[day]?.[slot]) || 0;
+      const minutes = Number(props.heatmapData.data[day]?.[slot]) || 0;
+      totalMinutes += minutes;
+      maxMinutes = Math.max(maxMinutes, minutes);
+      allMinutes.push(minutes);
     });
   });
 
@@ -47,10 +53,14 @@ const createChart = () => {
     .map((slot, i) =>
       days.map((day, j) => {
         const minutes = Number(props.heatmapData.data[day]?.[slot]) || 0;
+        const percentageOfTotal = totalMinutes > 0 ? (minutes / totalMinutes) * 100 : 0;
+        const relativeIntensity = maxMinutes > 0 ? (minutes / maxMinutes) * 100 : 0;
+        
         return {
           x: j,
           y: i,
-          v: totalMinutes > 0 ? (minutes / totalMinutes) * 100 : 0,
+          v: percentageOfTotal, // Keep original percentage for tooltip
+          intensity: relativeIntensity, // New property for dynamic brightness
           minutes: minutes,
         };
       })
@@ -62,10 +72,13 @@ const createChart = () => {
     data: {
       datasets: [
         {
-          data: data,
-          backgroundColor: (context) => {
-            const value = context.raw.v;
-            const alpha = Math.max(0.1, value / 100); // Now using percentage directly
+          data: data,          backgroundColor: (context) => {
+            const intensity = context.raw.intensity;
+            // Use dynamic scaling: minimum alpha of 0.1, maximum of 0.9
+            // This ensures the highest value is always bright (0.9) and there's good contrast
+            const minAlpha = 0.1;
+            const maxAlpha = 0.9;
+            const alpha = intensity > 0 ? minAlpha + (intensity / 100) * (maxAlpha - minAlpha) : 0.05;
             return `rgba(249, 133, 0, ${alpha})`;
           },
           pointRadius: 12,
