@@ -74,7 +74,7 @@
         v-for="(_, index) in maxLevels.streak"
         :key="`streak-${index}`"
         class="achievement-item"
-        :class="{ 'achievement-locked': achievements.streak?.achievement_level < index + 3 }"
+        :class="{ 'achievement-locked': achievements.streak?.achievement_level < index + 1 }"
       >
         <img
           :src="getStreakImg(index)"
