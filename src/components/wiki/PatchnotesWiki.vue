@@ -79,6 +79,48 @@ import { ref } from 'vue';
 
 const patchnotes = ref([
   {
+    id: 3,
+    title: 'v1.1 - Frischer Wind',
+    date: '29. März 2026',
+    description: 'Neues Design, neue Statistiken und die Hall of Fame',
+    blogContent: `
+      <h3>Ein frischer Anstrich</h3>
+      <p>Die Webseite hat einiges an Liebe bekommen! Von einer neuen Navigation über verbesserte Statistiken bis hin zu einer komplett überarbeiteten Kosmetik-Seite — es gibt viel zu entdecken.
+        Die Seite fühlt sich insgesamt deutlich flüssiger und moderner an.</p>
+
+      <h3>Neue Statistiken</h3>
+      <p>Euer Profil zeigt jetzt deutlich mehr Informationen an! Die <u>aktuelle Login-Streak</u> ist nun sichtbar, zusammen mit eurem Rekord.
+        Dazu gibt es eine <u>Tagesübersicht</u> und eine <u>Plattform-Verteilung</u> die zeigt, wie sich eure Zeit auf Discord und TeamSpeak aufteilt.
+        Auf Spielerprofilen seht ihr außerdem seit wann jemand dabei ist.</p>
+
+      <h3>Hall of Fame</h3>
+      <p>Neu in der Rangliste: der <u>Hall of Fame</u> Tab! Hier werden die Besten der Community in sechs Kategorien geehrt —
+        von der längsten Streak über die meisten Achievements bis hin zum ältesten Mitglied. Schafft ihr es aufs Podium?</p>
+
+      <h3>Kosmetik</h3>
+      <p>Die Kosmetik-Seite im Profil wurde komplett überarbeitet. Die Rang-Embleme zeigen jetzt euren Fortschritt in einer übersichtlichen Reihe,
+        und die TTT Skins werden in einem schicken Showcase präsentiert der Lust auf mehr macht.</p>
+      <p>Lukas ~ Admin</p>
+    `,
+    images: [],
+    added: [
+      'Desktop Navigation mit Logo und Menüpunkten',
+      'Hall of Fame Tab mit 6 Kategorien',
+      'Login-Streak, Tageszeit und Plattform-Verteilung im Profil',
+      '"Mitglied seit" Badge auf Spielerprofilen',
+      'Cookie-Banner',
+    ],
+    changed: [
+      'Kosmetik-Seite komplett überarbeitet',
+      'Moderneres und flüssigeres Seitengefühl',
+      'Seasonrangliste: sanfterer Phönix-Glow',
+    ],
+    fixed: [
+      '"Studen" Tippfehler zu "Stunden" korrigiert',
+    ],
+    removed: [],
+  },
+  {
     id: 2,
     title: 'v1.0.1',
     date: '13. Juni 2025',
