@@ -63,34 +63,34 @@ const navigateToTab = (tab: string) => {
 }
 
 .toggle-button {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-transparent-light);
+  border: 2px solid var(--clr-border);
   border-radius: 12px;
   padding: 0.8rem 1.5rem;
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 1rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.8rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   min-width: 180px;
   justify-content: center;
 }
 
 .toggle-button:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-transparent-middle);
   transform: translateY(-2px);
-  color: #fff;
+  color: var(--clr-text-primary);
 }
 
 .toggle-button.active {
-  background: rgba(249, 133, 0, 0.1);
-  border-color: rgba(249, 133, 0, 0.3);
-  color: #f98500;
-  box-shadow: 0 4px 12px rgba(249, 133, 0, 0.15);
+  background: var(--clr-primary-transparent);
+  border-color: var(--clr-border-strong);
+  color: var(--clr-primary);
+  box-shadow: 0 4px 12px var(--clr-primary-transparent-strong);
 }
 
 .button-icon {
@@ -101,13 +101,13 @@ const navigateToTab = (tab: string) => {
   position: absolute;
   top: -10px;
   right: -10px;
-  background: linear-gradient(135deg, #ff4500, #ffa500);
-  color: white;
+  background: linear-gradient(135deg, var(--clr-red), var(--clr-primary));
+  color: var(--clr-white);
   font-size: 0.7rem;
   font-weight: bold;
   padding: 0.2rem 0.5rem;
   border-radius: 10px;
-  box-shadow: 0 2px 5px rgba(255, 69, 0, 0.3);
+  box-shadow: 0 2px 5px var(--clr-box-shadow-orange);
   animation: pulse 1.5s infinite alternate;
 }
 

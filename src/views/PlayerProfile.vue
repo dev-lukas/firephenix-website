@@ -12,6 +12,8 @@
     <template v-else-if="player">
       <PlayerHeader :name="player.name" :level="player.level" :division="player.division" :bestDivision="player.best_division_achieved" />
 
+      <MemberSince :created-at="player.created_at" />
+
       <LevelProgress
         :level="player.level"
         :division="player.division"
@@ -26,7 +28,13 @@
         :monthly-time="player.monthly_time"
         :weekly-time="player.weekly_time"
         :season-time="player.season_time"
+        :daily-time="player.daily_time || 0"
         :streak="player.login_streaks"
+      />
+
+      <PlatformBreakdown
+        :discord-time="player.platform_time?.discord || 0"
+        :teamspeak-time="player.platform_time?.teamspeak || 0"
       />
 
       <GameComparison :total-time="player.total_time" />
@@ -58,6 +66,8 @@ import PlayerChart from '../components/ranking/PlayerChart.vue';
 import LoadingSpinner from '../components/base/LoadingSpinner.vue';
 import ErrorDisplay from '../components/base/ErrorDisplay.vue';
 import HeatMapChart from '../components/ranking/HeatMapChart.vue';
+import MemberSince from '../components/ranking/MemberSince.vue';
+import PlatformBreakdown from '../components/ranking/PlatformBreakdown.vue';
 
 Chart.register(...registerables);
 

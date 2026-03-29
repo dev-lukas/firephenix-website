@@ -3,12 +3,18 @@
   <div class="app">
     <canvas id="bg-canvas"></canvas>
     <NavBar />
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <transition name="page" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+    <CookieBanner />
   </div>
 </template>
 
 <script setup>
 import NavBar from './components/NavBar.vue';
+import CookieBanner from './components/base/CookieBanner.vue';
 import { onMounted, onBeforeUnmount } from 'vue';
 
 onMounted(() => {
@@ -40,19 +46,19 @@ onMounted(() => {
   resize();
   window.addEventListener('resize', resize);
 
-  const SPARKS = 10; 
+  const SPARKS = 10;
   function randomSpark() {
-    const baseHue = 25 + Math.random() * 15; 
+    const baseHue = 25 + Math.random() * 15;
     return {
       x: Math.random() * width,
       y: height + Math.random() * 40,
-      vx: (Math.random() - 0.45) * 0.68, 
-      vy: -0.7 - Math.random() * 0.5, 
+      vx: (Math.random() - 0.45) * 0.68,
+      vy: -0.7 - Math.random() * 0.5,
       size: 1.5 + Math.random() * 2.5,
       alpha: 0.7 + Math.random() * 0.3,
       life: 0,
       maxLife: 1000 + Math.random() * 80,
-      color: `hsl(${baseHue}, 98%, ${55 + Math.random() * 10}%)` 
+      color: `hsl(${baseHue}, 98%, ${55 + Math.random() * 10}%)`
     };
   }
   const sparks = Array.from({ length: SPARKS }, randomSpark);
@@ -107,7 +113,12 @@ onMounted(() => {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 #bg-canvas {
@@ -140,7 +151,7 @@ main {
 }
 
 a {
-  color: var(--clr-primary); 
+  color: var(--clr-primary);
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -170,5 +181,20 @@ select option:focus,
 select option:active,
 select option:checked {
   background-color: var(--clr-primary);
+}
+
+/* Page route transitions */
+.page-enter-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.page-leave-active {
+  transition: opacity 0.15s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-leave-to {
+  opacity: 0;
 }
 </style>

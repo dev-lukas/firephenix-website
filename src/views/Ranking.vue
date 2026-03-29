@@ -24,8 +24,8 @@
         <span>Gesamtranking</span>
       </button>
       
-      <button 
-        class="toggle-button" 
+      <button
+        class="toggle-button"
         :class="{ active: activeRanking === 'seasonal' }"
         @click="navigateToTab('seasonal')"
       >
@@ -33,8 +33,17 @@
         <span>Seasonranking</span>
         <span class="new-tag">NEU</span>
       </button>
+
+      <button
+        class="toggle-button"
+        :class="{ active: activeRanking === 'hall-of-fame' }"
+        @click="navigateToTab('hall-of-fame')"
+      >
+        <font-awesome-icon :icon="['fas', 'ranking-star']" class="button-icon" />
+        <span>Hall of Fame</span>
+      </button>
     </div>
-    
+
     <!-- Components rendered based on active tab -->
     <UserStats v-show="activeRanking === 'server-stats'" />
     <UsageChart v-show="activeRanking === 'server-stats'" />
@@ -43,6 +52,7 @@
     <UserTable v-show="activeRanking === 'all-time'" />
     <SeasonCountdown v-show="activeRanking === 'seasonal'" />
     <SeasonalRanking v-show="activeRanking === 'seasonal'" />
+    <HallOfFame v-show="activeRanking === 'hall-of-fame'" />
   </div>
 </template>
 
@@ -55,8 +65,9 @@ import UserTable from '../components/ranking/UserTable.vue';
 import SeasonalRanking from '../components/ranking/SeasonalRanking.vue';
 import SeasonCountdown from '../components/ranking/SeasonCountdown.vue';
 import PlatformDistributionChart from '../components/ranking/PlatformDistributionChart.vue';
+import HallOfFame from '../components/ranking/HallOfFame.vue';
 
-const validTabs = ['server-stats', 'all-time', 'seasonal'];
+const validTabs = ['server-stats', 'all-time', 'seasonal', 'hall-of-fame'];
 const activeRanking = ref('server-stats');
 
 const navigateToTab = (tab) => {
@@ -124,7 +135,7 @@ watch(activeRanking, (newTab) => {
   align-items: center;
   gap: 0.8rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   min-width: 180px;
   justify-content: center;

@@ -184,7 +184,9 @@ onUnmounted(() => {
   border-radius: 3vh;
   padding: 2rem;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.4s ease;
   cursor: pointer;
   position: relative;
   overflow: hidden;

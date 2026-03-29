@@ -30,13 +30,20 @@ const isActive = computed(() => props.to === route.path);
 .nav-item {
   color: var(--clr-text-secondary);
   text-decoration: none;
-  padding: 0.5rem 1rem;
-  transition: color 0.3s ease;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  transition: color 0.25s ease, background 0.25s ease;
   font-weight: 500;
+  font-size: 0.9rem;
+  position: relative;
 }
 
-.nav-item:hover,
-.nav-item.active {
+.nav-item:hover {
   color: var(--clr-text-primary);
+  background: var(--clr-transparent-light);
+}
+
+.nav-item.active {
+  color: var(--clr-primary);
 }
 </style>

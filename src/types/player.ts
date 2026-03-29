@@ -38,12 +38,18 @@ export interface Player {
   monthly_time: number;
   weekly_time: number;
   season_time: number;
+  daily_time: number;
   time_to_next_level: number;
   time_to_next_division: number;
   rank_percentage: number;
   mean_total_time: number;
   best_player_time: number;
   best_division_achieved: number;
+  created_at: string | null;
+  platform_time: {
+    discord: number;
+    teamspeak: number;
+  };
   activity_heatmap: ActivityHeatmap;
   login_streaks: {
     discord: {

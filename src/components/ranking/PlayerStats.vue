@@ -1,10 +1,19 @@
 <template>
   <div class="stats-grid">
-    <div class="stat-card">
-      <font-awesome-icon :icon="['fas', 'fire']" />
+    <div class="stat-card streak-card" :class="{ 'hot-streak': currentStreak >= 7 }">
+      <font-awesome-icon :icon="['fas', 'fire']" class="streak-icon" />
       <div class="stat-info">
-        <span class="stat-value">{{ displayBestStreak }}</span>
-        <span class="stat-label">Beste Streak</span>
+        <span class="stat-value">{{ displayCurrentStreak }} Tage</span>
+        <span class="stat-label">Aktuelle Streak</span>
+        <span class="streak-best">Rekord: {{ bestStreak }} Tage</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <font-awesome-icon :icon="['fas', 'clock']" />
+      <div class="stat-info">
+        <span class="stat-value">{{ formatTime(displayDailyTime) }}</span>
+        <span class="stat-label">Heute</span>
       </div>
     </div>
 
@@ -43,44 +52,32 @@
 </template>
 
 <script setup>
-import { computed, defineProps, ref, onMounted, watch } from 'vue';
+import { computed, ref, onMounted, watch } from 'vue';
 
 const props = defineProps({
-  totalTime: {
-    type: Number,
-    required: true,
-  },
-  monthlyTime: {
-    type: Number,
-    required: true,
-  },
-  weeklyTime: {
-    type: Number,
-    required: true,
-  },
-  seasonTime: {
-    type: Number,
-    required: true,
-  },
+  totalTime: { type: Number, required: true },
+  monthlyTime: { type: Number, required: true },
+  weeklyTime: { type: Number, required: true },
+  seasonTime: { type: Number, required: true },
+  dailyTime: { type: Number, default: 0 },
   streak: {
     type: Object,
     required: true,
     default: () => ({
-      discord: {
-        current: 0,
-        longest: 0,
-      },
-      teamspeak: {
-        current: 0,
-        longest: 0,
-      },
+      discord: { current: 0, longest: 0 },
+      teamspeak: { current: 0, longest: 0 },
     }),
   },
 });
 
+const currentStreak = computed(() => Math.max(
+  props.streak?.discord?.current || 0,
+  props.streak?.teamspeak?.current || 0
+));
+
 const bestStreak = computed(() => Math.max(
-  props.streak.discord.longest,
-  props.streak.teamspeak.longest
+  props.streak?.discord?.longest || 0,
+  props.streak?.teamspeak?.longest || 0
 ));
 
 const formatTime = (minutes) => {
@@ -90,24 +87,22 @@ const formatTime = (minutes) => {
   return `${hours} Stunden`;
 };
 
-// --- Count up animation logic ---
 const displayTotalTime = ref(0);
 const displayMonthlyTime = ref(0);
 const displayWeeklyTime = ref(0);
 const displaySeasonTime = ref(0);
-const displayBestStreak = ref(0);
+const displayDailyTime = ref(0);
+const displayCurrentStreak = ref(0);
 
 function animateValue(refValue, targetProp, duration = 1200) {
-  const start = 0; // Always animate from 0 for a "count-up" effect
-  const numericTarget = Number(targetProp) || 0; // Ensure target is a number
+  const numericTarget = Number(targetProp) || 0;
   const startTime = performance.now();
 
   function animate(now) {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    // Ease out (decelerate)
     const eased = 1 - Math.pow(1 - progress, 3);
-    refValue.value = Math.round(start + (numericTarget - start) * eased);
+    refValue.value = Math.round(numericTarget * eased);
     if (progress < 1) {
       requestAnimationFrame(animate);
     } else {
@@ -122,37 +117,22 @@ onMounted(() => {
   animateValue(displayMonthlyTime, props.monthlyTime);
   animateValue(displayWeeklyTime, props.weeklyTime);
   animateValue(displaySeasonTime, props.seasonTime);
-  animateValue(displayBestStreak, bestStreak.value);
+  animateValue(displayDailyTime, props.dailyTime);
+  animateValue(displayCurrentStreak, currentStreak.value, 800);
 });
 
-// Watch for prop changes to re-trigger animations
-watch(() => props.totalTime, (newValue) => {
-  animateValue(displayTotalTime, newValue);
-});
-
-watch(() => props.monthlyTime, (newValue) => {
-  animateValue(displayMonthlyTime, newValue);
-});
-
-watch(() => props.weeklyTime, (newValue) => {
-  animateValue(displayWeeklyTime, newValue);
-});
-
-watch(() => props.seasonTime, (newValue) => {
-  animateValue(displaySeasonTime, newValue);
-});
-
-// bestStreak is a computed property based on props.streak.
-// It will update reactively when props.streak changes.
-watch(bestStreak, (newValue) => {
-  animateValue(displayBestStreak, newValue);
-});
+watch(() => props.totalTime, (v) => animateValue(displayTotalTime, v));
+watch(() => props.monthlyTime, (v) => animateValue(displayMonthlyTime, v));
+watch(() => props.weeklyTime, (v) => animateValue(displayWeeklyTime, v));
+watch(() => props.seasonTime, (v) => animateValue(displaySeasonTime, v));
+watch(() => props.dailyTime, (v) => animateValue(displayDailyTime, v));
+watch(currentStreak, (v) => animateValue(displayCurrentStreak, v, 800));
 </script>
 
 <style scoped>
 .stats-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   gap: 1.5rem;
   margin-bottom: 2rem;
 }
@@ -167,19 +147,35 @@ watch(bestStreak, (newValue) => {
   position: relative;
   align-items: center;
   gap: 1rem;
-  transition: transform 0.2s ease;
+  opacity: 0;
+  transform: translateY(16px);
+  animation: card-enter 0.5s var(--transition-smooth) forwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0ms; }
+.stat-card:nth-child(2) { animation-delay: 60ms; }
+.stat-card:nth-child(3) { animation-delay: 120ms; }
+.stat-card:nth-child(4) { animation-delay: 180ms; }
+.stat-card:nth-child(5) { animation-delay: 240ms; }
+.stat-card:nth-child(6) { animation-delay: 300ms; }
+.stat-card:nth-child(7) { animation-delay: 360ms; }
+
+@keyframes card-enter {
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  border-color: var(--clr-border-strong);
+  transition: transform 0.3s var(--transition-bounce),
+              box-shadow 0.3s var(--transition-smooth),
+              border-color 0.3s ease;
 }
 
-.stat-icon {
-  font-size: 1.5rem;
+.stat-card svg {
+  font-size: 2.5rem;
   color: var(--clr-primary);
-  background: var(--clr-surface-2);
-  padding: 1rem;
-  border-radius: 12px;
 }
 
 .stat-info {
@@ -199,10 +195,21 @@ watch(bestStreak, (newValue) => {
   color: var(--clr-text-secondary);
 }
 
-@media (max-width: 1100px) {
-  .stats-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+/* Streak card */
+.streak-icon {
+  font-size: 2.5rem;
+  color: var(--clr-primary);
+}
+
+.streak-best {
+  font-size: 0.78rem;
+  color: var(--clr-text-secondary);
+  opacity: 0.7;
+}
+
+.hot-streak {
+  border-color: var(--clr-primary-transparent-strong);
+  box-shadow: 0 0 20px rgba(249, 133, 0, 0.08);
 }
 
 @media (max-width: 768px) {
@@ -215,11 +222,6 @@ watch(bestStreak, (newValue) => {
     padding: 1rem;
   }
 
-  .stat-icon {
-    padding: 0.8rem;
-    font-size: 1.2rem;
-  }
-
   .stat-value {
     font-size: 1rem;
   }
@@ -227,10 +229,5 @@ watch(bestStreak, (newValue) => {
   .stat-label {
     font-size: 0.8rem;
   }
-}
-
-.stat-card svg {
-  font-size: 2.5rem;
-  color: var(--clr-primary);
 }
 </style>

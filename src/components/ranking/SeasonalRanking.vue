@@ -332,7 +332,28 @@ onMounted(() => {
 }
 
 .division-6 {
-  animation: glow 2s infinite alternate;
+  position: relative;
+}
+
+.division-6::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  background: radial-gradient(
+    ellipse at 20% 50%,
+    rgba(255, 69, 0, 0.12) 0%,
+    rgba(255, 69, 0, 0.04) 50%,
+    transparent 70%
+  );
+  z-index: -1;
+  pointer-events: none;
+  animation: phoenix-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+}
+
+@keyframes phoenix-glow {
+  0% { opacity: 0.4; transform: scale(1); }
+  100% { opacity: 0.85; transform: scale(1.01); }
 }
 
 .rank-indicator {
@@ -400,8 +421,13 @@ onMounted(() => {
 }
 
 .division-6 .division-icon {
-  animation: pulse 1.5s infinite alternate;
-  filter: drop-shadow(0 0 5px rgba(255, 69, 0, 0.5));
+  animation: phoenix-icon-breathe 3s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+  filter: drop-shadow(0 0 6px rgba(255, 69, 0, 0.4));
+}
+
+@keyframes phoenix-icon-breathe {
+  0% { transform: scale(1); filter: drop-shadow(0 0 4px rgba(255, 69, 0, 0.3)); }
+  100% { transform: scale(1.05); filter: drop-shadow(0 0 10px rgba(255, 69, 0, 0.5)); }
 }
 
 .division-5 .division-icon {
@@ -411,6 +437,10 @@ onMounted(() => {
 .player-card:hover .division-icon {
   transform: scale(1.15);
 }
+
+.player-card.division-6:hover { background: linear-gradient(135deg, rgba(255, 69, 0, 0.06) 0%, var(--clr-surface-2) 40%); }
+.player-card.division-5:hover { background: linear-gradient(135deg, rgba(0, 180, 220, 0.08) 0%, var(--clr-surface-2) 40%); }
+.player-card.division-3:hover { background: linear-gradient(135deg, rgba(255, 215, 0, 0.04) 0%, var(--clr-surface-2) 40%); }
 
 .division-badge {
   display: none;
@@ -527,15 +557,7 @@ onMounted(() => {
   to { transform: rotate(360deg); }
 }
 
-@keyframes glow {
-  from { box-shadow: 0 0 5px rgba(255, 69, 0, 0.5); }
-  to { box-shadow: 0 0 15px rgba(255, 69, 0, 0.8); }
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
+/* phoenix-glow and phoenix-icon-breathe defined above */
 
 @media (max-width: 768px) {
   .seasonal-ranking-container {

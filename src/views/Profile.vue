@@ -59,7 +59,13 @@
               :monthly-time="userData?.monthly_time || 0"
               :weekly-time="userData?.weekly_time || 0"
               :season-time="userData?.season_time || 0"
-              :streak="userData?.login_streaks"	
+              :daily-time="userData?.daily_time || 0"
+              :streak="userData?.login_streaks"
+            />
+
+            <PlatformBreakdown
+              :discord-time="userData?.platform_time?.discord || 0"
+              :teamspeak-time="userData?.platform_time?.teamspeak || 0"
             />
 
             <GameComparison :total-time="userData?.total_time || 0" />
@@ -134,6 +140,7 @@ import GameComparison from '../components/ranking/GameComparison.vue';
 import HeatMapChart from '../components/ranking/HeatMapChart.vue';
 import MoveShield from '../components/profile/MoveShield.vue';
 import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
+import PlatformBreakdown from '../components/ranking/PlatformBreakdown.vue';
 import SkinUnlocker from '../components/profile/SkinUnlocker.vue'; // Import the new component
 import ProfileBorderDisplay from '../components/profile/ProfileBorderDisplay.vue'; // Import the border display component
 
@@ -251,34 +258,34 @@ const handleLogout = async () => {
 }
 
 .toggle-button {
-  background: rgba(255, 255, 255, 0.05);
-  border: 2px solid rgba(249, 133, 0, 0.1);
+  background: var(--clr-transparent-light);
+  border: 2px solid var(--clr-border);
   border-radius: 12px;
   padding: 0.8rem 1.5rem;
-  color: #999;
+  color: var(--clr-text-secondary);
   font-size: 1rem;
   font-weight: 500;
   display: flex;
   align-items: center;
   gap: 0.8rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   min-width: 180px;
   justify-content: center;
 }
 
 .toggle-button:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--clr-transparent-middle);
   transform: translateY(-2px);
-  color: #fff;
+  color: var(--clr-text-primary);
 }
 
 .toggle-button.active {
-  background: rgba(249, 133, 0, 0.1);
-  border-color: rgba(249, 133, 0, 0.3);
-  color: #f98500;
-  box-shadow: 0 4px 12px rgba(249, 133, 0, 0.15);
+  background: var(--clr-primary-transparent);
+  border-color: var(--clr-border-strong);
+  color: var(--clr-primary);
+  box-shadow: 0 4px 12px var(--clr-primary-transparent-strong);
 }
 
 .button-icon {
@@ -297,11 +304,18 @@ const handleLogout = async () => {
   }
 }
 
-.skin-container,
 .stats-container {
   margin-top: 2rem;
   padding: 2rem;
   background: var(--clr-background);
+}
+
+.skin-container {
+  margin-top: 2rem;
+  padding: 2rem;
+  background: var(--clr-surface);
+  border-radius: 16px;
+  border: 1px solid var(--clr-border);
 }
 
 .settings-container {
