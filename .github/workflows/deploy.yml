@@ -21,8 +21,11 @@ jobs:
             # Ensure we have the latest changes
             git fetch origin main
             git reset --hard origin/main
-                  
-            # Build with verbose output
+
+            # Install dependencies
+            npm ci
+
+            # Build
             npm run build
             
             # Copy built files to web root (adjust path as needed)
