@@ -21,6 +21,11 @@ export interface UserProfile {
   time_to_next_level: number;
   time_to_next_division: number;
   best_division_achieved: number;
+  created_at: string | null;
+  platform_time: {
+    discord: number;
+    teamspeak: number;
+  };
   season_one_skins_unlocked: {
     2: boolean;
     3: boolean;
