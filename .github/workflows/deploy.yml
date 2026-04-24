@@ -1,36 +1,42 @@
-name: Deploy to VPS (Build on VPS with Git Pull)
+name: Build & Deploy Website
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
+
+env:
+  REGISTRY: registry.lukas-roth.dev
+  IMAGE_NAME: firephenix-website
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  build-and-deploy:
+    runs-on: self-hosted
 
     steps:
-      - name: Deploy and build on VPS
-        uses: appleboy/ssh-action@v0.1.10
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t $REGISTRY/$IMAGE_NAME:latest \
+            -t $REGISTRY/$IMAGE_NAME:${{ github.sha }} .
+
+      - name: Push to registry
+        run: |
+          docker push $REGISTRY/$IMAGE_NAME:latest
+          docker push $REGISTRY/$IMAGE_NAME:${{ github.sha }}
+
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
-          key: ${{ secrets.VPS_SSH_KEY }}          
+          key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            cd ~/firephenix-website
-            # Ensure we have the latest changes
-            git fetch origin main
-            git reset --hard origin/main
+            cd /opt/firephenix
+            docker compose pull website
+            docker compose up -d website
 
-            # Install dependencies
-            npm ci
-
-            # Build
-            npm run build
-            
-            # Copy built files to web root (adjust path as needed)
-            rm -rf /var/www/firephenix-website/*
-            cp -r dist/* /var/www/firephenix-website/
-            
-            # Reload web server (adjust for your setup)
-            sudo systemctl reload nginx
+      - name: Cleanup
+        if: always()
+        run: docker image prune -f

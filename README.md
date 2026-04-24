@@ -26,3 +26,7 @@ Run `npm run dev` to start the development server.
 ## Building
 
 Run `npm run build` to build the production version.
+
+## Docker
+
+The production image is a multi-stage build that compiles the Vite app and serves the static output from Nginx. API calls stay on relative `/api/...` paths so Traefik can route them to the backend in production.
