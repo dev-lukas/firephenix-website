@@ -227,8 +227,9 @@ const refreshUserData = async () => {
 const handleLogout = async () => {
   try {
     const response = await fetch('/api/auth/logout', {
-      method: 'GET',
-      credentials: 'include',
+      method: 'POST',
+      credentials: 'same-origin',
+      headers: authStore.csrfHeaders(),
     });
 
     if (response.ok) {

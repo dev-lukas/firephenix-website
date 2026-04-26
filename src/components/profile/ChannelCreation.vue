@@ -202,6 +202,7 @@ import { ref, computed } from 'vue';
 import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
+import { useAuthStore } from '../../services/auth';
 import { 
   faLock, 
   faInfoCircle,
@@ -211,6 +212,8 @@ import {
   faStar,
   faCrown
 } from '@fortawesome/free-solid-svg-icons';
+
+const authStore = useAuthStore();
 
 const level21Img = computed(() => new URL('../../assets/images/level/21.png', import.meta.url).href);
 const discordImg = computed(() => new URL('../../assets/images/other/discord.png', import.meta.url).href);
@@ -240,7 +243,10 @@ const confirmChannelCreation = async () => {
   try {
     const response = await fetch('/api/user/profile/channel', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({ platform: currentPlatform.value }),
     });
 
@@ -265,7 +271,10 @@ const confirmChannelUpgrade = async () => {
   try {
     const response = await fetch('/api/user/profile/channel/apex', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({ platform: currentPlatform.value }),
     });
 

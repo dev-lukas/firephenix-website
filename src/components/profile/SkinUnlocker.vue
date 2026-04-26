@@ -114,6 +114,7 @@
 import { ref, reactive, computed } from 'vue';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
+import { useAuthStore } from '../../services/auth';
 import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
 import tttSilver from '../../assets/images/games/ttt_reward_silver.png';
@@ -123,6 +124,7 @@ import tttDiamond from '../../assets/images/games/ttt_reward_diamond.png';
 import tttPhoenix from '../../assets/images/games/ttt_reward_phoenix.png';
 
 const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href);
+const authStore = useAuthStore();
 
 const props = defineProps({
   bestDivision: { type: Number, required: true },
@@ -185,7 +187,10 @@ const confirmUnlock = async () => {
   try {
     const response = await fetch('/api/user/profile/skins', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({ platform: 'garrysmod', tier: currentSkinId.value + 1 }),
     });
     if (!response.ok) {
