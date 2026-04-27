@@ -7,43 +7,72 @@ on:
     branches: [main]
   workflow_dispatch:
     inputs:
-      deploy:
-        description: Deploy to production after pushing the image
-        required: false
-        type: boolean
-        default: false
+      deploy_services:
+        description: Space, comma, or newline-separated services to deploy
+        required: true
+        type: string
+        default: website
 
 permissions:
   contents: read
 
+env:
+  REGISTRY: registry.lukas-roth.dev
+  IMAGE_NAME: firephenix-website
+
 jobs:
-  website:
-    uses: dev-lukas/ci-cd-actions/.github/workflows/node-static.yml@main
+  checks:
+    uses: dev-lukas/ci-cd-actions/.github/workflows/node-checks.yml@main
     with:
-      image_name: firephenix-website
       node_version: "20"
       typecheck_command: npm exec -- vue-tsc -b
       test_command: npm test
-      smoke_paths: |
-        /
-        /ranking
-        /wiki
-        /profile
-    secrets: inherit
+      build_command: npm run build
+      audit_command: npm audit --audit-level=critical
+
+  docker-build:
+    needs: checks
+    uses: dev-lukas/ci-cd-actions/.github/workflows/docker-build.yml@main
+    with:
+      image: local/firephenix-website:${{ github.sha }}
+      image_tags: |
+        registry.lukas-roth.dev/firephenix-website:${{ github.sha }}
+        registry.lukas-roth.dev/firephenix-website:latest
+      smoke_command: .github/ci/website-static-smoke.sh
 
   integration:
-    needs: website
+    needs: docker-build
     if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
-    uses: dev-lukas/ci-cd-actions/.github/workflows/firephenix-stack.yml@main
+    uses: dev-lukas/ci-cd-actions/.github/workflows/docker-build.yml@main
     with:
-      component: website
-      image_name: firephenix-website
+      image: local/firephenix-website:${{ github.sha }}
+      image_tags: |
+        registry.lukas-roth.dev/firephenix-website:${{ github.sha }}
+        registry.lukas-roth.dev/firephenix-website:latest
+      registry: registry.lukas-roth.dev
+      registry_username: registry
+      smoke_command: .github/ci/firephenix-stack-smoke.sh
+    secrets: inherit
+
+  publish:
+    needs: integration
+    if: ${{ github.event_name != 'pull_request' && (github.ref == 'refs/heads/main' || github.event_name == 'workflow_dispatch') }}
+    uses: dev-lukas/ci-cd-actions/.github/workflows/docker-publish.yml@main
+    with:
+      registry: registry.lukas-roth.dev
+      registry_username: registry
+      image_tags: |
+        registry.lukas-roth.dev/firephenix-website:${{ github.sha }}
+        registry.lukas-roth.dev/firephenix-website:latest
     secrets: inherit
 
   deploy:
-    needs: integration
-    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy == true }}
-    uses: dev-lukas/ci-cd-actions/.github/workflows/deploy-service.yml@main
+    needs: publish
+    if: ${{ github.event_name == 'workflow_dispatch' }}
+    uses: dev-lukas/ci-cd-actions/.github/workflows/compose-deploy.yml@main
     with:
-      deploy_services: website
+      deploy_services: ${{ inputs.deploy_services }}
+      allowed_services: website
+      deploy_path: /opt/firephenix
+      environment: production
     secrets: inherit

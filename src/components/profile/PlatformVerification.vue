@@ -136,7 +136,10 @@ import { ref, onMounted, computed } from 'vue';
 import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
+import { useAuthStore } from '../../services/auth';
 import { faCheckCircle, faLink, faSync } from '@fortawesome/free-solid-svg-icons';
+
+const authStore = useAuthStore();
 
 interface Props {
   userData: UserProfile | null;
@@ -201,7 +204,10 @@ const initiateVerification = async (platform: 'discord' | 'teamspeak') => {
   try {
     const response = await fetch('/api/user/profile/verification/initiate', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({
         platform,
         platform_id: user.id,
@@ -219,7 +225,10 @@ const verifyCode = async () => {
   try {
     const response = await fetch('/api/user/profile/verification/verify', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({
         platform: currentPlatform.value,
         code: verificationCode.value,

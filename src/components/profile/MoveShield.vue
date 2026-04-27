@@ -105,11 +105,14 @@ import type { UserProfile } from '../../types/user';
 import BaseButton from '../base/BaseButton.vue';
 import BaseModal from '../base/BaseModal.vue';
 import BaseSwitch from '../base/BaseSwitch.vue';
+import { useAuthStore } from '../../services/auth';
 import {
   faLock,
   faCheckCircle,
   faExclamationCircle
 } from '@fortawesome/free-solid-svg-icons';
+
+const authStore = useAuthStore();
 
 interface Props {
   userData: UserProfile | null;
@@ -148,7 +151,10 @@ const createChannel = async (
   try {
     const response = await fetch('/api/user/profile/moveshield', {
       method: operation === 'activate' ? 'POST' : 'DELETE',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        ...authStore.csrfHeaders(),
+      },
       body: JSON.stringify({ platform }),
     });
 
