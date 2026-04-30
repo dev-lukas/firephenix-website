@@ -13,9 +13,11 @@ port="$(docker inspect --format '{{ (index (index .NetworkSettings.Ports "80/tcp
 
 for path in / /ranking /wiki /profile; do
   response_file="$(mktemp)"
+  error_file="$(mktemp)"
   ok=0
+  echo "Waiting for website route ${path}..."
   for _ in $(seq 1 30); do
-    if curl -fsS "http://127.0.0.1:${port}${path}" -o "$response_file" &&
+    if curl -fsS "http://127.0.0.1:${port}${path}" -o "$response_file" 2>"$error_file" &&
       grep -Fq '<div id="app">' "$response_file"; then
       ok=1
       break
@@ -25,8 +27,10 @@ for path in / /ranking /wiki /profile; do
 
   if [ "$ok" -ne 1 ]; then
     echo "Website static smoke failed for ${path}" >&2
+    cat "$error_file" >&2 || true
     cat "$response_file" >&2 || true
     docker logs "$container_id" >&2 || true
     exit 1
   fi
+  echo "Website route ${path} is ready."
 done
