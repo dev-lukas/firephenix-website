@@ -1,10 +1,10 @@
 // components/SplitContent.vue
 <template>
   <section class="content-section">
-    <p class="explore-text explore-topright" :class="{ 'fade-in': showExplore }">Oder erkunde unsere Website →</p>
+    <p class="explore-text explore-topright" :class="{ 'fade-in': showExplore }">Weitere Bereiche entdecken →</p>
     <div class="headline-container" ref="headlineRef">
       <h2 class="main-headline" :class="{ 'fade-in': isVisible }">
-        Wähle dein Weg und<br />beginne deine Reise
+        Wähle deine Plattform und<br />verbinde dich mit der Community
       </h2>
     </div>
     <div class="left-half">
@@ -19,8 +19,8 @@
           <div class="card-content">
             <h4 class="app-title">TeamSpeak 3</h4>
             <p class="app-description">
-              Höchste Klangqualität, Resourcenschonend mit niedriger Latenz,
-              Privat. Deine Daten gehören dir.
+              Klare Sprachqualität, niedrige Latenz und ein ressourcenschonender
+              Client. Ideal für feste Gruppen und längere Gespräche.
             </p>
           </div>
         </div>
@@ -45,8 +45,8 @@
           <div class="card-content">
             <h4 class="app-title">Discord</h4>
             <p class="app-description">
-              Chatten und Streamen, Spieleintegrationen, Intuitiv, permanenter
-              Chat. Grenzenlose Möglichkeiten.
+              Textchat, Streams, Benachrichtigungen und einfache Erreichbarkeit.
+              Gut für Austausch, Events und spontane Runden.
             </p>
           </div>
         </div>

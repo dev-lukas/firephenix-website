@@ -6,14 +6,14 @@
     <div class="content-overlay">
       <div class="hero-content" :class="{ visible: heroVisible }">
         <h1 class="hero-title">FirePhenix</h1>
-        <p class="hero-subtitle">Spiele mit Freunden und lerne neue Leute kennen.<br>Eine Gaming Community seit über 10 Jahren.</p>
+        <p class="hero-subtitle">Treffe Freunde, bleib in Kontakt und spiele gemeinsam.<br>Eine Gaming-Community seit über 10 Jahren.</p>
         <base-button
           variant="secondary"
           class="scroll-button"
           large
           @click="scrollToContent"
         >
-          Beginne dein Abenteuer
+          Community entdecken
         </base-button>
       </div>
     </div>
