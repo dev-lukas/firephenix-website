@@ -123,7 +123,7 @@ import tttPlatinum from '../../assets/images/games/ttt_reward_platinum.png';
 import tttDiamond from '../../assets/images/games/ttt_reward_diamond.png';
 import tttPhoenix from '../../assets/images/games/ttt_reward_phoenix.png';
 
-const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href);
+const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards_banner.png', import.meta.url).href);
 const authStore = useAuthStore();
 
 const props = defineProps({
