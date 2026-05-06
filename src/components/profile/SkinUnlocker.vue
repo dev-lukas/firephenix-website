@@ -134,6 +134,9 @@ const props = defineProps({
     default: () => ({ 2: false, 3: false, 4: false, 5: false, 6: false })
   }
 });
+const emit = defineEmits<{
+  (e: 'reload-data'): void;
+}>();
 
 const getBadge = (name: string) => new URL(`../../assets/images/ranks/${name}.png`, import.meta.url).href;
 
@@ -195,8 +198,10 @@ const confirmUnlock = async () => {
     });
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
-      errorMessage.value = errorData?.message || 'Fehler beim Freischalten. Bitte versuche es später erneut.';
+      errorMessage.value = errorData?.error || errorData?.message || 'Fehler beim Freischalten. Bitte versuche es später erneut.';
       showErrorModal.value = true;
+    } else {
+      emit('reload-data');
     }
   } catch {
     errorMessage.value = 'Netzwerkfehler. Bitte überprüfe deine Internetverbindung.';
