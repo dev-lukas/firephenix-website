@@ -121,7 +121,7 @@
           </div>
         </div>
 
-        <div class="settings-container" v-show="activeTab === 'admin' && authStore.isAdmin">
+        <div v-if="activeTab === 'admin' && authStore.isAdmin" class="settings-container">
           <AdminDashboard />
         </div>
       </div>
