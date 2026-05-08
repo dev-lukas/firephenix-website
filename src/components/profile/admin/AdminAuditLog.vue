@@ -24,8 +24,9 @@
     >
       <article v-for="entry in entries" :key="entry.id" class="audit-entry">
         <button class="audit-summary" type="button" @click="toggle(entry.id)">
-          <span>
+          <span class="audit-primary">
             <strong>{{ actionLabel(entry.action) }}</strong>
+            <small>Akteur: {{ entry.admin_steam_id }}</small>
             <small>{{ targetSummary(entry) }}</small>
           </span>
           <span class="audit-meta">
@@ -121,7 +122,7 @@ const targetSummary = (entry: AuditEntry) => {
   if (target.steam_id64) {
     return `SteamID64 ${target.steam_id64}`;
   }
-  return `Admin ${entry.admin_steam_id}`;
+  return 'Kein Ziel erfasst';
 };
 
 const formatDate = (date: string | null) => {
@@ -199,6 +200,12 @@ const stringify = (value: Record<string, unknown>) =>
 .empty-state,
 dt {
   color: var(--clr-text-secondary);
+}
+
+.audit-primary {
+  display: grid;
+  gap: 0.25rem;
+  min-width: 0;
 }
 
 .audit-meta {

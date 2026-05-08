@@ -20,7 +20,7 @@
       <div class="status-card">
         <div class="status-title">
           <span :class="['status-dot', statusTone]"></span>
-          <div>
+          <div class="status-copy">
             <strong>{{ statusLabel }}</strong>
             <small>{{ statusMessage }}</small>
           </div>
@@ -218,6 +218,12 @@ const serverAddress = computed(() => {
   display: flex;
   gap: 0.75rem;
   margin-bottom: 1rem;
+}
+
+.status-copy {
+  display: grid;
+  gap: 0.2rem;
+  min-width: 0;
 }
 
 .status-title strong,

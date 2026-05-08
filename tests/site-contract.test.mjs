@@ -166,7 +166,17 @@ test('admin TTT status panel reflects direct public server query', async () => {
   assert.match(statusPanel, /Direkte Serverabfrage/);
   assert.match(statusPanel, /firephenix\.de:27015/);
   assert.match(statusPanel, />Adresse</);
+  assert.match(statusPanel, /class="status-copy"/);
   assert.doesNotMatch(statusPanel, /Serverstatus aus dem Manager/);
+});
+
+test('admin audit log labels actor separately from target', async () => {
+  const auditLog = await read('src/components/profile/admin/AdminAuditLog.vue');
+
+  assert.match(auditLog, /Akteur: \{\{ entry\.admin_steam_id \}\}/);
+  assert.match(auditLog, /<dt>Akteur<\/dt>/);
+  assert.match(auditLog, /<dt>Ziel<\/dt>/);
+  assert.match(auditLog, /class="audit-primary"/);
 });
 
 test('nginx serves the SPA fallback with security headers', async () => {
