@@ -244,7 +244,7 @@ const adminFetch = async (url: string, options: RequestInit = {}) => {
   });
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.error || 'Admin-Aktion fehlgeschlagen');
+    throw new Error(data.message || data.error || 'Admin-Aktion fehlgeschlagen');
   }
   return data;
 };

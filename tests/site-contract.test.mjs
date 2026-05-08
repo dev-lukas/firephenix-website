@@ -64,6 +64,12 @@ test('frontend keeps expected backend API contract paths', async () => {
   }
 });
 
+test('admin dashboard surfaces backend response messages', async () => {
+  const adminDashboard = await read('src/components/profile/AdminDashboard.vue');
+
+  assert.match(adminDashboard, /data\.message \|\| data\.error \|\| 'Admin-Aktion fehlgeschlagen'/);
+});
+
 test('nginx serves the SPA fallback with security headers', async () => {
   const nginx = await read('nginx.conf');
 
