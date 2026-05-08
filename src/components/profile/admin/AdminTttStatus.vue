@@ -35,8 +35,8 @@
             <strong>{{ currentMap }}</strong>
           </div>
           <div class="metric">
-            <span>Manager</span>
-            <strong>{{ managerState }}</strong>
+            <span>Adresse</span>
+            <strong>{{ serverAddress }}</strong>
           </div>
           <div class="metric">
             <span>Letzter Refresh</span>
@@ -96,6 +96,12 @@ const rawState = computed(() =>
   String(props.status?.status || props.status?.state || '').toLowerCase()
 );
 
+const asString = (value: unknown) =>
+  typeof value === 'string' && value.trim() ? value : null;
+
+const asNumber = (value: unknown) =>
+  typeof value === 'number' && Number.isFinite(value) ? value : null;
+
 const statusTone = computed(() => {
   if (!props.status) return 'unknown';
   if (rawState.value.includes('online') || props.status.ok === true)
@@ -116,28 +122,49 @@ const statusMessage = computed(
   () =>
     props.status?.message ||
     props.status?.error ||
-    'Serverstatus aus dem Manager'
+    props.status?.name ||
+    'Direkte Serverabfrage'
 );
 
 const playerCount = computed(() => {
   const players = props.status?.players;
   if (typeof players === 'number') return String(players);
   if (players && typeof players === 'object') {
-    const current = players.current ?? props.status?.current_players ?? 0;
+    const current = players.current ?? props.status?.current_players;
     const max = players.max ?? props.status?.max_players;
+    if (current == null) return 'unbekannt';
     return max ? `${current}/${max}` : String(current);
   }
-  return props.status?.current_players != null
-    ? String(props.status.current_players)
-    : 'unbekannt';
+
+  const current =
+    asNumber(props.status?.current_players) ??
+    asNumber(props.status?.player_count) ??
+    asNumber(props.status?.num_players) ??
+    asNumber(props.status?.clients);
+  const max =
+    asNumber(props.status?.max_players) ??
+    asNumber(props.status?.maxplayers) ??
+    asNumber(props.status?.max_clients);
+
+  if (current == null) return 'unbekannt';
+  return max ? `${current}/${max}` : String(current);
 });
 
 const currentMap = computed(
-  () => props.status?.current_map || props.status?.map || 'unbekannt'
+  () =>
+    asString(props.status?.current_map) ||
+    asString(props.status?.map) ||
+    asString(props.status?.map_name) ||
+    'unbekannt'
 );
-const managerState = computed(
-  () => props.status?.manager_state || props.status?.state || 'unbekannt'
-);
+
+const serverAddress = computed(() => {
+  const host = asString(props.status?.host);
+  const port = asNumber(props.status?.port);
+  if (host && port) return `${host}:${port}`;
+  if (host) return host;
+  return 'firephenix.de:27015';
+});
 </script>
 
 <style scoped>

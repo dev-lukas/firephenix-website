@@ -158,6 +158,17 @@ test('ranking transfer target selection is search based', async () => {
   assert.doesNotMatch(admin, /target_user_id[^]*type="number"/);
 });
 
+test('admin TTT status panel reflects direct public server query', async () => {
+  const statusPanel = await read(
+    'src/components/profile/admin/AdminTttStatus.vue'
+  );
+
+  assert.match(statusPanel, /Direkte Serverabfrage/);
+  assert.match(statusPanel, /firephenix\.de:27015/);
+  assert.match(statusPanel, />Adresse</);
+  assert.doesNotMatch(statusPanel, /Serverstatus aus dem Manager/);
+});
+
 test('nginx serves the SPA fallback with security headers', async () => {
   const nginx = await read('nginx.conf');
 
