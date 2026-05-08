@@ -1,225 +1,147 @@
 <template>
   <div class="admin-dashboard">
-    <section class="settings-section-container">
-      <div class="section-header">
-        <h3>Spieler suchen</h3>
-        <div class="search-row">
-          <input
-            v-model="searchQuery"
-            class="admin-input"
-            type="search"
-            placeholder="Name, SteamID, Discord ID oder TeamSpeak ID"
-            @keyup.enter="searchPlayers"
-          />
-          <BaseButton variant="primary" @click="searchPlayers">Suchen</BaseButton>
-        </div>
+    <div class="dashboard-header">
+      <div>
+        <p class="eyebrow">Admin</p>
+        <h2>Dashboard</h2>
       </div>
-
-      <div class="settings-list">
-        <button
-          v-for="player in players"
-          :key="player.id"
-          class="settings-item player-result"
-          type="button"
-          @click="selectPlayer(player.id)"
-        >
-          <span>
-            <strong>{{ player.name }}</strong>
-            <small>#{{ player.id }} - Level {{ player.level }} - Division {{ player.division }}</small>
-          </span>
-          <span v-if="player.ranking_disabled" class="status-pill danger">Ranking deaktiviert</span>
-        </button>
-        <p v-if="hasSearched && players.length === 0" class="empty-state">Keine Spieler gefunden.</p>
-      </div>
-    </section>
-
-    <section v-if="selectedPlayer" class="settings-section-container">
-      <div class="section-header">
-        <h3>{{ selectedPlayer.name }}</h3>
-        <p>
-          Steam: {{ selectedPlayer.steam_id || 'nicht verlinkt' }} -
-          Discord: {{ selectedPlayer.discord_id || 'nicht verlinkt' }} -
-          TeamSpeak: {{ selectedPlayer.teamspeak_id || 'nicht verlinkt' }}
-        </p>
-      </div>
-
-      <div class="admin-grid">
-        <label class="field">
-          Quelle
-          <input v-model.number="transfer.source_user_id" class="admin-input" type="number" />
-        </label>
-        <label class="field">
-          Ziel
-          <input v-model.number="transfer.target_user_id" class="admin-input" type="number" />
-        </label>
-        <label class="checkbox-field">
-          <input v-model="transfer.platforms" type="checkbox" value="teamspeak" />
-          TeamSpeak
-        </label>
-        <label class="checkbox-field">
-          <input v-model="transfer.platforms" type="checkbox" value="discord" />
-          Discord
-        </label>
-      </div>
-      <textarea v-model="transfer.reason" class="admin-textarea" placeholder="Grund fuer den Ranking-Transfer"></textarea>
-      <BaseButton variant="primary" @click="submitTransfer">Ranking uebertragen</BaseButton>
-
-      <div class="divider"></div>
-
-      <div class="admin-grid">
-        <label class="field">
-          User ID
-          <input v-model.number="unlink.user_id" class="admin-input" type="number" />
-        </label>
-        <label class="field">
-          Plattform
-          <select v-model="unlink.platform" class="admin-input">
-            <option value="teamspeak">TeamSpeak</option>
-            <option value="discord">Discord</option>
-          </select>
-        </label>
-      </div>
-      <textarea v-model="unlink.reason" class="admin-textarea" placeholder="Grund fuer das Steam-Unlinking"></textarea>
-      <BaseButton variant="secondary" @click="submitUnlink">Steam-Verlinkung loesen</BaseButton>
-
-      <div class="divider"></div>
-
-      <div class="admin-grid">
-        <label class="field">
-          User ID
-          <input v-model.number="ignoreRole.user_id" class="admin-input" type="number" />
-        </label>
-        <label class="field">
-          Plattform
-          <select v-model="ignoreRole.platform" class="admin-input">
-            <option value="teamspeak">TeamSpeak</option>
-            <option value="discord">Discord</option>
-          </select>
-        </label>
-      </div>
-      <textarea v-model="ignoreRole.reason" class="admin-textarea" placeholder="Grund fuer die Ignore-Rolle"></textarea>
-      <BaseButton variant="secondary" @click="assignIgnoreRole">Ignore-Rolle zuweisen</BaseButton>
-    </section>
-
-    <section class="settings-section-container">
-      <div class="section-header">
-        <h3>TTT Server</h3>
-        <p>Status: {{ serverStatusText }}</p>
-      </div>
-      <div class="button-row">
-        <BaseButton variant="secondary" @click="loadTttStatus">Status</BaseButton>
-        <BaseButton variant="primary" @click="confirmTttCommand('start')">Start</BaseButton>
-        <BaseButton variant="secondary" @click="confirmTttCommand('restart')">Restart</BaseButton>
-        <BaseButton variant="secondary" @click="confirmTttCommand('stop')">Stop</BaseButton>
-      </div>
-      <pre v-if="tttStatus" class="json-output">{{ JSON.stringify(tttStatus, null, 2) }}</pre>
-    </section>
-
-    <section class="settings-section-container">
-      <div class="section-header">
-        <h3>Season Skin vergeben</h3>
-      </div>
-      <div class="admin-grid">
-        <label class="field">
-          SteamID64
-          <input v-model="skinGrant.steam_id64" class="admin-input" inputmode="numeric" />
-        </label>
-        <label class="field">
-          Tier
-          <select v-model.number="skinGrant.tier" class="admin-input">
-            <option v-for="tier in [2, 3, 4, 5, 6]" :key="tier" :value="tier">Tier {{ tier }}</option>
-          </select>
-        </label>
-      </div>
-      <textarea v-model="skinGrant.reason" class="admin-textarea" placeholder="Grund fuer den Grant"></textarea>
-      <BaseButton variant="primary" @click="grantSeasonSkin">Skin vergeben</BaseButton>
-    </section>
-
-    <section class="settings-section-container">
-      <div class="section-header">
-        <h3>Audit Log</h3>
-        <BaseButton variant="secondary" @click="loadAuditLog">Aktualisieren</BaseButton>
-      </div>
-      <div class="settings-list">
-        <div v-for="entry in auditLog" :key="entry.id" class="settings-item audit-entry">
-          <span>
-            <strong>{{ entry.action }}</strong>
-            <small>{{ entry.created_at }} - {{ entry.admin_steam_id }}</small>
-          </span>
-          <span :class="['status-pill', entry.result_status === 'success' ? 'success' : 'danger']">
-            {{ entry.result_status }}
-          </span>
-        </div>
-      </div>
-    </section>
+      <p class="dashboard-copy">
+        Serverstatus, Spieleraktionen und Audit-Historie.
+      </p>
+    </div>
 
     <p v-if="message" :class="['admin-message', messageType]">{{ message }}</p>
+
+    <div class="dashboard-grid">
+      <AdminTttStatus
+        :status="tttStatus"
+        :loading="tttInitialLoading"
+        :refreshing="tttRefreshLoading"
+        :action-loading="tttActionLoading"
+        :refreshed-at="tttRefreshedAt"
+        @refresh="loadTttStatus(true)"
+        @command="openTttModal"
+      />
+
+      <AdminPlayerSearch
+        :admin-fetch="adminFetch"
+        @select-player="selectPlayer"
+      />
+    </div>
+
+    <LoadingSpinner
+      v-if="playerDetailLoading"
+      message="Spielerdetails werden geladen..."
+    />
+    <p v-if="playerDetailError" class="admin-message danger">
+      {{ playerDetailError }}
+    </p>
+
+    <AdminPlayerDetails
+      :player="selectedPlayer"
+      :admin-fetch="adminFetch"
+      :transfer-target="transferTarget"
+      :transfer-platforms="transferPlatforms"
+      :transfer-reason="transferReason"
+      :unlink-platform="unlinkPlatform"
+      :unlink-reason="unlinkReason"
+      :ignore-platform="ignorePlatform"
+      :ignore-reason="ignoreReason"
+      :skin-tier="skinTier"
+      :skin-reason="skinReason"
+      @update:transfer-target="transferTarget = $event"
+      @update:transfer-platforms="transferPlatforms = $event"
+      @update:transfer-reason="transferReason = $event"
+      @update:unlink-platform="unlinkPlatform = $event"
+      @update:unlink-reason="unlinkReason = $event"
+      @update:ignore-platform="ignorePlatform = $event"
+      @update:ignore-reason="ignoreReason = $event"
+      @update:skin-tier="skinTier = $event"
+      @update:skin-reason="skinReason = $event"
+      @review="openPlayerModal"
+    />
+
+    <AdminAuditLog
+      :entries="auditLog"
+      :loading="auditInitialLoading"
+      :refreshing="auditRefreshLoading"
+      @refresh="loadAuditLog(true)"
+    />
+
+    <AdminReviewModal
+      :open="modalOpen"
+      :title="modalTitle"
+      :confirm-label="modalConfirmLabel"
+      :notice="modalNotice"
+      :submitting="modalSubmitting"
+      :error="modalError"
+      @close="closeModal"
+      @confirm="submitModal"
+    >
+      <p>{{ modalBody }}</p>
+    </AdminReviewModal>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, reactive, ref } from 'vue';
-import BaseButton from '../base/BaseButton.vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import LoadingSpinner from '../base/LoadingSpinner.vue';
 import { useAuthStore } from '../../services/auth';
+import AdminAuditLog from './admin/AdminAuditLog.vue';
+import AdminPlayerDetails from './admin/AdminPlayerDetails.vue';
+import AdminPlayerSearch from './admin/AdminPlayerSearch.vue';
+import AdminReviewModal from './admin/AdminReviewModal.vue';
+import AdminTttStatus from './admin/AdminTttStatus.vue';
+import type {
+  AuditEntry,
+  Platform,
+  PlayerDetail,
+  PlayerSummary,
+  TttStatus,
+} from './admin/types';
 
-interface PlayerSummary {
-  id: number;
-  steam_id: string | null;
-  discord_id: string | null;
-  teamspeak_id: string | null;
-  name: string;
-  level: number;
-  division: number;
-  ranking_disabled: boolean;
-}
-
-interface AuditEntry {
-  id: number;
-  admin_steam_id: string;
-  action: string;
-  result_status: string;
-  created_at: string;
-}
+type ModalAction =
+  | 'tttStart'
+  | 'tttStop'
+  | 'tttRestart'
+  | 'transfer'
+  | 'unlink'
+  | 'ignoreRole'
+  | 'seasonSkin';
 
 const authStore = useAuthStore();
-const searchQuery = ref('');
-const players = ref<PlayerSummary[]>([]);
-const selectedPlayer = ref<any>(null);
-const hasSearched = ref(false);
-const tttStatus = ref<any>(null);
+const selectedPlayer = ref<PlayerDetail | null>(null);
+const playerDetailLoading = ref(false);
+const playerDetailError = ref('');
+
+const tttStatus = ref<TttStatus | null>(null);
+const tttInitialLoading = ref(true);
+const tttRefreshLoading = ref(false);
+const tttActionLoading = ref<'start' | 'stop' | 'restart' | null>(null);
+const tttRefreshedAt = ref('');
+
 const auditLog = ref<AuditEntry[]>([]);
+const auditInitialLoading = ref(true);
+const auditRefreshLoading = ref(false);
+let auditRefreshTimer: ReturnType<typeof setInterval> | null = null;
+
+const transferTarget = ref<PlayerSummary | null>(null);
+const transferPlatforms = ref<Platform[]>(['teamspeak']);
+const transferReason = ref('');
+const unlinkPlatform = ref<Platform>('teamspeak');
+const unlinkReason = ref('');
+const ignorePlatform = ref<Platform>('teamspeak');
+const ignoreReason = ref('');
+const skinTier = ref(2);
+const skinReason = ref('');
+
+const modalAction = ref<ModalAction | null>(null);
+const modalOpen = computed(() => modalAction.value !== null);
+const modalSubmitting = ref(false);
+const modalError = ref('');
+
 const message = ref('');
 const messageType = ref<'success' | 'danger'>('success');
-
-const transfer = reactive({
-  source_user_id: null as number | null,
-  target_user_id: null as number | null,
-  platforms: ['teamspeak'] as string[],
-  reason: '',
-});
-
-const unlink = reactive({
-  user_id: null as number | null,
-  platform: 'teamspeak',
-  reason: '',
-});
-
-const ignoreRole = reactive({
-  user_id: null as number | null,
-  platform: 'teamspeak',
-  reason: '',
-});
-
-const skinGrant = reactive({
-  steam_id64: '',
-  tier: 2,
-  reason: '',
-});
-
-const serverStatusText = computed(() => {
-  if (!tttStatus.value) return 'unbekannt';
-  return tttStatus.value.status || tttStatus.value.state || (tttStatus.value.ok ? 'online' : 'Fehler');
-});
 
 const tttCommandEndpoints = {
   start: '/api/gameservers/ttt/start',
@@ -232,110 +154,287 @@ const showMessage = (text: string, type: 'success' | 'danger' = 'success') => {
   messageType.value = type;
 };
 
-const adminFetch = async (url: string, options: RequestInit = {}) => {
+const adminFetch = async <T = unknown,>(
+  url: string,
+  options: RequestInit = {}
+): Promise<T> => {
   const response = await fetch(url, {
     credentials: 'same-origin',
     ...options,
     headers: {
       ...(options.headers || {}),
-      ...(options.method && options.method !== 'GET' ? authStore.csrfHeaders() : {}),
+      ...(options.method && options.method !== 'GET'
+        ? authStore.csrfHeaders()
+        : {}),
       ...(options.body ? { 'Content-Type': 'application/json' } : {}),
     },
   });
   const data = await response.json();
   if (!response.ok) {
-    throw new Error(data.message || data.error || 'Admin-Aktion fehlgeschlagen');
+    throw new Error(
+      data.message || data.error || 'Admin-Aktion fehlgeschlagen'
+    );
   }
-  return data;
+  return data as T;
 };
 
-const searchPlayers = async () => {
-  hasSearched.value = true;
-  const data = await adminFetch(`/api/admin/players/search?q=${encodeURIComponent(searchQuery.value)}`);
-  players.value = data.players;
+const formatNow = () =>
+  new Intl.DateTimeFormat('de-DE', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).format(new Date());
+
+const loadTttStatus = async (asRefresh = false) => {
+  if (asRefresh) {
+    tttRefreshLoading.value = true;
+  } else {
+    tttInitialLoading.value = true;
+  }
+  try {
+    tttStatus.value = await adminFetch<TttStatus>(
+      '/api/gameservers/ttt/status'
+    );
+    tttRefreshedAt.value = formatNow();
+  } catch (error) {
+    showMessage((error as Error).message, 'danger');
+  } finally {
+    tttInitialLoading.value = false;
+    tttRefreshLoading.value = false;
+  }
+};
+
+const loadAuditLog = async (asRefresh = false) => {
+  if (asRefresh) {
+    auditRefreshLoading.value = true;
+  } else {
+    auditInitialLoading.value = true;
+  }
+  try {
+    const data = await adminFetch<{ entries: AuditEntry[] }>(
+      '/api/admin/audit-log'
+    );
+    auditLog.value = data.entries;
+  } catch (error) {
+    showMessage((error as Error).message, 'danger');
+  } finally {
+    auditInitialLoading.value = false;
+    auditRefreshLoading.value = false;
+  }
 };
 
 const selectPlayer = async (id: number) => {
-  selectedPlayer.value = await adminFetch(`/api/admin/players/${id}`);
-  transfer.source_user_id = id;
-  unlink.user_id = id;
-  ignoreRole.user_id = id;
-};
-
-const submitTransfer = async () => {
+  playerDetailLoading.value = true;
+  playerDetailError.value = '';
+  transferTarget.value = null;
   try {
-    await adminFetch('/api/admin/ranking/transfer', {
-      method: 'POST',
-      body: JSON.stringify(transfer),
-    });
-    showMessage('Ranking-Transfer abgeschlossen.');
-    await loadAuditLog();
+    selectedPlayer.value = await adminFetch<PlayerDetail>(
+      `/api/admin/players/${id}`
+    );
+    transferPlatforms.value = selectedPlayer.value.teamspeak_id
+      ? ['teamspeak']
+      : selectedPlayer.value.discord_id
+        ? ['discord']
+        : [];
+    unlinkPlatform.value = selectedPlayer.value.teamspeak_id
+      ? 'teamspeak'
+      : 'discord';
+    ignorePlatform.value = unlinkPlatform.value;
   } catch (error) {
-    showMessage((error as Error).message, 'danger');
+    playerDetailError.value = (error as Error).message;
+  } finally {
+    playerDetailLoading.value = false;
   }
 };
 
-const submitUnlink = async () => {
-  try {
-    await adminFetch('/api/admin/steam/unlink', {
-      method: 'POST',
-      body: JSON.stringify(unlink),
-    });
-    showMessage('Steam-Verlinkung geloest.');
-    await loadAuditLog();
-  } catch (error) {
-    showMessage((error as Error).message, 'danger');
+const openTttModal = (command: 'start' | 'stop' | 'restart') => {
+  modalError.value = '';
+  modalAction.value =
+    command === 'start'
+      ? 'tttStart'
+      : command === 'stop'
+        ? 'tttStop'
+        : 'tttRestart';
+};
+
+const openPlayerModal = (
+  action: 'transfer' | 'unlink' | 'ignoreRole' | 'seasonSkin'
+) => {
+  modalError.value = '';
+  modalAction.value = action;
+};
+
+const closeModal = () => {
+  if (!modalSubmitting.value) {
+    modalAction.value = null;
+    modalError.value = '';
   }
 };
 
-const assignIgnoreRole = async () => {
-  try {
-    await adminFetch('/api/admin/ranking/ignore-role', {
-      method: 'POST',
-      body: JSON.stringify(ignoreRole),
-    });
-    showMessage('Ignore-Rolle zugewiesen.');
-    await loadAuditLog();
-  } catch (error) {
-    showMessage((error as Error).message, 'danger');
+const selectedPlatformId = (platform: Platform) => {
+  if (!selectedPlayer.value) return '';
+  return platform === 'discord'
+    ? selectedPlayer.value.discord_id
+    : selectedPlayer.value.teamspeak_id;
+};
+
+const modalTitle = computed(() => {
+  const titles: Record<ModalAction, string> = {
+    tttStart: 'TTT Server starten',
+    tttStop: 'TTT Server stoppen',
+    tttRestart: 'TTT Server neu starten',
+    transfer: 'Ranking übertragen',
+    unlink: 'Steam-Verknüpfung lösen',
+    ignoreRole: 'Ignore-Rolle zuweisen',
+    seasonSkin: 'Season Skin vergeben',
+  };
+  return modalAction.value ? titles[modalAction.value] : '';
+});
+
+const modalConfirmLabel = computed(() => {
+  if (!modalAction.value) return 'Bestätigen';
+  if (modalAction.value === 'transfer') return 'Übertragen';
+  if (modalAction.value === 'unlink') return 'Lösen';
+  if (modalAction.value === 'seasonSkin') return 'Skin vergeben';
+  return 'Bestätigen';
+});
+
+const modalBody = computed(() => {
+  if (!modalAction.value) return '';
+  if (modalAction.value === 'tttStart')
+    return 'Der TTT Server wird über den Gameserver-Manager gestartet.';
+  if (modalAction.value === 'tttStop')
+    return 'Der TTT Server wird über den Gameserver-Manager gestoppt.';
+  if (modalAction.value === 'tttRestart')
+    return 'Der TTT Server wird über den Gameserver-Manager neu gestartet.';
+  if (modalAction.value === 'transfer') {
+    return `Rankingzeit von ${selectedPlayer.value?.name || 'Quelle'} wird nach ${transferTarget.value?.name || 'Ziel'} übertragen.`;
   }
-};
-
-const loadTttStatus = async () => {
-  tttStatus.value = await adminFetch('/api/gameservers/ttt/status');
-};
-
-const confirmTttCommand = async (command: 'start' | 'stop' | 'restart') => {
-  if (!window.confirm(`TTT Server wirklich ${command}?`)) return;
-  try {
-    tttStatus.value = await adminFetch(tttCommandEndpoints[command], { method: 'POST' });
-    showMessage(`TTT ${command} gesendet.`);
-  } catch (error) {
-    showMessage((error as Error).message, 'danger');
+  if (modalAction.value === 'unlink') {
+    return `${unlinkPlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} wird vom Steam-Konto getrennt.`;
   }
-};
-
-const grantSeasonSkin = async () => {
-  try {
-    await adminFetch('/api/admin/ttt/season-skin', {
-      method: 'POST',
-      body: JSON.stringify(skinGrant),
-    });
-    showMessage('Season Skin vergeben.');
-    await loadAuditLog();
-  } catch (error) {
-    showMessage((error as Error).message, 'danger');
+  if (modalAction.value === 'ignoreRole') {
+    return `Die Ignore-Rolle wird für ${ignorePlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} ${selectedPlatformId(ignorePlatform.value)} gesetzt.`;
   }
-};
+  return `Tier ${skinTier.value} wird an SteamID64 ${selectedPlayer.value?.steam_id || 'unbekannt'} vergeben.`;
+});
 
-const loadAuditLog = async () => {
-  const data = await adminFetch('/api/admin/audit-log');
-  auditLog.value = data.entries;
+const modalNotice = computed(() => {
+  if (!modalAction.value) return '';
+  if (modalAction.value === 'transfer') {
+    return 'Die ausgewählte Plattformzeit wird auf den Zielspieler verschoben. Nach Erfolg wird das Quellkonto für das öffentliche Ranking deaktiviert.';
+  }
+  if (modalAction.value === 'unlink') {
+    return 'Nur die ausgewählte Plattform wird abgespalten. Die verbleibende verknüpfte Plattform bleibt auf dem ursprünglichen User.';
+  }
+  if (modalAction.value === 'ignoreRole') {
+    return `Die Ignore-Rolle betrifft nur das ausgewählte ${ignorePlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'}-Konto.`;
+  }
+  if (modalAction.value === 'seasonSkin') {
+    return 'Der Spieler muss online auf dem TTT Server sein, damit der Season Skin direkt vergeben werden kann.';
+  }
+  return 'Während die Aktion läuft, bleibt dieser Dialog geöffnet.';
+});
+
+const submitModal = async () => {
+  if (
+    !modalAction.value ||
+    (!selectedPlayer.value && !modalAction.value.startsWith('ttt'))
+  )
+    return;
+  modalSubmitting.value = true;
+  modalError.value = '';
+  try {
+    if (
+      modalAction.value === 'tttStart' ||
+      modalAction.value === 'tttStop' ||
+      modalAction.value === 'tttRestart'
+    ) {
+      const command =
+        modalAction.value === 'tttStart'
+          ? 'start'
+          : modalAction.value === 'tttStop'
+            ? 'stop'
+            : 'restart';
+      tttActionLoading.value = command;
+      tttStatus.value = await adminFetch<TttStatus>(
+        tttCommandEndpoints[command],
+        { method: 'POST' }
+      );
+      tttRefreshedAt.value = formatNow();
+      showMessage(`TTT ${command} gesendet.`);
+    } else {
+      const player = selectedPlayer.value;
+      if (!player) return;
+
+      if (modalAction.value === 'transfer') {
+        await adminFetch('/api/admin/ranking/transfer', {
+          method: 'POST',
+          body: JSON.stringify({
+            source_user_id: player.id,
+            target_user_id: transferTarget.value?.id,
+            platforms: transferPlatforms.value,
+            reason: transferReason.value,
+          }),
+        });
+        showMessage('Ranking-Transfer abgeschlossen.');
+      } else if (modalAction.value === 'unlink') {
+        await adminFetch('/api/admin/steam/unlink', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_id: player.id,
+            platform: unlinkPlatform.value,
+            reason: unlinkReason.value,
+          }),
+        });
+        showMessage('Steam-Verknüpfung gelöst.');
+      } else if (modalAction.value === 'ignoreRole') {
+        await adminFetch('/api/admin/ranking/ignore-role', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_id: player.id,
+            platform: ignorePlatform.value,
+            reason: ignoreReason.value,
+          }),
+        });
+        showMessage('Ignore-Rolle zugewiesen.');
+      } else if (modalAction.value === 'seasonSkin') {
+        await adminFetch('/api/admin/ttt/season-skin', {
+          method: 'POST',
+          body: JSON.stringify({
+            steam_id64: player.steam_id,
+            tier: skinTier.value,
+            reason: skinReason.value,
+          }),
+        });
+        showMessage('Season Skin vergeben.');
+      }
+
+      await Promise.all([loadAuditLog(true), selectPlayer(player.id)]);
+    }
+  } catch (error) {
+    modalError.value = (error as Error).message;
+    showMessage((error as Error).message, 'danger');
+    return;
+  } finally {
+    modalSubmitting.value = false;
+    tttActionLoading.value = null;
+  }
+  closeModal();
 };
 
 onMounted(() => {
-  loadAuditLog().catch(() => {});
   loadTttStatus().catch(() => {});
+  loadAuditLog().catch(() => {});
+  auditRefreshTimer = setInterval(() => {
+    loadAuditLog(true).catch(() => {});
+  }, 15000);
+});
+
+onUnmounted(() => {
+  if (auditRefreshTimer) {
+    clearInterval(auditRefreshTimer);
+  }
 });
 </script>
 
@@ -343,161 +442,72 @@ onMounted(() => {
 .admin-dashboard {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+  text-align: left;
 }
 
-.settings-section-container {
-  background: var(--clr-surface-2);
-  border: 1px solid var(--clr-border);
-  border-radius: 10px;
-  padding: 1.5rem;
-}
-
-.section-header {
+.dashboard-header {
+  align-items: end;
   display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
+  gap: 1rem;
+  justify-content: space-between;
 }
 
-.section-header h3 {
-  color: var(--clr-text-primary);
+.dashboard-header h2,
+.eyebrow,
+.dashboard-copy {
   margin: 0;
 }
 
-.section-header p,
-.empty-state,
-.settings-item small {
+.dashboard-header h2 {
+  color: var(--clr-text-primary);
+  font-size: 1.6rem;
+}
+
+.eyebrow {
+  color: var(--clr-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.dashboard-copy {
   color: var(--clr-text-secondary);
 }
 
-.search-row,
-.button-row,
-.admin-grid {
-  display: flex;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-}
-
-.admin-grid {
-  align-items: end;
-  margin-bottom: 1rem;
-}
-
-.field {
-  display: flex;
-  flex: 1 1 220px;
-  flex-direction: column;
-  gap: 0.35rem;
-  color: var(--clr-text-secondary);
-  text-align: left;
-}
-
-.checkbox-field {
-  align-items: center;
-  color: var(--clr-text-primary);
-  display: flex;
-  gap: 0.5rem;
-  min-height: 42px;
-}
-
-.admin-input,
-.admin-textarea {
-  background: var(--clr-background);
-  border: 1px solid var(--clr-border);
-  border-radius: 8px;
-  color: var(--clr-text-primary);
-  min-height: 42px;
-  padding: 0.75rem;
-  width: 100%;
-}
-
-.admin-textarea {
-  min-height: 86px;
-  resize: vertical;
-  margin-bottom: 1rem;
-}
-
-.settings-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.settings-item {
-  align-items: center;
-  background: var(--clr-background);
-  border: 1px solid var(--clr-border);
-  border-radius: 8px;
-  color: var(--clr-text-primary);
-  display: flex;
-  justify-content: space-between;
-  padding: 1rem;
-  text-align: left;
-}
-
-.player-result {
-  cursor: pointer;
-}
-
-.status-pill {
-  border-radius: 999px;
-  font-size: 0.8rem;
-  padding: 0.25rem 0.6rem;
-}
-
-.status-pill.success {
-  background: var(--clr-success-transparent, rgba(46, 204, 113, 0.16));
-  color: var(--clr-success, #2ecc71);
-}
-
-.status-pill.danger {
-  background: var(--clr-error-transparent, rgba(231, 76, 60, 0.16));
-  color: var(--clr-error);
-}
-
-.divider {
-  border-top: 1px solid var(--clr-border);
-  margin: 1.5rem 0;
-}
-
-.json-output {
-  background: var(--clr-background);
-  border: 1px solid var(--clr-border);
-  border-radius: 8px;
-  color: var(--clr-text-secondary);
-  margin-top: 1rem;
-  max-height: 220px;
-  overflow: auto;
-  padding: 1rem;
-  text-align: left;
+.dashboard-grid {
+  align-items: start;
+  display: grid;
+  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
 }
 
 .admin-message {
   border-radius: 8px;
+  margin: 0;
   padding: 1rem;
 }
 
 .admin-message.success {
-  background: var(--clr-success-transparent, rgba(46, 204, 113, 0.16));
-  color: var(--clr-success, #2ecc71);
+  background: rgba(46, 204, 113, 0.16);
+  color: #69e698;
 }
 
 .admin-message.danger {
-  background: var(--clr-error-transparent, rgba(231, 76, 60, 0.16));
-  color: var(--clr-error);
+  background: rgba(220, 53, 69, 0.16);
+  color: #ff8f9a;
 }
 
-@media (max-width: 768px) {
-  .search-row,
-  .button-row {
-    flex-direction: column;
+@media (max-width: 1100px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
   }
+}
 
-  .settings-item {
+@media (max-width: 640px) {
+  .dashboard-header {
     align-items: flex-start;
     flex-direction: column;
-    gap: 0.5rem;
   }
 }
 </style>

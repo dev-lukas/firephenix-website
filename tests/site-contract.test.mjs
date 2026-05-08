@@ -4,6 +4,19 @@ import test from 'node:test';
 
 const read = (path) => readFile(new URL(`../${path}`, import.meta.url), 'utf8');
 
+const readAdminSource = async () => {
+  const files = await Promise.all([
+    read('src/components/profile/AdminDashboard.vue'),
+    read('src/components/profile/admin/AdminAuditLog.vue'),
+    read('src/components/profile/admin/AdminPlayerDetails.vue'),
+    read('src/components/profile/admin/AdminPlayerPicker.vue'),
+    read('src/components/profile/admin/AdminPlayerSearch.vue'),
+    read('src/components/profile/admin/AdminReviewModal.vue'),
+    read('src/components/profile/admin/AdminTttStatus.vue'),
+  ]);
+  return files.join('\n');
+};
+
 test('router exposes all public and authenticated application routes', async () => {
   const router = await read('src/router.ts');
 
@@ -17,7 +30,10 @@ test('router exposes all public and authenticated application routes', async () 
     "path: '/dataprivacy'",
     "path: '/impressum'",
   ]) {
-    assert.match(router, new RegExp(route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.match(
+      router,
+      new RegExp(route.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    );
   }
 
   assert.match(router, /document\.title = `FirePhenix - /);
@@ -30,7 +46,7 @@ test('frontend keeps expected backend API contract paths', async () => {
     read('src/components/profile/ChannelCreation.vue'),
     read('src/components/profile/MoveShield.vue'),
     read('src/components/profile/SkinUnlocker.vue'),
-    read('src/components/profile/AdminDashboard.vue'),
+    readAdminSource(),
     read('src/components/ranking/RankingList.vue'),
     read('src/views/Profile.vue'),
   ]);
@@ -60,14 +76,86 @@ test('frontend keeps expected backend API contract paths', async () => {
     '/api/gameservers/ttt/stop',
     '/api/gameservers/ttt/restart',
   ]) {
-    assert.match(source, new RegExp(endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+    assert.match(
+      source,
+      new RegExp(endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    );
   }
 });
 
 test('admin dashboard surfaces backend response messages', async () => {
-  const adminDashboard = await read('src/components/profile/AdminDashboard.vue');
+  const adminDashboard = await read(
+    'src/components/profile/AdminDashboard.vue'
+  );
 
-  assert.match(adminDashboard, /data\.message \|\| data\.error \|\| 'Admin-Aktion fehlgeschlagen'/);
+  assert.match(
+    adminDashboard,
+    /data\.message \|\| data\.error \|\| 'Admin-Aktion fehlgeschlagen'/
+  );
+});
+
+test('admin dashboard exposes loading states for async operations', async () => {
+  const admin = await readAdminSource();
+
+  for (const expected of [
+    'Spielersuche läuft',
+    'Spielerdetails werden geladen',
+    'TTT Status wird geladen',
+    'Audit Log wird geladen',
+    'Bitte nicht neu laden',
+    'modalSubmitting',
+  ]) {
+    assert.match(admin, new RegExp(expected));
+  }
+});
+
+test('admin audit log refreshes every 15 seconds and clears on unmount', async () => {
+  const adminDashboard = await read(
+    'src/components/profile/AdminDashboard.vue'
+  );
+
+  assert.match(adminDashboard, /setInterval\(\(\) => \{/);
+  assert.match(adminDashboard, /\}, 15000\)/);
+  assert.match(adminDashboard, /onUnmounted\(\(\) => \{/);
+  assert.match(adminDashboard, /clearInterval\(auditRefreshTimer\)/);
+});
+
+test('admin actions use review modals with explicit notices', async () => {
+  const admin = await readAdminSource();
+
+  for (const expected of [
+    'AdminReviewModal',
+    'Der Spieler muss online auf dem TTT Server sein',
+    'Quellkonto für das öffentliche Ranking deaktiviert',
+    'Nur die ausgewählte Plattform wird abgespalten',
+    'Die Ignore-Rolle betrifft nur das ausgewählte',
+  ]) {
+    assert.match(admin, new RegExp(expected));
+  }
+});
+
+test('admin copy uses German umlauts instead of old ASCII fallbacks', async () => {
+  const admin = await readAdminSource();
+
+  for (const expected of [
+    'für',
+    'übertragen',
+    'lösen',
+    'gelöst',
+    'Verknüpfung',
+  ]) {
+    assert.match(admin, new RegExp(expected));
+  }
+
+  assert.doesNotMatch(admin, /fuer|uebertragen|loesen|geloest|Verknuepfung/);
+});
+
+test('ranking transfer target selection is search based', async () => {
+  const admin = await readAdminSource();
+
+  assert.match(admin, /AdminPlayerPicker/);
+  assert.match(admin, /\/api\/admin\/players\/search\?q=/);
+  assert.doesNotMatch(admin, /target_user_id[^]*type="number"/);
 });
 
 test('nginx serves the SPA fallback with security headers', async () => {
