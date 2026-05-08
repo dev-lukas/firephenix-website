@@ -4,6 +4,7 @@ interface AuthState {
   steamId: string | null;
   csrfToken: string | null;
   isAuthenticated: boolean;
+  isAdmin: boolean;
 }
 
 export const useAuthStore = defineStore('auth', {
@@ -11,6 +12,7 @@ export const useAuthStore = defineStore('auth', {
     steamId: null,
     csrfToken: null,
     isAuthenticated: false,
+    isAdmin: false,
   }),
   actions: {
     async checkAuth() {
@@ -21,6 +23,7 @@ export const useAuthStore = defineStore('auth', {
       this.isAuthenticated = data.authenticated;
       this.steamId = data.steam_id;
       this.csrfToken = data.csrf_token;
+      this.isAdmin = Boolean(data.is_admin);
       return this.isAuthenticated;
     },
     csrfHeaders(): Record<string, string> {

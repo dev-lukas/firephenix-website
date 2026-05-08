@@ -120,6 +120,10 @@
             </BaseButton>
           </div>
         </div>
+
+        <div class="settings-container" v-show="activeTab === 'admin' && authStore.isAdmin">
+          <AdminDashboard />
+        </div>
       </div>
     </div>
   </div>
@@ -144,29 +148,34 @@ import PlayerAchievements from '../components/ranking/PlayerAchievements.vue';
 import PlatformBreakdown from '../components/ranking/PlatformBreakdown.vue';
 import SkinUnlocker from '../components/profile/SkinUnlocker.vue'; // Import the new component
 import ProfileBorderDisplay from '../components/profile/ProfileBorderDisplay.vue'; // Import the border display component
+import AdminDashboard from '../components/profile/AdminDashboard.vue';
 
 const authStore = useAuthStore();
 const userData: Ref<UserProfile | null> = ref(null);
 const activeTab = ref('stats');
 const loading = ref(true);
 
-const tabs = [
+const baseTabs = [
   { id: 'stats', label: 'Statistiken' },
   { id: 'cosmetics', label: 'Kosmetik' },
   { id: 'settings', label: 'Einstellungen' },
 ];
+
+const adminTab = { id: 'admin', label: 'Admin' };
+const tabs = computed(() => (authStore.isAdmin ? [...baseTabs, adminTab] : baseTabs));
 
 // Define proper type for tabIcons with index signature
 const tabIcons: { [key: string]: [string, string] } = {
   stats: ['fas', 'chart-simple'],
   cosmetics: ['fas', 'palette'],
   settings: ['fas', 'cog'],
+  admin: ['fas', 'shield-alt'],
 };
 
-const validTabs = tabs.map(tab => tab.id);
+const validTabs = computed(() => tabs.value.map(tab => tab.id));
 
 const navigateToTab = (tab: string) => {
-  if (validTabs.includes(tab)) {
+  if (validTabs.value.includes(tab)) {
     activeTab.value = tab;
     window.location.hash = tab;
   }
@@ -174,8 +183,11 @@ const navigateToTab = (tab: string) => {
 
 const handleHashChange = () => {
   const hash = window.location.hash.substring(1); 
-  if (validTabs.includes(hash)) {
+  if (validTabs.value.includes(hash)) {
     activeTab.value = hash;
+  } else if (hash === 'admin' && !authStore.isAdmin) {
+    activeTab.value = 'stats';
+    window.location.hash = 'stats';
   }
 };
 
@@ -187,8 +199,11 @@ onMounted(async () => {
       userData.value = await response.json();
 
       const initialHash = window.location.hash.substring(1);
-      if (validTabs.includes(initialHash)) {
+      if (validTabs.value.includes(initialHash)) {
         activeTab.value = initialHash;
+      } else if (initialHash === 'admin' && !authStore.isAdmin) {
+        activeTab.value = 'stats';
+        window.location.hash = 'stats';
       } else if (
         userData.value?.discord_id == null &&
         userData.value?.teamspeak_id == null
@@ -209,6 +224,10 @@ onMounted(async () => {
 });
 
 watch(activeTab, (newTab) => {
+  if (!validTabs.value.includes(newTab)) {
+    activeTab.value = 'stats';
+    return;
+  }
   if (window.location.hash.substring(1) !== newTab) {
     window.location.hash = newTab;
   }

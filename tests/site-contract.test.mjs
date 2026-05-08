@@ -30,6 +30,7 @@ test('frontend keeps expected backend API contract paths', async () => {
     read('src/components/profile/ChannelCreation.vue'),
     read('src/components/profile/MoveShield.vue'),
     read('src/components/profile/SkinUnlocker.vue'),
+    read('src/components/profile/AdminDashboard.vue'),
     read('src/components/ranking/RankingList.vue'),
     read('src/views/Profile.vue'),
   ]);
@@ -48,6 +49,16 @@ test('frontend keeps expected backend API contract paths', async () => {
     '/api/user/profile/moveshield',
     '/api/user/profile/skins',
     '/api/ranking/top',
+    '/api/admin/players/search',
+    '/api/admin/ranking/transfer',
+    '/api/admin/ranking/ignore-role',
+    '/api/admin/steam/unlink',
+    '/api/admin/ttt/season-skin',
+    '/api/admin/audit-log',
+    '/api/gameservers/ttt/status',
+    '/api/gameservers/ttt/start',
+    '/api/gameservers/ttt/stop',
+    '/api/gameservers/ttt/restart',
   ]) {
     assert.match(source, new RegExp(endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
