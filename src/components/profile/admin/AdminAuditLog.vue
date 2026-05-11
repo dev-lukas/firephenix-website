@@ -70,6 +70,15 @@
       </article>
     </TransitionGroup>
     <p v-else class="empty-state">Noch keine Audit-Einträge vorhanden.</p>
+    <div v-if="!loading && (hasMore || expanded)" class="audit-footer">
+      <BaseButton
+        variant="secondary"
+        :disabled="refreshing"
+        @click="$emit('toggleExpanded')"
+      >
+        {{ expanded ? 'Weniger anzeigen' : 'Mehr anzeigen' }}
+      </BaseButton>
+    </div>
   </section>
 </template>
 
@@ -83,10 +92,13 @@ defineProps<{
   entries: AuditEntry[];
   loading: boolean;
   refreshing: boolean;
+  hasMore: boolean;
+  expanded: boolean;
 }>();
 
 defineEmits<{
   (e: 'refresh'): void;
+  (e: 'toggleExpanded'): void;
 }>();
 
 const expandedIds = ref(new Set<number>());
@@ -107,17 +119,27 @@ const actionLabel = (action: string) => {
     steam_unlink: 'Steam-Verknüpfung lösen',
     ranking_ignore_role: 'Ignore-Rolle zuweisen',
     ttt_season_skin_grant: 'Season Skin vergeben',
+    ranking_time_update: 'Rankingzeit korrigieren',
+    user_join_date_update: 'Beitrittsdatum ändern',
+    special_achievement_grant: 'Achievement vergeben',
+    special_achievement_revoke: 'Achievement entfernen',
   };
   return labels[action] || action;
 };
 
 const targetSummary = (entry: AuditEntry) => {
   const target = entry.target_identifiers;
+  if (target.achievement_type) {
+    return `User #${target.user_id || 'unbekannt'} · Achievement ${target.achievement_type}`;
+  }
   if (target.source_user_id && target.target_user_id) {
     return `Quelle #${target.source_user_id} → Ziel #${target.target_user_id}`;
   }
   if (target.user_id && target.platform) {
     return `User #${target.user_id} · ${target.platform}`;
+  }
+  if (target.user_id) {
+    return `User #${target.user_id}`;
   }
   if (target.steam_id64) {
     return `SteamID64 ${target.steam_id64}`;
@@ -172,6 +194,12 @@ const stringify = (value: Record<string, unknown>) =>
 .audit-list {
   display: grid;
   gap: 0.75rem;
+}
+
+.audit-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
 }
 
 .audit-entry {

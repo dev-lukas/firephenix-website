@@ -49,6 +49,16 @@
       :ignore-reason="ignoreReason"
       :skin-tier="skinTier"
       :skin-reason="skinReason"
+      :special-achievements="specialAchievements"
+      :time-platform="timePlatform"
+      :time-total="timeTotal"
+      :time-season="timeSeason"
+      :time-reason="timeReason"
+      :join-date="joinDate"
+      :join-date-reason="joinDateReason"
+      :achievement-platform="achievementPlatform"
+      :achievement-type="achievementType"
+      :achievement-reason="achievementReason"
       @update:transfer-target="transferTarget = $event"
       @update:transfer-platforms="transferPlatforms = $event"
       @update:transfer-reason="transferReason = $event"
@@ -58,6 +68,15 @@
       @update:ignore-reason="ignoreReason = $event"
       @update:skin-tier="skinTier = $event"
       @update:skin-reason="skinReason = $event"
+      @update:time-platform="setTimePlatform"
+      @update:time-total="timeTotal = $event"
+      @update:time-season="timeSeason = $event"
+      @update:time-reason="timeReason = $event"
+      @update:join-date="joinDate = $event"
+      @update:join-date-reason="joinDateReason = $event"
+      @update:achievement-platform="achievementPlatform = $event"
+      @update:achievement-type="achievementType = $event"
+      @update:achievement-reason="achievementReason = $event"
       @review="openPlayerModal"
     />
 
@@ -65,7 +84,10 @@
       :entries="auditLog"
       :loading="auditInitialLoading"
       :refreshing="auditRefreshLoading"
+      :has-more="auditHasMore"
+      :expanded="auditExpanded"
       @refresh="loadAuditLog(true)"
+      @toggle-expanded="toggleAuditExpanded"
     />
 
     <AdminReviewModal
@@ -97,6 +119,7 @@ import type {
   Platform,
   PlayerDetail,
   PlayerSummary,
+  SpecialAchievementDefinition,
   TttStatus,
 } from './admin/types';
 
@@ -107,7 +130,11 @@ type ModalAction =
   | 'transfer'
   | 'unlink'
   | 'ignoreRole'
-  | 'seasonSkin';
+  | 'seasonSkin'
+  | 'timeUpdate'
+  | 'joinDate'
+  | 'specialAchievementGrant'
+  | 'specialAchievementRevoke';
 
 const authStore = useAuthStore();
 const selectedPlayer = ref<PlayerDetail | null>(null);
@@ -123,6 +150,8 @@ const tttRefreshedAt = ref('');
 const auditLog = ref<AuditEntry[]>([]);
 const auditInitialLoading = ref(true);
 const auditRefreshLoading = ref(false);
+const auditHasMore = ref(false);
+const auditExpanded = ref(false);
 let auditRefreshTimer: ReturnType<typeof setInterval> | null = null;
 
 const transferTarget = ref<PlayerSummary | null>(null);
@@ -134,6 +163,16 @@ const ignorePlatform = ref<Platform>('teamspeak');
 const ignoreReason = ref('');
 const skinTier = ref(2);
 const skinReason = ref('');
+const specialAchievements = ref<SpecialAchievementDefinition[]>([]);
+const timePlatform = ref<Platform>('teamspeak');
+const timeTotal = ref(0);
+const timeSeason = ref(0);
+const timeReason = ref('');
+const joinDate = ref('');
+const joinDateReason = ref('');
+const achievementPlatform = ref<Platform>('teamspeak');
+const achievementType = ref<number | null>(null);
+const achievementReason = ref('');
 
 const modalAction = ref<ModalAction | null>(null);
 const modalOpen = computed(() => modalAction.value !== null);
@@ -185,6 +224,55 @@ const formatNow = () =>
     second: '2-digit',
   }).format(new Date());
 
+const linkedPlatforms = (player: PlayerDetail): Platform[] =>
+  (['teamspeak', 'discord'] as Platform[]).filter((platform) =>
+    platform === 'discord' ? player.discord_id : player.teamspeak_id
+  );
+
+const firstLinkedPlatform = (player: PlayerDetail): Platform =>
+  linkedPlatforms(player)[0] || 'teamspeak';
+
+const dateInputValue = (date: string | null) =>
+  date ? date.slice(0, 10) : '';
+
+const syncTimeForm = (player: PlayerDetail, platform: Platform) => {
+  timePlatform.value = platform;
+  timeTotal.value = player.platform_time[platform]?.total_time || 0;
+  timeSeason.value = player.platform_time[platform]?.season_time || 0;
+};
+
+const syncPlayerAdminForms = (player: PlayerDetail) => {
+  const platform = firstLinkedPlatform(player);
+  syncTimeForm(player, platform);
+  achievementPlatform.value = platform;
+  joinDate.value = dateInputValue(player.created_at);
+  if (!achievementType.value && specialAchievements.value.length) {
+    achievementType.value = specialAchievements.value[0].achievement_type;
+  }
+};
+
+const setTimePlatform = (platform: Platform) => {
+  if (selectedPlayer.value) {
+    syncTimeForm(selectedPlayer.value, platform);
+  } else {
+    timePlatform.value = platform;
+  }
+};
+
+const loadSpecialAchievements = async () => {
+  try {
+    const data = await adminFetch<{
+      achievements: SpecialAchievementDefinition[];
+    }>('/api/admin/special-achievements');
+    specialAchievements.value = data.achievements;
+    if (!achievementType.value && data.achievements.length) {
+      achievementType.value = data.achievements[0].achievement_type;
+    }
+  } catch (error) {
+    showMessage((error as Error).message, 'danger');
+  }
+};
+
 const loadTttStatus = async (asRefresh = false) => {
   if (asRefresh) {
     tttRefreshLoading.value = true;
@@ -211,16 +299,24 @@ const loadAuditLog = async (asRefresh = false) => {
     auditInitialLoading.value = true;
   }
   try {
-    const data = await adminFetch<{ entries: AuditEntry[] }>(
-      '/api/admin/audit-log'
-    );
+    const limit = auditExpanded.value ? 50 : 5;
+    const data = await adminFetch<{
+      entries: AuditEntry[];
+      has_more: boolean;
+    }>(`/api/admin/audit-log?limit=${limit}`);
     auditLog.value = data.entries;
+    auditHasMore.value = data.has_more;
   } catch (error) {
     showMessage((error as Error).message, 'danger');
   } finally {
     auditInitialLoading.value = false;
     auditRefreshLoading.value = false;
   }
+};
+
+const toggleAuditExpanded = async () => {
+  auditExpanded.value = !auditExpanded.value;
+  await loadAuditLog(true);
 };
 
 const selectPlayer = async (id: number) => {
@@ -231,6 +327,7 @@ const selectPlayer = async (id: number) => {
     selectedPlayer.value = await adminFetch<PlayerDetail>(
       `/api/admin/players/${id}`
     );
+    syncPlayerAdminForms(selectedPlayer.value);
     transferPlatforms.value = selectedPlayer.value.teamspeak_id
       ? ['teamspeak']
       : selectedPlayer.value.discord_id
@@ -258,7 +355,15 @@ const openTttModal = (command: 'start' | 'stop' | 'restart') => {
 };
 
 const openPlayerModal = (
-  action: 'transfer' | 'unlink' | 'ignoreRole' | 'seasonSkin'
+  action:
+    | 'transfer'
+    | 'unlink'
+    | 'ignoreRole'
+    | 'seasonSkin'
+    | 'timeUpdate'
+    | 'joinDate'
+    | 'specialAchievementGrant'
+    | 'specialAchievementRevoke'
 ) => {
   modalError.value = '';
   modalAction.value = action;
@@ -287,6 +392,10 @@ const modalTitle = computed(() => {
     unlink: 'Steam-Verknüpfung lösen',
     ignoreRole: 'Ignore-Rolle zuweisen',
     seasonSkin: 'Season Skin vergeben',
+    timeUpdate: 'Rankingzeit korrigieren',
+    joinDate: 'Beitrittsdatum ändern',
+    specialAchievementGrant: 'Achievement vergeben',
+    specialAchievementRevoke: 'Achievement entfernen',
   };
   return modalAction.value ? titles[modalAction.value] : '';
 });
@@ -296,7 +405,18 @@ const modalConfirmLabel = computed(() => {
   if (modalAction.value === 'transfer') return 'Übertragen';
   if (modalAction.value === 'unlink') return 'Lösen';
   if (modalAction.value === 'seasonSkin') return 'Skin vergeben';
+  if (modalAction.value === 'timeUpdate') return 'Zeit speichern';
+  if (modalAction.value === 'joinDate') return 'Datum speichern';
+  if (modalAction.value === 'specialAchievementGrant') return 'Vergeben';
+  if (modalAction.value === 'specialAchievementRevoke') return 'Entfernen';
   return 'Bestätigen';
+});
+
+const selectedAchievementName = computed(() => {
+  const selected = specialAchievements.value.find(
+    (achievement) => achievement.achievement_type === achievementType.value
+  );
+  return selected?.name || 'Achievement';
 });
 
 const modalBody = computed(() => {
@@ -316,7 +436,19 @@ const modalBody = computed(() => {
   if (modalAction.value === 'ignoreRole') {
     return `Die Ignore-Rolle wird für ${ignorePlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} ${selectedPlatformId(ignorePlatform.value)} gesetzt.`;
   }
-  return `Tier ${skinTier.value} wird an SteamID64 ${selectedPlayer.value?.steam_id || 'unbekannt'} vergeben.`;
+  if (modalAction.value === 'seasonSkin') {
+    return `Tier ${skinTier.value} wird an SteamID64 ${selectedPlayer.value?.steam_id || 'unbekannt'} vergeben.`;
+  }
+  if (modalAction.value === 'timeUpdate') {
+    return `${timePlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} wird auf ${timeTotal.value} Minuten Gesamtzeit und ${timeSeason.value} Minuten Saisonzeit gesetzt.`;
+  }
+  if (modalAction.value === 'joinDate') {
+    return `Das Beitrittsdatum wird auf ${joinDate.value || 'kein Datum'} gesetzt.`;
+  }
+  if (modalAction.value === 'specialAchievementGrant') {
+    return `${selectedAchievementName.value} wird für ${achievementPlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} vergeben.`;
+  }
+  return `${selectedAchievementName.value} wird für ${achievementPlatform.value === 'discord' ? 'Discord' : 'TeamSpeak'} entfernt.`;
 });
 
 const modalNotice = computed(() => {
@@ -332,6 +464,18 @@ const modalNotice = computed(() => {
   }
   if (modalAction.value === 'seasonSkin') {
     return 'Der Spieler muss online auf dem TTT Server sein, damit der Season Skin direkt vergeben werden kann.';
+  }
+  if (modalAction.value === 'timeUpdate') {
+    return 'Die Aktion nutzt nur verlinkte Plattformen und berechnet Level und Division danach neu.';
+  }
+  if (modalAction.value === 'joinDate') {
+    return 'Das Datum darf nicht in der Zukunft liegen und betrifft öffentliche Profil- und Hall-of-Fame-Anzeigen.';
+  }
+  if (
+    modalAction.value === 'specialAchievementGrant' ||
+    modalAction.value === 'specialAchievementRevoke'
+  ) {
+    return 'Das Achievement wird nur auf die ausgewählte aktuell verlinkte Plattform geschrieben.';
   }
   return 'Während die Aktion läuft, bleibt dieser Dialog geöffnet.';
 });
@@ -408,6 +552,48 @@ const submitModal = async () => {
           }),
         });
         showMessage('Season Skin vergeben.');
+      } else if (modalAction.value === 'timeUpdate') {
+        await adminFetch(`/api/admin/players/${player.id}/time`, {
+          method: 'POST',
+          body: JSON.stringify({
+            platform: timePlatform.value,
+            total_time: timeTotal.value,
+            season_time: timeSeason.value,
+            reason: timeReason.value,
+          }),
+        });
+        showMessage('Rankingzeit korrigiert.');
+      } else if (modalAction.value === 'joinDate') {
+        await adminFetch(`/api/admin/players/${player.id}/join-date`, {
+          method: 'POST',
+          body: JSON.stringify({
+            created_at: joinDate.value,
+            reason: joinDateReason.value,
+          }),
+        });
+        showMessage('Beitrittsdatum geändert.');
+      } else if (modalAction.value === 'specialAchievementGrant') {
+        await adminFetch('/api/admin/special-achievements/grant', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_id: player.id,
+            platform: achievementPlatform.value,
+            achievement_type: achievementType.value,
+            reason: achievementReason.value,
+          }),
+        });
+        showMessage('Achievement vergeben.');
+      } else if (modalAction.value === 'specialAchievementRevoke') {
+        await adminFetch('/api/admin/special-achievements/revoke', {
+          method: 'POST',
+          body: JSON.stringify({
+            user_id: player.id,
+            platform: achievementPlatform.value,
+            achievement_type: achievementType.value,
+            reason: achievementReason.value,
+          }),
+        });
+        showMessage('Achievement entfernt.');
       }
 
       await Promise.all([loadAuditLog(true), selectPlayer(player.id)]);
@@ -426,6 +612,7 @@ const submitModal = async () => {
 onMounted(() => {
   loadTttStatus().catch(() => {});
   loadAuditLog().catch(() => {});
+  loadSpecialAchievements().catch(() => {});
   auditRefreshTimer = setInterval(() => {
     loadAuditLog(true).catch(() => {});
   }, 15000);

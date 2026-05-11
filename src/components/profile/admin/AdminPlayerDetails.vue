@@ -259,6 +259,230 @@
             Skin vergeben
           </BaseButton>
         </section>
+
+        <section class="action-panel">
+          <h4>Rankingzeit korrigieren</h4>
+          <p v-if="!canEditProfile" class="warning-copy">
+            Zeitkorrekturen sind nur für aktive Spieler mit verlinkter Plattform
+            möglich.
+          </p>
+          <label class="field">
+            Plattform
+            <select
+              :value="timePlatform"
+              class="admin-input"
+              :disabled="!canEditProfile"
+              @change="
+                $emit(
+                  'update:timePlatform',
+                  ($event.target as HTMLSelectElement).value as Platform
+                )
+              "
+            >
+              <option
+                v-for="platform in linkedPlatforms"
+                :key="platform"
+                :value="platform"
+              >
+                {{ platformLabel(platform) }}
+              </option>
+            </select>
+          </label>
+          <div class="time-input-grid">
+            <label class="field">
+              Gesamtzeit (Minuten)
+              <input
+                :value="timeTotal"
+                class="admin-input"
+                type="number"
+                min="0"
+                step="1"
+                :disabled="!canEditProfile"
+                @input="
+                  $emit(
+                    'update:timeTotal',
+                    Number(($event.target as HTMLInputElement).value)
+                  )
+                "
+              />
+            </label>
+            <label class="field">
+              Saisonzeit (Minuten)
+              <input
+                :value="timeSeason"
+                class="admin-input"
+                type="number"
+                min="0"
+                step="1"
+                :disabled="!canEditProfile"
+                @input="
+                  $emit(
+                    'update:timeSeason',
+                    Number(($event.target as HTMLInputElement).value)
+                  )
+                "
+              />
+            </label>
+          </div>
+          <p v-if="timeInvalid" class="warning-copy">
+            Saisonzeit darf nicht größer als Gesamtzeit sein.
+          </p>
+          <textarea
+            :value="timeReason"
+            class="admin-textarea"
+            placeholder="Grund für die Zeitkorrektur"
+            :disabled="!canEditProfile"
+            @input="
+              $emit(
+                'update:timeReason',
+                ($event.target as HTMLTextAreaElement).value
+              )
+            "
+          ></textarea>
+          <BaseButton
+            variant="primary"
+            :disabled="!canEditProfile || timeInvalid || !timeReason.trim()"
+            @click="$emit('review', 'timeUpdate')"
+          >
+            Zeit speichern
+          </BaseButton>
+        </section>
+
+        <section class="action-panel">
+          <h4>Beitrittsdatum</h4>
+          <p v-if="!canEditProfile" class="warning-copy">
+            Beitrittsdatum kann nur für aktive Spieler mit verlinkter Plattform
+            geändert werden.
+          </p>
+          <label class="field">
+            Datum
+            <input
+              :value="joinDate"
+              class="admin-input"
+              type="date"
+              :max="today"
+              :disabled="!canEditProfile"
+              @input="
+                $emit(
+                  'update:joinDate',
+                  ($event.target as HTMLInputElement).value
+                )
+              "
+            />
+          </label>
+          <textarea
+            :value="joinDateReason"
+            class="admin-textarea"
+            placeholder="Grund für die Datumsänderung"
+            :disabled="!canEditProfile"
+            @input="
+              $emit(
+                'update:joinDateReason',
+                ($event.target as HTMLTextAreaElement).value
+              )
+            "
+          ></textarea>
+          <BaseButton
+            variant="secondary"
+            :disabled="!canEditProfile || !joinDate || !joinDateReason.trim()"
+            @click="$emit('review', 'joinDate')"
+          >
+            Datum speichern
+          </BaseButton>
+        </section>
+
+        <section class="action-panel">
+          <h4>Spezial-Achievements</h4>
+          <p v-if="!canEditProfile" class="warning-copy">
+            Achievements sind nur für aktive Spieler mit verlinkter Plattform
+            änderbar.
+          </p>
+          <label class="field">
+            Plattform
+            <select
+              :value="achievementPlatform"
+              class="admin-input"
+              :disabled="!canEditProfile"
+              @change="
+                $emit(
+                  'update:achievementPlatform',
+                  ($event.target as HTMLSelectElement).value as Platform
+                )
+              "
+            >
+              <option
+                v-for="platform in linkedPlatforms"
+                :key="platform"
+                :value="platform"
+              >
+                {{ platformLabel(platform) }}
+              </option>
+            </select>
+          </label>
+          <label class="field">
+            Achievement
+            <select
+              :value="achievementType || ''"
+              class="admin-input"
+              :disabled="!canEditProfile || specialAchievements.length === 0"
+              @change="
+                $emit(
+                  'update:achievementType',
+                  Number(($event.target as HTMLSelectElement).value)
+                )
+              "
+            >
+              <option
+                v-for="achievement in specialAchievements"
+                :key="achievement.achievement_type"
+                :value="achievement.achievement_type"
+              >
+                {{ achievement.name }}
+              </option>
+            </select>
+          </label>
+          <p class="action-copy">
+            Status: {{ achievementGranted ? 'vergeben' : 'nicht vergeben' }}
+          </p>
+          <textarea
+            :value="achievementReason"
+            class="admin-textarea"
+            placeholder="Grund für die Achievement-Änderung"
+            :disabled="!canEditProfile"
+            @input="
+              $emit(
+                'update:achievementReason',
+                ($event.target as HTMLTextAreaElement).value
+              )
+            "
+          ></textarea>
+          <div class="button-row">
+            <BaseButton
+              variant="primary"
+              :disabled="
+                !canEditProfile ||
+                !achievementType ||
+                achievementGranted ||
+                !achievementReason.trim()
+              "
+              @click="$emit('review', 'specialAchievementGrant')"
+            >
+              Vergeben
+            </BaseButton>
+            <BaseButton
+              variant="secondary"
+              :disabled="
+                !canEditProfile ||
+                !achievementType ||
+                !achievementGranted ||
+                !achievementReason.trim()
+              "
+              @click="$emit('review', 'specialAchievementRevoke')"
+            >
+              Entfernen
+            </BaseButton>
+          </div>
+        </section>
       </div>
     </section>
   </Transition>
@@ -273,6 +497,7 @@ import type {
   Platform,
   PlayerDetail,
   PlayerSummary,
+  SpecialAchievementDefinition,
 } from './types';
 
 const props = defineProps<{
@@ -287,6 +512,16 @@ const props = defineProps<{
   ignoreReason: string;
   skinTier: number;
   skinReason: string;
+  specialAchievements: SpecialAchievementDefinition[];
+  timePlatform: Platform;
+  timeTotal: number;
+  timeSeason: number;
+  timeReason: string;
+  joinDate: string;
+  joinDateReason: string;
+  achievementPlatform: Platform;
+  achievementType: number | null;
+  achievementReason: string;
 }>();
 
 const emit = defineEmits<{
@@ -299,9 +534,26 @@ const emit = defineEmits<{
   (e: 'update:ignoreReason', value: string): void;
   (e: 'update:skinTier', value: number): void;
   (e: 'update:skinReason', value: string): void;
+  (e: 'update:timePlatform', value: Platform): void;
+  (e: 'update:timeTotal', value: number): void;
+  (e: 'update:timeSeason', value: number): void;
+  (e: 'update:timeReason', value: string): void;
+  (e: 'update:joinDate', value: string): void;
+  (e: 'update:joinDateReason', value: string): void;
+  (e: 'update:achievementPlatform', value: Platform): void;
+  (e: 'update:achievementType', value: number): void;
+  (e: 'update:achievementReason', value: string): void;
   (
     e: 'review',
-    value: 'transfer' | 'unlink' | 'ignoreRole' | 'seasonSkin'
+    value:
+      | 'transfer'
+      | 'unlink'
+      | 'ignoreRole'
+      | 'seasonSkin'
+      | 'timeUpdate'
+      | 'joinDate'
+      | 'specialAchievementGrant'
+      | 'specialAchievementRevoke'
   ): void;
 }>();
 
@@ -310,6 +562,35 @@ const platforms: Platform[] = ['teamspeak', 'discord'];
 const transferPlatformsModel = computed({
   get: () => props.transferPlatforms,
   set: (value: Platform[]) => emit('update:transferPlatforms', value),
+});
+
+const linkedPlatforms = computed(() =>
+  platforms.filter((platform) => Boolean(platformId(platform)))
+);
+
+const canEditProfile = computed(
+  () =>
+    Boolean(props.player) &&
+    !props.player?.ranking.disabled &&
+    linkedPlatforms.value.length > 0
+);
+
+const timeInvalid = computed(
+  () =>
+    props.timeTotal < 0 ||
+    props.timeSeason < 0 ||
+    props.timeSeason > props.timeTotal
+);
+
+const today = new Date().toISOString().slice(0, 10);
+
+const achievementGranted = computed(() => {
+  if (!props.player || !props.achievementType) return false;
+  return props.player.special_achievements.some(
+    (achievement) =>
+      achievement.platform === props.achievementPlatform &&
+      achievement.achievement_type === props.achievementType
+  );
 });
 
 const platformLabel = (platform: Platform) =>
@@ -435,6 +716,12 @@ const streakText = (platform: Platform) => {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.time-input-grid {
+  display: grid;
+  gap: 0.75rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
 .platform-card,
 .action-panel {
   background: var(--clr-background);
@@ -498,6 +785,12 @@ dd {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+}
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
 }
 
 .field {
@@ -570,7 +863,8 @@ dd {
 
 @media (max-width: 980px) {
   .detail-grid,
-  .action-grid {
+  .action-grid,
+  .time-input-grid {
     grid-template-columns: 1fr;
   }
 }

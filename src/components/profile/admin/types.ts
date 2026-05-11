@@ -49,6 +49,7 @@ export interface PlayerDetail extends PlayerSummary {
       }
     >
   >;
+  special_achievements: SpecialAchievementGrant[];
 }
 
 export interface AuditEntry {
@@ -59,6 +60,20 @@ export interface AuditEntry {
   summary: Record<string, unknown>;
   result_status: string;
   created_at: string | null;
+}
+
+export interface SpecialAchievementDefinition {
+  achievement_type: number;
+  name: string;
+  description: string;
+}
+
+export interface SpecialAchievementGrant {
+  platform: Platform;
+  platform_id: string;
+  achievement_type: number;
+  name: string;
+  awarded_at: string | null;
 }
 
 export interface TttStatus {

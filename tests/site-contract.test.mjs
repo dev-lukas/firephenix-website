@@ -70,6 +70,11 @@ test('frontend keeps expected backend API contract paths', async () => {
     '/api/admin/ranking/ignore-role',
     '/api/admin/steam/unlink',
     '/api/admin/ttt/season-skin',
+    '/api/admin/players/${player.id}/time',
+    '/api/admin/players/${player.id}/join-date',
+    '/api/admin/special-achievements',
+    '/api/admin/special-achievements/grant',
+    '/api/admin/special-achievements/revoke',
     '/api/admin/audit-log',
     '/api/gameservers/ttt/status',
     '/api/gameservers/ttt/start',
@@ -120,6 +125,15 @@ test('admin audit log refreshes every 15 seconds and clears on unmount', async (
   assert.match(adminDashboard, /clearInterval\(auditRefreshTimer\)/);
 });
 
+test('admin audit log defaults to five rows and can expand', async () => {
+  const admin = await readAdminSource();
+
+  assert.match(admin, /auditExpanded\.value \? 50 : 5/);
+  assert.match(admin, /has_more/);
+  assert.match(admin, /Mehr anzeigen/);
+  assert.match(admin, /Weniger anzeigen/);
+});
+
 test('admin actions use review modals with explicit notices', async () => {
   const admin = await readAdminSource();
 
@@ -129,9 +143,29 @@ test('admin actions use review modals with explicit notices', async () => {
     'Quellkonto für das öffentliche Ranking deaktiviert',
     'Nur die ausgewählte Plattform wird abgespalten',
     'Die Ignore-Rolle betrifft nur das ausgewählte',
+    'Die Aktion nutzt nur verlinkte Plattformen',
+    'Das Achievement wird nur auf die ausgewählte aktuell verlinkte Plattform',
   ]) {
     assert.match(admin, new RegExp(expected));
   }
+});
+
+test('admin player corrections are guarded to linked active users', async () => {
+  const admin = await readAdminSource();
+
+  for (const expected of [
+    'Rankingzeit korrigieren',
+    'Beitrittsdatum',
+    'Spezial-Achievements',
+    'aktive Spieler mit verlinkter Plattform',
+    'linkedPlatforms',
+    'achievementGranted',
+    'Saisonzeit darf nicht größer als Gesamtzeit sein',
+  ]) {
+    assert.match(admin, new RegExp(expected));
+  }
+
+  assert.doesNotMatch(admin, /update:platformId/);
 });
 
 test('admin copy uses German umlauts instead of old ASCII fallbacks', async () => {
@@ -155,7 +189,7 @@ test('ranking transfer target selection is search based', async () => {
 
   assert.match(admin, /AdminPlayerPicker/);
   assert.match(admin, /\/api\/admin\/players\/search\?q=/);
-  assert.doesNotMatch(admin, /target_user_id[^]*type="number"/);
+  assert.doesNotMatch(admin, /target_user_id[^<]{0,200}type="number"/);
 });
 
 test('admin TTT status panel reflects direct public server query', async () => {
