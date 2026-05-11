@@ -8,6 +8,7 @@
           v-model="searchQuery"
           placeholder="Spieler suchen..."
           class="search-input"
+          maxlength="255"
           @input="resetAndSearch"
         />
       </div>
@@ -154,8 +155,9 @@ const fetchData = async (page = 1, append = false) => {
     // Add artificial delay for smoother loading animation
     if (loadingTimeout.value) clearTimeout(loadingTimeout.value);
     loadingTimeout.value = setTimeout(async () => {
+      const encodedSearch = encodeURIComponent(searchQuery.value);
       const response = await fetch(
-        `/api/ranking/season?page=${page}&limit=${itemsPerPage.value}&search=${searchQuery.value}`
+        `/api/ranking/season?page=${page}&limit=${itemsPerPage.value}&search=${encodedSearch}`
       );
       
       if (!response.ok) throw new Error('Failed to fetch seasonal data');

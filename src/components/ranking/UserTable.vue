@@ -18,6 +18,7 @@
           v-model="searchQuery"
           placeholder="Suche Spieler..."
           class="search-input"
+          maxlength="255"
         />
       </div>
     </div>
@@ -201,8 +202,9 @@ const fetchData = async () => {
   try {
     loading.value = true;
     error.value = null;
+    const encodedSearch = encodeURIComponent(searchQuery.value);
     const response = await fetch(
-      `/api/ranking?page=${currentPage.value}&limit=${itemsPerPage.value}&search=${searchQuery.value}`
+      `/api/ranking?page=${currentPage.value}&limit=${itemsPerPage.value}&search=${encodedSearch}`
     );
     if (!response.ok) throw new Error('Failed to fetch data');
 
