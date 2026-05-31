@@ -232,7 +232,11 @@ const confirmUnlock = async () => {
     });
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);
-      errorMessage.value = errorData?.error || errorData?.message || 'Fehler beim Freischalten. Bitte versuche es später erneut.';
+      if (response.status === 429) {
+        errorMessage.value = errorData?.error || 'Zu viele Versuche. Bitte warte kurz und versuche es erneut.';
+      } else {
+        errorMessage.value = errorData?.error || errorData?.message || 'Fehler beim Freischalten. Bitte versuche es später erneut.';
+      }
       showErrorModal.value = true;
     } else {
       emit('reload-data');
