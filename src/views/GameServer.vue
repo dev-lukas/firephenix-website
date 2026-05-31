@@ -1,43 +1,70 @@
 // views/GameServer.vue
 <template>
   <div class="game-server-page">
-    <h1 class="page-title">Unsere Game Server</h1>
+    <h1 class="page-title">Games</h1>
 
-    <!-- Ranking navigation buttons -->
     <div class="gameserver-toggle">
       <button 
         class="toggle-button" 
         :class="{ active: activeTab === 'ttt' }"
         @click="navigateToTab('ttt')"
       >
-        <font-awesome-icon :icon="['fas', 'square-poll-vertical']" class="button-icon" />
-        <span>TTT</span>
+        <font-awesome-icon :icon="['fas', 'server']" class="button-icon" />
+        <span>TTT Server</span>
+      </button>
+      <button
+        class="toggle-button"
+        :class="{ active: activeTab === 'groups' }"
+        @click="navigateToTab('groups')"
+      >
+        <font-awesome-icon :icon="['fas', 'users']" class="button-icon" />
+        <span>Community</span>
       </button>
     </div>
 
     <div v-if="activeTab === 'ttt'">
       <TttServerSection />
     </div>
-    <div v-else-if="activeTab === 'minecraft'">
-      <MinecraftServerSection />
+    <div v-else-if="activeTab === 'groups'">
+      <CommunityGroupsSection />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { onMounted, onUnmounted, ref } from 'vue';
 import TttServerSection from '../components/gameserver/TttServerSection.vue';
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import CommunityGroupsSection from '../components/gameserver/CommunityGroupsSection.vue';
 
-const validTabs = ['ttt', 'minecraft'];
-const activeTab = ref('ttt');
+const validTabs = ['ttt', 'groups'] as const;
+type GameServerTab = typeof validTabs[number];
 
-const navigateToTab = (tab: string) => {
+const activeTab = ref<GameServerTab>('ttt');
+
+const getHashTab = (): GameServerTab => {
+  const hash = window.location.hash.replace('#', '');
+  return validTabs.includes(hash as GameServerTab) ? hash as GameServerTab : 'ttt';
+};
+
+const navigateToTab = (tab: GameServerTab) => {
   if (validTabs.includes(tab)) {
     activeTab.value = tab;
     window.location.hash = tab;
   }
 };
+
+const syncTabFromHash = () => {
+  activeTab.value = getHashTab();
+};
+
+onMounted(() => {
+  syncTabFromHash();
+  window.addEventListener('hashchange', syncTabFromHash);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('hashchange', syncTabFromHash);
+});
 </script>
 
 <style scoped>
@@ -65,7 +92,7 @@ const navigateToTab = (tab: string) => {
 .toggle-button {
   background: var(--clr-transparent-light);
   border: 2px solid var(--clr-border);
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 0.8rem 1.5rem;
   color: var(--clr-text-secondary);
   font-size: 1rem;
@@ -97,31 +124,16 @@ const navigateToTab = (tab: string) => {
   font-size: 1.1rem;
 }
 
-.new-tag {
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  background: linear-gradient(135deg, var(--clr-red), var(--clr-primary));
-  color: var(--clr-white);
-  font-size: 0.7rem;
-  font-weight: bold;
-  padding: 0.2rem 0.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 5px var(--clr-box-shadow-orange);
-  animation: pulse 1.5s infinite alternate;
-}
-
-@keyframes pulse {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
-}
-
 @media (max-width: 768px) {
+  .game-server-page {
+    padding-top: 56px;
+  }
+
   .page-title {
     font-size: 2rem;
   }
 
-  .ranking-toggle {
+  .gameserver-toggle {
     flex-direction: column;
     align-items: center;
   }

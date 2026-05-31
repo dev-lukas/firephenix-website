@@ -67,8 +67,13 @@
             <h3>TTT Skins</h3>
           </div>
           <p>Zusätzlich erhältst du, wenn du mindestens Silber erreicht hast, einen oder mehrere TTT-Skins:</p>
-          <div class="ttt-rewards-container">
-            <img :src="tttRewardsImg" alt="TTT Skins Belohnungen" class="ttt-rewards-image" />
+          <div class="ttt-rewards-list">
+            <div v-for="showcase in tttRewardShowcases" :key="showcase.season" class="ttt-rewards-showcase">
+              <h4>{{ showcase.title }}</h4>
+              <div class="ttt-rewards-container">
+                <img :src="showcase.image" :alt="showcase.alt" class="ttt-rewards-image" />
+              </div>
+            </div>
           </div>
           <p class="reward-note">Bitte beachte, dass dies nur eine Abbildung der TTT Skins sind. Die Ingame-Version kann etwas vom Artwork abweichen. Du kannst die Skins aber jederzeit bereits im Ingame Skinshop betrachten.</p>
         </div>
@@ -91,16 +96,33 @@
 
   const diamondIcon = new URL('../../assets/images/ranks/diamond.png', import.meta.url).href;
   const tttSkinsIcon = new URL('../../assets/images/games/phoenix-agent.png', import.meta.url).href;
-  const tttRewardsImg = new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href;
   const apexIcon = new URL('../../assets/images/achievements/apex.png', import.meta.url).href;
 
+  const TOP_DIVISION_PLAYER_AMOUNT = 10;
+  const DIVISION_REQUIREMENTS_MINUTES = {
+    1: 0,
+    2: 1500,
+    3: 3000,
+    4: 6000,
+    5: 9000,
+  };
+
+  const tttRewardShowcases = [
+    {
+      season: 2,
+      title: 'Season 2',
+      image: new URL('../../assets/images/games/ttt_rewards/season-2/showcase.png', import.meta.url).href,
+      alt: 'TTT Skins Belohnungen Season 2',
+    },
+  ];
+
   const divisionRequirements = {
-      1: '0 Stunden',
-      2: '50 Stunden',
-      3: '150 Stunden',
-      4: '300 Stunden',
-      5: '400 Stunden',
-      6: '10 besten Diamant Spieler',
+      1: `${DIVISION_REQUIREMENTS_MINUTES[1] / 60} Stunden`,
+      2: `${DIVISION_REQUIREMENTS_MINUTES[2] / 60} Stunden`,
+      3: `${DIVISION_REQUIREMENTS_MINUTES[3] / 60} Stunden`,
+      4: `${DIVISION_REQUIREMENTS_MINUTES[4] / 60} Stunden`,
+      5: `${DIVISION_REQUIREMENTS_MINUTES[5] / 60} Stunden`,
+      6: `Top ${TOP_DIVISION_PLAYER_AMOUNT} der Diamant-Spieler`,
   }
   
   const divisionRewards = {
@@ -445,9 +467,25 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    margin: 1.5rem 0;
+    margin: 0.75rem 0 1.5rem;
     width: 100%;
     max-width: 100%;
+  }
+
+  .ttt-rewards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+
+  .ttt-rewards-showcase {
+    width: 100%;
+  }
+
+  .ttt-rewards-showcase h4 {
+    text-align: center;
+    margin: 0.25rem 0 0.5rem;
   }
   
   .ttt-rewards-image {

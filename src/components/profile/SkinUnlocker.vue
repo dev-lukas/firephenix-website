@@ -61,7 +61,7 @@
             <button
               v-else-if="bestDivision >= skin.requiredDivision"
               class="btn-claim"
-              @click="openUnlockModal(index + 1)"
+              @click="openUnlockModal(skin)"
             >
               Freischalten
             </button>
@@ -117,19 +117,31 @@ import BaseModal from '../base/BaseModal.vue';
 import { useAuthStore } from '../../services/auth';
 import { faInfoCircle, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons';
 
-import tttSilver from '../../assets/images/games/ttt_reward_silver.png';
-import tttGold from '../../assets/images/games/ttt_reward_gold.png';
-import tttPlatinum from '../../assets/images/games/ttt_reward_platinum.png';
-import tttDiamond from '../../assets/images/games/ttt_reward_diamond.png';
-import tttPhoenix from '../../assets/images/games/ttt_reward_phoenix.png';
+import tttSilver from '../../assets/images/games/ttt_rewards/season-1/silver.png';
+import tttGold from '../../assets/images/games/ttt_rewards/season-1/gold.png';
+import tttPlatinum from '../../assets/images/games/ttt_rewards/season-1/platinum.png';
+import tttDiamond from '../../assets/images/games/ttt_rewards/season-1/diamond.png';
+import tttPhoenix from '../../assets/images/games/ttt_rewards/season-1/phoenix.png';
 
-const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards_banner.png', import.meta.url).href);
+const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards/season-1/banner.png', import.meta.url).href);
 const authStore = useAuthStore();
 
+type SeasonUnlockData = Partial<Record<2 | 3 | 4 | 5 | 6, boolean>>;
+
+interface SkinReward {
+  name: string;
+  image: string;
+  requiredDivision: 2 | 3 | 4 | 5 | 6;
+  divisionName: string;
+  color: string;
+  badgeImage: string;
+}
+
 const props = defineProps({
+  seasonNumber: { type: Number, default: 1 },
   bestDivision: { type: Number, required: true },
   seasonUnlockData: {
-    type: Object as () => { 2: boolean; 3: boolean; 4: boolean; 5: boolean; 6: boolean },
+    type: Object as () => SeasonUnlockData,
     required: true,
     default: () => ({ 2: false, 3: false, 4: false, 5: false, 6: false })
   }
@@ -140,7 +152,7 @@ const emit = defineEmits<{
 
 const getBadge = (name: string) => new URL(`../../assets/images/ranks/${name}.png`, import.meta.url).href;
 
-const skins = [
+const skins: SkinReward[] = [
   { name: 'Silber Rüstung', image: tttSilver, requiredDivision: 2, divisionName: 'Silber', color: '#c0c0c0', badgeImage: getBadge('silver') },
   { name: 'Gold Rüstung', image: tttGold, requiredDivision: 3, divisionName: 'Gold', color: '#ffd700', badgeImage: getBadge('gold') },
   { name: 'Platin Rüstung', image: tttPlatinum, requiredDivision: 4, divisionName: 'Platin', color: '#e5e4e2', badgeImage: getBadge('platinum') },
@@ -170,22 +182,22 @@ function resetTilt(idx: number) {
 // Unlock logic (kept from original)
 const showUnlockModal = ref(false);
 const loading = ref(false);
-const currentSkinId = ref<number | null>(null);
+const currentSkin = ref<SkinReward | null>(null);
 const showErrorModal = ref(false);
 const errorMessage = ref('Ein Fehler ist aufgetreten.');
 
-const openUnlockModal = (skinId: number) => {
-  currentSkinId.value = skinId;
+const openUnlockModal = (skin: SkinReward) => {
+  currentSkin.value = skin;
   showUnlockModal.value = true;
 };
 
 const closeModal = () => {
   showUnlockModal.value = false;
-  currentSkinId.value = null;
+  currentSkin.value = null;
 };
 
 const confirmUnlock = async () => {
-  if (currentSkinId.value === null) return;
+  if (!currentSkin.value) return;
   loading.value = true;
   try {
     const response = await fetch('/api/user/profile/skins', {
@@ -194,7 +206,11 @@ const confirmUnlock = async () => {
         'Content-Type': 'application/json',
         ...authStore.csrfHeaders(),
       },
-      body: JSON.stringify({ platform: 'garrysmod', tier: currentSkinId.value + 1 }),
+      body: JSON.stringify({
+        platform: 'garrysmod',
+        season: props.seasonNumber,
+        tier: currentSkin.value.requiredDivision,
+      }),
     });
     if (!response.ok) {
       const errorData = await response.json().catch(() => null);

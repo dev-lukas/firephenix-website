@@ -108,6 +108,66 @@
       </div>
 
       <div
+        v-for="(_, index) in maxLevels.ttt_rounds_played"
+        :key="`ttt-rounds-played-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': getTttAchievementLevel('rounds_played') < index + 1 }"
+      >
+        <img
+          :src="getTttImg('rounds_played', index)"
+          :alt="`TTT Runden Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Routiniert {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getTttRoundsPlayedDescription(index + 1) }}</p>
+            <p v-if="achievements.ttt?.stats">Gesamt: {{ achievements.ttt.stats.rounds_played }} Runden</p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-for="(_, index) in maxLevels.ttt_rounds_won"
+        :key="`ttt-rounds-won-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': getTttAchievementLevel('rounds_won') < index + 1 }"
+      >
+        <img
+          :src="getTttImg('rounds_won', index)"
+          :alt="`TTT Siege Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Überlebenskünstler {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getTttRoundsWonDescription(index + 1) }}</p>
+            <p v-if="achievements.ttt?.stats">Gesamt: {{ achievements.ttt.stats.rounds_won }} Siege</p>
+          </div>
+        </div>
+      </div>
+
+      <div
+        v-for="(_, index) in maxLevels.ttt_kills"
+        :key="`ttt-kills-${index}`"
+        class="achievement-item"
+        :class="{ 'achievement-locked': getTttAchievementLevel('kills') < index + 1 }"
+      >
+        <img
+          :src="getTttImg('kills', index)"
+          :alt="`TTT Eliminierungen Level ${index + 1}`"
+          class="achievement-icon"
+        />
+        <div class="achievement-tooltip">
+          <div class="tooltip-content">
+            <h4>Scharfer Blick {{ getRomanTimeString(index + 1) }}</h4>
+            <p>{{ getTttKillsDescription(index + 1) }}</p>
+            <p v-if="achievements.ttt?.stats">Gesamt: {{ achievements.ttt.stats.kills }} Eliminierungen</p>
+          </div>
+        </div>
+      </div>
+
+      <div
         class="achievement-item"
         :class="{ 'achievement-locked': achievements.apex?.achievement_level === 0 }"
       >
@@ -182,6 +242,22 @@ interface AchievementData {
   active_days?: number;
 }
 
+interface TttStats {
+  rounds_played: number;
+  rounds_won: number;
+  kills: number;
+}
+
+interface TttAchievementData {
+  achievement_level: number;
+  achievements: {
+    rounds_played: number;
+    rounds_won: number;
+    kills: number;
+  };
+  stats: TttStats;
+}
+
 interface AchievementsResponse {
   apex: AchievementData;
   division: AchievementData;
@@ -191,6 +267,7 @@ interface AchievementsResponse {
   old_member: AchievementData;
   streak: AchievementData;
   time: AchievementData;
+  ttt?: TttAchievementData;
 }
 
 const achievements = ref<AchievementsResponse>({
@@ -201,7 +278,20 @@ const achievements = ref<AchievementsResponse>({
   logins: { achievement_level: 0, total_logins: 0 },
   old_member: { achievement_level: 0 },
   streak: { achievement_level: 0, longest_streak: 0, total_logins: 0 },
-  time: { achievement_level: 0, total_hours: 0 }
+  time: { achievement_level: 0, total_hours: 0 },
+  ttt: {
+    achievement_level: 0,
+    achievements: {
+      rounds_played: 0,
+      rounds_won: 0,
+      kills: 0,
+    },
+    stats: {
+      rounds_played: 0,
+      rounds_won: 0,
+      kills: 0,
+    },
+  },
 });
 
 const loading = ref(true);
@@ -212,7 +302,10 @@ const maxLevels = {
   heatmap: 4,
   logins: 4,
   streak: 4,
-  time: 4
+  time: 4,
+  ttt_rounds_played: 4,
+  ttt_rounds_won: 4,
+  ttt_kills: 4,
 };
 
 const apexImg = computed(() => new URL('../../assets/images/achievements/apex.png', import.meta.url).href);
@@ -224,6 +317,11 @@ const getTimeImg = (index: number) => new URL(`../../assets/images/achievements/
 const getHeatmapImg = (index: number) => new URL(`../../assets/images/achievements/days/${index + 1}.png`, import.meta.url).href;
 const getStreakImg = (index: number) => new URL(`../../assets/images/achievements/streak/${index + 1}.png`, import.meta.url).href;
 const getDivisionImg = (index: number) => new URL(`../../assets/images/achievements/season/${index + 1}.png`, import.meta.url).href;
+const getTttImg = (category: keyof TttAchievementData['achievements'], index: number) => new URL(`../../assets/images/achievements/ttt/${category}/${index + 1}.png`, import.meta.url).href;
+
+const getTttAchievementLevel = (category: keyof TttAchievementData['achievements']): number => {
+  return achievements.value.ttt?.achievements?.[category] || 0;
+};
 
 const getDivisionDescription = (level: number): string => {
   const descriptions = [
@@ -275,6 +373,36 @@ const getTimeDescription = (level: number): string => {
   return descriptions[level - 1] || '';
 };
 
+const getTttRoundsPlayedDescription = (level: number): string => {
+  const descriptions = [
+    'Spiele 1 TTT Runde',
+    'Spiele 10 TTT Runden',
+    'Spiele 50 TTT Runden',
+    'Spiele 100 TTT Runden'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getTttRoundsWonDescription = (level: number): string => {
+  const descriptions = [
+    'Gewinne 1 TTT Runde',
+    'Gewinne 10 TTT Runden',
+    'Gewinne 25 TTT Runden',
+    'Gewinne 50 TTT Runden'
+  ];
+  return descriptions[level - 1] || '';
+};
+
+const getTttKillsDescription = (level: number): string => {
+  const descriptions = [
+    'Erziele 1 TTT Eliminierung',
+    'Erziele 25 TTT Eliminierungen',
+    'Erziele 100 TTT Eliminierungen',
+    'Erziele 250 TTT Eliminierungen'
+  ];
+  return descriptions[level - 1] || '';
+};
+
 const fetchAchievements = async () => {
   try {
     loading.value = true;
@@ -310,10 +438,11 @@ const unlockedCount = computed(() => {
   let count = 0;
   
   // Count tiered achievements
-  Object.keys(maxLevels).forEach(key => {
+  ['division', 'heatmap', 'logins', 'streak', 'time'].forEach(key => {
     const achievementKey = key as keyof typeof achievements.value;
     count += achievements.value[achievementKey]?.achievement_level || 0;
   });
+  count += achievements.value.ttt?.achievement_level || 0;
   
   // Count binary achievements
   if (achievements.value.apex?.achievement_level > 0) count++;

@@ -457,4 +457,10 @@ const handleLogout = async () => {
   flex-direction: column;
   align-items: center;
 }
+
+@media (max-width: 768px) {
+  .profile-container {
+    padding-top: 56px;
+  }
+}
 </style>

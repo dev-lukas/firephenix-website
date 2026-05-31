@@ -1,97 +1,257 @@
 <template>
   <BaseSection class="ttt-server-section">
-    <p class="section-description">Der Klassiker. Revitalisiert. Spiele TTT wie in alten Zeiten und genieße eine Mischung aus neusten TTT Standarts und purer Nostalgie!</p>
-    
-    <div class="accent-path-container">
-      <svg class="accent-path" viewBox="0 0 100 1000" preserveAspectRatio="none">
-        <path 
-          d="M50,0 C70,200 30,400 50,600 C70,800 30,1000 50,1000" 
-          stroke="var(--clr-primary)" 
-          stroke-width="4" 
-          fill="none" 
-          stroke-dasharray="1000"
-          stroke-dashoffset="1000"
-          class="path-animation">
-        </path>
-      </svg>
-      
-      <div class="feature-sections">
-        <div class="feature-section left" v-for="(feature, index) in features" :key="index" :class="{ 'active': activeFeatures[index] }">
-          <div class="feature-content" :class="{ 'left': index % 2 === 0, 'right': index % 2 !== 0 }">
-            <div class="feature-image-container">
-              <img :src="feature.image" :alt="feature.title" class="feature-image" />
-              <div class="feature-image-overlay"></div>
-            </div>
-            <div class="feature-text">
-              <h3>{{ feature.title }}</h3>
-              <p>{{ feature.description }}</p>
-            </div>
+    <section class="cinematic-hero" aria-label="FirePhenix TTT Server">
+      <div class="hero-content">
+        <div class="hero-copy">
+          <p class="eyebrow">Trouble in Terrorist Town</p>
+          <h2>FirePhenix TTT</h2>
+          <p class="hero-lead">
+            Düstere Karten, scharfe Verdächtigungen und schnelle Runden mit klassischem
+            TTT-Gefühl. Rein in den Server, Rolle ziehen, niemandem trauen.
+          </p>
+
+          <div class="hero-meta">
+            <span>
+              <font-awesome-icon :icon="['fas', 'map']" />
+              Handverlesene Maps
+            </span>
+            <span>
+              <font-awesome-icon :icon="['fas', 'trophy']" />
+              TTT Achievements
+            </span>
+            <span>
+              <font-awesome-icon :icon="['fas', 'shield-alt']" />
+              Private Runden
+            </span>
+          </div>
+
+          <div class="server-actions">
+            <a :href="connectUrl" class="join-server-link">
+              <BaseButton class="join-server-btn">
+                <font-awesome-icon :icon="['fas', 'play']" />
+                <span>Spiele Jetzt</span>
+              </BaseButton>
+            </a>
+            <button class="refresh-button" :disabled="loading" @click="fetchStatus">
+              <font-awesome-icon :icon="['fas', 'sync']" :class="{ spinning: loading }" />
+              <span>Aktualisieren</span>
+            </button>
           </div>
         </div>
+
+        <section class="status-panel" aria-label="TTT Server Status">
+          <div class="status-header">
+            <div>
+              <p class="status-label">Live Status</p>
+              <h3>{{ statusTitle }}</h3>
+            </div>
+            <span class="status-pill" :class="statusClass">{{ statusLabel }}</span>
+          </div>
+
+          <div v-if="errorMessage" class="status-error">
+            {{ errorMessage }}
+          </div>
+
+          <div class="status-grid">
+            <div class="status-metric highlight-metric">
+              <font-awesome-icon :icon="['fas', 'users']" />
+              <span>Spieler</span>
+              <strong>{{ playerCount }}</strong>
+            </div>
+            <div class="status-metric">
+              <font-awesome-icon :icon="['fas', 'map']" />
+              <span>Karte</span>
+              <strong>{{ statusData?.current_map || statusData?.map || 'Unbekannt' }}</strong>
+            </div>
+            <div class="status-metric">
+              <font-awesome-icon :icon="['fas', 'signal']" />
+              <span>Latenz</span>
+              <strong>{{ latencyLabel }}</strong>
+            </div>
+            <div class="status-metric">
+              <font-awesome-icon :icon="['fas', 'lock']" />
+              <span>Zugang</span>
+              <strong>{{ visibilityLabel }}</strong>
+            </div>
+          </div>
+
+          <div class="connection-row">
+            <div>
+              <span>Adresse</span>
+              <strong>{{ serverAddress }}</strong>
+            </div>
+            <div class="password-display" @click="togglePassword">
+              <span>Passwort</span>
+              <strong class="password-text">{{ passwordDisplay }}</strong>
+              <small v-if="passwordCopied">Kopiert</small>
+            </div>
+          </div>
+
+          <p class="last-updated">{{ lastUpdatedLabel }}</p>
+        </section>
       </div>
-    </div>      <div class="cta-container">
-      <a href="steam://connect/gaming.firephenix.de:27015/ember" class="join-server-link">
-        <BaseButton class="join-server-btn">Spiele Jetzt</BaseButton>
-      </a>
-      <p class="server-stats">gaming.firephenix.de</p>
-      <div class="password-display" @click="togglePassword">
-        <p class="password-label">Passwort: <span class="password-text">{{ passwordDisplay }}</span></p>
-        <p v-if="passwordCopied" class="copy-feedback">In Zwischenablage kopiert!</p>
-      </div>
+    </section>
+
+    <div class="feature-grid">
+      <article v-for="feature in features" :key="feature.title" class="feature-card">
+        <img
+          :src="feature.image"
+          :alt="feature.title"
+          class="feature-image"
+          :class="{ 'feature-image-contain': feature.imageFit === 'contain' }"
+        />
+        <div class="feature-text">
+          <h3>{{ feature.title }}</h3>
+          <p>{{ feature.description }}</p>
+        </div>
+      </article>
     </div>
   </BaseSection>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, computed } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import BaseSection from '../base/BaseSection.vue';
 import BaseButton from '../base/BaseButton.vue';
 
+interface TttStatus {
+  ok?: boolean;
+  status?: 'online' | 'offline' | 'unknown' | string;
+  name?: string;
+  map?: string;
+  current_map?: string;
+  players?: {
+    current?: number;
+    max?: number;
+    bots?: number;
+  };
+  current_players?: number;
+  max_players?: number;
+  bots?: number;
+  visibility?: string;
+  latency_ms?: number;
+  error?: string;
+}
+
+const STATUS_REFRESH_MS = 30000;
+const serverAddress = 'firephenix.de';
+const connectUrl = 'steam://connect/firephenix.de:27015/ember';
 
 const features = [
   {
-    title: "Handverlesene Karten",
-    description: "Erlebe unsere handselektierte Auswahl an TTT-Karten, die Spielspaß, Nostalgie und bestmögliche Grafik kombinieren.",
+    title: 'Handverlesene Karten',
+    description: 'Eine kuratierte Auswahl an TTT-Karten mit Nostalgie, Übersicht und gutem Spielfluss.',
     image: new URL('../../assets/images/games/ttt_tokyo.jpeg', import.meta.url).href,
-    position: 5 
   },
   {
-    title: "Angepasste Addons",
-    description: "Genieße Addons, die das Gameplay verbessern und die Spielerfahrung auf ein neues Level heben, ohne den Charm des Klassikers zu verlieren.",
+    title: 'Angepasste Addons',
+    description: 'Gameplay-Verbesserungen, die TTT moderner machen, ohne den klassischen Kern zu verlieren.',
     image: new URL('../../assets/images/games/detective.png', import.meta.url).href,
-    position: 25
+    imageFit: 'contain',
   },
   {
-    title: "Skin Shop",
-    description: "Erhalte Punkte für das Spielen und Gewinnen von Runden. Löse sie ein für Skins deiner Wahl.",
-    image: new URL('../../assets/images/games/ttt_rewards.png', import.meta.url).href,
-    position: 50
+    title: 'Skin Shop',
+    description: 'Sammle Punkte durch Spielzeit, Runden und Siege und löse sie für TTT Skins ein.',
+    image: new URL('../../assets/images/games/ttt_rewards/season-1/banner.png', import.meta.url).href,
   },
   {
-    title: "Waffen Balancing",
-    description: "Von permanenten Waffen bis hin zu Balancing Änderungen über bessere Hitboxen, wir haben alles im Griff. Genieße ein faires und spannendes Spielerlebnis.",
+    title: 'Waffen Balancing',
+    description: 'Abgestimmte Waffen, bessere Hitboxen und faire Runden für regelmäßige Spieler.',
     image: new URL('../../assets/images/games/phoenix-agent.png', import.meta.url).href,
-    position: 85
-  }
+    imageFit: 'contain',
+  },
 ];
 
-const activeFeatures = ref(features.map(() => false));
+const statusData = ref<TttStatus | null>(null);
+const loading = ref(false);
+const errorMessage = ref('');
+const lastUpdated = ref<Date | null>(null);
 const showPassword = ref(false);
 const passwordCopied = ref(false);
-let observers: IntersectionObserver[] = [];
+let refreshTimer: number | undefined;
+
+const statusClass = computed(() => {
+  if (loading.value && !statusData.value) return 'loading';
+  return statusData.value?.status || 'unknown';
+});
+
+const statusLabel = computed(() => {
+  if (loading.value && !statusData.value) return 'Lädt';
+  if (statusData.value?.status === 'online') return 'Online';
+  if (statusData.value?.status === 'offline') return 'Offline';
+  return 'Unbekannt';
+});
+
+const statusTitle = computed(() => {
+  return statusData.value?.name || serverAddress;
+});
+
+const playerCount = computed(() => {
+  const current = statusData.value?.players?.current ?? statusData.value?.current_players;
+  const max = statusData.value?.players?.max ?? statusData.value?.max_players;
+  if (current === undefined || max === undefined) return 'Keine Daten';
+  return `${current}/${max}`;
+});
+
+const latencyLabel = computed(() => {
+  if (statusData.value?.latency_ms === undefined) return 'Keine Daten';
+  return `${statusData.value.latency_ms} ms`;
+});
+
+const visibilityLabel = computed(() => {
+  if (statusData.value?.visibility === 'private') return 'Passwort';
+  if (statusData.value?.visibility === 'public') return 'Öffentlich';
+  return 'Passwort';
+});
 
 const passwordDisplay = computed(() => {
   return showPassword.value ? 'ember' : '*****';
 });
 
+const lastUpdatedLabel = computed(() => {
+  if (!lastUpdated.value) return 'Noch nicht aktualisiert';
+  return `Zuletzt aktualisiert: ${lastUpdated.value.toLocaleTimeString('de-DE', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })}`;
+});
+
+const fetchStatus = async () => {
+  loading.value = true;
+  errorMessage.value = '';
+
+  try {
+    const response = await fetch('/api/gameservers/ttt/status');
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json() as TttStatus;
+    statusData.value = data;
+    if (data.status === 'offline') {
+      errorMessage.value = 'Der Server antwortet aktuell nicht auf die direkte Statusabfrage.';
+    } else if (data.status === 'unknown') {
+      errorMessage.value = 'Der Status konnte nicht eindeutig gelesen werden.';
+    }
+    lastUpdated.value = new Date();
+  } catch {
+    statusData.value = {
+      status: 'unknown',
+    };
+    errorMessage.value = 'Status konnte nicht geladen werden.';
+  } finally {
+    loading.value = false;
+  }
+};
+
 const togglePassword = async () => {
   showPassword.value = !showPassword.value;
-  
+
   if (showPassword.value) {
     try {
       await navigator.clipboard.writeText('ember');
       passwordCopied.value = true;
-      setTimeout(() => {
+      window.setTimeout(() => {
         passwordCopied.value = false;
       }, 2000);
     } catch (err) {
@@ -101,297 +261,414 @@ const togglePassword = async () => {
 };
 
 onMounted(() => {
-  document.querySelector('.path-animation')?.classList.add('animate-path');
-  const featureSections = document.querySelectorAll('.feature-section');
-  
-  featureSections.forEach((section, index) => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            activeFeatures.value[index] = true;
-          }
-        });
-      },
-      { 
-        threshold: 0.75
-      }
-    );
-    
-    observer.observe(section);
-    observers.push(observer);
-  });
+  fetchStatus();
+  refreshTimer = window.setInterval(fetchStatus, STATUS_REFRESH_MS);
 });
 
 onUnmounted(() => {
-  observers.forEach(observer => observer.disconnect());
+  if (refreshTimer) {
+    window.clearInterval(refreshTimer);
+  }
 });
 </script>
 
 <style scoped>
 .ttt-server-section {
+  padding-top: 1.5rem;
+}
+
+.cinematic-hero {
   position: relative;
+  isolation: isolate;
   overflow: hidden;
-  padding-bottom: 6rem;
+  min-height: min(76vh, 760px);
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
+  background: #080809;
+  box-shadow:
+    0 24px 80px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(0, 0, 0, 0.55);
 }
 
-.section-title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--clr-text-primary);
-  text-align: center;
-  margin-bottom: 0.5rem;
-}
-
-.section-description {
-  font-size: 1.2rem;
-  color: var(--clr-text-secondary);
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto 4rem;
-}
-
-.accent-path-container {
-  position: relative;
-  width: 100%;
-  height: 2800px;
-  margin: 2rem 0;
-}
-
-.accent-path {
+.cinematic-hero::before {
+  content: '';
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  height: 100%;
-  width: 100px;
-  z-index: 1;
+  inset: -4px;
+  z-index: -2;
+  background: url('../../assets/images/games/ttt_rooftop.jpeg') center/cover no-repeat;
+  transform: scale(1.01);
+  transform-origin: center;
+  pointer-events: none;
 }
 
-.path-animation {
-  animation: drawPath 5s ease-in-out forwards;
+.cinematic-hero::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(7, 7, 8, 0.98) 0%, rgba(11, 11, 13, 0.78) 43%, rgba(11, 11, 13, 0.34) 100%),
+    linear-gradient(0deg, rgba(18, 18, 18, 0.98) 0%, rgba(18, 18, 18, 0.14) 42%, rgba(18, 18, 18, 0.08) 100%),
+    radial-gradient(ellipse at 72% 38%, rgba(249, 133, 0, 0.24), transparent 34%),
+    linear-gradient(115deg, rgba(249, 133, 0, 0.12), transparent 36%);
+  pointer-events: none;
 }
 
-@keyframes drawPath {
+.hero-content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 480px);
+  gap: 2rem;
+  align-items: end;
+  padding: clamp(1.25rem, 4vw, 4rem);
+}
+
+.hero-copy {
+  max-width: 760px;
+  padding-bottom: 1rem;
+}
+
+.eyebrow {
+  color: var(--clr-primary-light);
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  font-size: 0.78rem;
+  margin: 0 0 0.75rem;
+}
+
+.hero-copy h2 {
+  color: var(--clr-text-primary);
+  font-size: clamp(3rem, 8vw, 6.8rem);
+  line-height: 0.9;
+  margin: 0 0 1rem;
+  text-shadow: 0 8px 40px rgba(0, 0, 0, 0.75);
+}
+
+.hero-lead {
+  color: var(--clr-white-light);
+  max-width: 660px;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  line-height: 1.65;
+  margin: 0;
+  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.7);
+}
+
+.hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 1.5rem;
+}
+
+.hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 34px;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(255, 170, 75, 0.32);
+  border-radius: 999px;
+  color: var(--clr-text-primary);
+  background: rgba(18, 18, 18, 0.42);
+  backdrop-filter: blur(10px);
+}
+
+.hero-meta svg {
+  color: var(--clr-primary-light);
+}
+
+.server-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.join-server-link {
+  text-decoration: none;
+}
+
+.join-server-btn,
+.refresh-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  min-height: 46px;
+}
+
+.join-server-btn {
+  box-shadow: 0 0 28px rgba(249, 133, 0, 0.32);
+}
+
+.refresh-button {
+  border: 1px solid rgba(255, 170, 75, 0.34);
+  border-radius: 8px;
+  background: rgba(18, 18, 18, 0.48);
+  color: var(--clr-text-primary);
+  padding: 0 1rem;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+.refresh-button:hover:not(:disabled) {
+  background: var(--clr-primary-transparent);
+  transform: translateY(-2px);
+}
+
+.refresh-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
   to {
-    stroke-dashoffset: 0;
+    transform: rotate(360deg);
   }
 }
 
-.feature-sections {
-  position: relative;
-  height: 100%;
+.status-panel {
+  align-self: end;
+  background: rgba(18, 18, 18, 0.72);
+  border: 1px solid rgba(255, 170, 75, 0.26);
+  border-radius: 8px;
+  padding: 1.25rem;
+  box-shadow: 0 18px 54px rgba(0, 0, 0, 0.42);
+  backdrop-filter: blur(16px);
 }
 
-.feature-section {
-  position: sticky;
-  transform: translateY(-50%);
-  margin: 30vh 0;
-  opacity: 0;
-  transition: opacity 0.6s ease-in-out, transform 0.8s ease-in-out;
-  z-index: 2;
-}
-
-.feature-section.active {
-  opacity: 1;
-  transform: translateY(-50%) scale(1);
-}
-
-.feature-content {
+.status-header {
   display: flex;
-  align-items: center;
-  max-width: 1000px;
-  margin: 0 auto;
-  background: var(--clr-surface);
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 8px 32px var(--clr-box-shadow);
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  border-bottom: 1px solid rgba(255, 170, 75, 0.18);
+  padding-bottom: 1rem;
+}
+
+.status-label {
+  color: var(--clr-text-secondary);
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+}
+
+.status-header h3 {
+  color: var(--clr-text-primary);
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.status-pill {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 700;
   border: 1px solid var(--clr-border);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  color: var(--clr-text-secondary);
+  background: var(--clr-transparent-light);
 }
 
-.feature-content:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 48px var(--clr-box-shadow-orange);
-  border-color: var(--clr-border-strong);
+.status-pill.online {
+  color: #88ff9b;
+  border-color: rgba(136, 255, 155, 0.35);
+  background: rgba(30, 126, 52, 0.2);
 }
 
-.feature-content.left {
-  flex-direction: row;
+.status-pill.offline,
+.status-pill.unknown {
+  color: #ff9b8e;
+  border-color: rgba(255, 69, 0, 0.35);
+  background: rgba(255, 69, 0, 0.12);
 }
 
-.feature-content.right {
-  flex-direction: row-reverse;
+.status-error {
+  color: var(--clr-primary-light);
+  background: rgba(249, 133, 0, 0.16);
+  border: 1px solid rgba(255, 170, 75, 0.28);
+  border-radius: 8px;
+  padding: 0.8rem;
+  margin-top: 1rem;
 }
 
-.feature-image-container {
-  flex: 0 0 50%;
-  position: relative;
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.status-metric {
+  min-height: 96px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+
+.highlight-metric {
+  background: rgba(249, 133, 0, 0.15);
+  border-color: rgba(255, 170, 75, 0.26);
+}
+
+.status-metric svg {
+  color: var(--clr-primary-light);
+}
+
+.status-metric span,
+.connection-row span {
+  color: var(--clr-text-secondary);
+  font-size: 0.82rem;
+}
+
+.status-metric strong,
+.connection-row strong {
+  color: var(--clr-text-primary);
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.connection-row {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.connection-row > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 0.9rem;
+}
+
+.password-display {
+  cursor: pointer;
+  user-select: none;
+}
+
+.password-text {
+  color: var(--clr-primary-light);
+  font-family: monospace;
+  letter-spacing: 0.08em;
+}
+
+.password-display small {
+  color: var(--clr-primary-light);
+}
+
+.last-updated {
+  color: var(--clr-text-secondary);
+  margin: 0.9rem 0 0;
+  font-size: 0.85rem;
+}
+
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.feature-card {
+  background: var(--clr-surface);
+  border: 1px solid var(--clr-border);
+  border-radius: 8px;
   overflow: hidden;
-  height: 300px;
 }
 
 .feature-image {
   width: 100%;
-  height: 100%;
+  aspect-ratio: 16 / 9;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  display: block;
 }
 
-.feature-image-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(45deg, rgba(0,0,0,0.8) 0%, rgba(249,133,0,0.2) 100%);
-  z-index: 1;
-}
-
-.feature-content:hover .feature-image {
-  transform: scale(1.05);
+.feature-image-contain {
+  box-sizing: border-box;
+  object-fit: contain;
+  padding: 0.75rem;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(249, 133, 0, 0.16), transparent 42%),
+    var(--clr-surface-2);
 }
 
 .feature-text {
-  flex: 0 0 50%;
-  padding: 2rem;
-  z-index: 2;
+  padding: 1rem;
 }
 
 .feature-text h3 {
-  font-size: 1.8rem;
-  font-weight: 600;
   color: var(--clr-primary-light);
-  margin-bottom: 1rem;
+  font-size: 1.05rem;
+  margin: 0 0 0.55rem;
 }
 
 .feature-text p {
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: var(--clr-text-primary);
-}
-
-.cta-container {
-  text-align: center;
-  margin-top: 3rem;
-}
-
-.join-server-btn {
-  font-size: 1.2rem;
-  padding: 12px 36px;
-  background-color: var(--clr-primary);
-  color: var(--clr-text-primary);
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  box-shadow: 0 4px 12px var(--clr-box-shadow-orange);
-}
-
-.join-server-btn:hover {
-  background-color: var(--clr-primary-light);
-  transform: translateY(-2px);
-}
-
-.server-stats {
-  margin-top: 1rem;
-  font-size: 1rem;
   color: var(--clr-text-secondary);
-}
-
-.password-display {
-  margin-top: 0.5rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  user-select: none;
-  text-align: center;
-}
-
-.password-display:hover .password-text {
-  color: var(--clr-primary-light);
-}
-
-.password-label {
-  font-size: 1rem;
-  color: var(--clr-text-secondary);
+  line-height: 1.5;
   margin: 0;
 }
 
-.password-text {
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--clr-primary);
-  font-family: monospace;
-  letter-spacing: 0.1em;
-  transition: all 0.3s ease;
-}
-
-.copy-feedback {
-  margin: 0.5rem 0 0 0;
-  font-size: 0.9rem;
-  color: var(--clr-primary);
-  font-weight: 500;
-  animation: fadeInPassword 0.3s ease-in-out;
-}
-
-@keyframes fadeInPassword {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
+@media (max-width: 1100px) {
+  .hero-content {
+    grid-template-columns: 1fr;
+    align-items: end;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .status-panel {
+    max-width: 620px;
+  }
+
+  .feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-.highlight {
-  color: var(--clr-primary);
-  font-weight: bold;
-}
-
-@media (max-width: 992px) {
-  .feature-content {
-    flex-direction: column !important;
-    max-width: 90%;
-  }
-  
-  .feature-image-container,
-  .feature-text {
-    flex: 0 0 100%;
-    width: 80%;
+@media (max-width: 640px) {
+  .cinematic-hero {
+    min-height: auto;
   }
 
-  .feature-image-container {
-    margin-top: 2vh;
-    border-radius: 15px;
-  }
-  
-  .feature-text {
-    padding: 1.5rem;
-  }
-}
-
-@media (max-width: 768px) {
-  .section-title {
-    font-size: 2rem;
-  }
-  
-  .section-description {
-    font-size: 1rem;
-    margin-bottom: 2rem;
+  .hero-content {
+    padding: 1rem;
   }
 
-  .feature-image-container {
-    margin-top: 2vh;
-    border-radius: 15px;
+  .hero-copy h2 {
+    font-size: 3rem;
   }
-  
-  .feature-text h3 {
-    font-size: 1.5rem;
+
+  .hero-meta,
+  .server-actions {
+    width: 100%;
   }
-  
-  .feature-text p {
-    font-size: 1rem;
+
+  .status-grid,
+  .connection-row,
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .join-server-link,
+  .join-server-btn,
+  .refresh-button {
+    width: 100%;
   }
 }
 </style>

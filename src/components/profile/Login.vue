@@ -456,7 +456,7 @@ const handleConsentChanged = (consent: CookieConsent) => {
 
 @media (max-width: 768px) {
   .login-page {
-    padding: 60px 16px 32px;
+    padding: 76px 16px 32px;
   }
 
   .benefits-grid {

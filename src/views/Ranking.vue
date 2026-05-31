@@ -177,6 +177,10 @@ watch(activeRanking, (newTab) => {
 }
 
 @media (max-width: 768px) {
+  .ranking-page {
+    padding-top: 56px;
+  }
+
   .ranking-toggle {
     flex-direction: column;
     align-items: center;

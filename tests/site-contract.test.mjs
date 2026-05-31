@@ -48,6 +48,7 @@ test('frontend keeps expected backend API contract paths', async () => {
     read('src/components/profile/SkinUnlocker.vue'),
     readAdminSource(),
     read('src/components/ranking/RankingList.vue'),
+    read('src/components/gameserver/TttServerSection.vue'),
     read('src/views/Profile.vue'),
   ]);
   const source = files.join('\n');
@@ -85,6 +86,59 @@ test('frontend keeps expected backend API contract paths', async () => {
       source,
       new RegExp(endpoint.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
     );
+  }
+});
+
+test('game server page exposes TTT status and community groups tabs', async () => {
+  const files = await Promise.all([
+    read('src/views/GameServer.vue'),
+    read('src/components/gameserver/TttServerSection.vue'),
+    read('src/components/gameserver/CommunityGroupsSection.vue'),
+  ]);
+  const source = files.join('\n');
+
+  for (const expected of [
+    "'ttt', 'groups'",
+    'TTT Server',
+    'Community',
+    '/api/gameservers/ttt/status',
+    'setInterval(fetchStatus, STATUS_REFRESH_MS)',
+    'clearInterval(refreshTimer)',
+    'FirePhenixDE',
+    'https://steamcommunity.com/groups/firephenixde',
+    'Star Citizen',
+    'https://robertsspaceindustries.com/en/orgs/FPXORG',
+    'GTA 5',
+    'Der GTA 5 Gruppe kannst du nur direkt im Spiel beitreten. Melde dich bei Philip, damit er dich zur Gruppe hinzufügen kann.',
+    'Flippster98 (Philip)',
+    'Stellaris Modliste',
+    'https://steamcommunity.com/sharedfiles/filedetails/?id=2590878195',
+    'Arma 3 Modliste',
+    'https://steamcommunity.com/sharedfiles/filedetails/?id=2541208071',
+    'Eigene FirePhenix Gruppe oder Inhalte?',
+    'Lukas irgendwo Bescheid geben',
+    'mailto:admin@firephenix.de',
+  ]) {
+    assert.match(source, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
+  }
+});
+
+test('player achievements render TTT achievement categories and assets', async () => {
+  const achievements = await read('src/components/ranking/PlayerAchievements.vue');
+
+  for (const expected of [
+    'ttt_rounds_played: 4',
+    'ttt_rounds_won: 4',
+    'ttt_kills: 4',
+    "getTttImg('rounds_played', index)",
+    "getTttImg('rounds_won', index)",
+    "getTttImg('kills', index)",
+    'achievements.value.ttt?.achievement_level',
+    'Spiele 100 TTT Runden',
+    'Gewinne 50 TTT Runden',
+    'Erziele 250 TTT Eliminierungen',
+  ]) {
+    assert.match(achievements, new RegExp(expected.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')));
   }
 });
 

@@ -157,7 +157,7 @@ onMounted(() => {
 
 @media (max-width: 768px) {
   .wiki-page {
-    padding: 80px 20px 40px;
+    padding: 92px 20px 40px;
   }
   .wiki-tabs {
     flex-wrap: wrap; 

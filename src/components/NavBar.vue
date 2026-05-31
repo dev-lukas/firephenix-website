@@ -10,7 +10,7 @@
         <base-nav-item to="/">Home</base-nav-item>
         <base-nav-item to="/ranking">Rangliste</base-nav-item>
         <base-nav-item to="/profile">Mein Profil</base-nav-item>
-        <base-nav-item to="/gameserver">Game-Server</base-nav-item>
+        <base-nav-item to="/gameserver">Games</base-nav-item>
         <base-nav-item to="/wiki">Wissenswert</base-nav-item>
         <span class="nav-sep"></span>
         <base-nav-item to="/dataprivacy" class="nav-legal">Datenschutz</base-nav-item>
@@ -36,7 +36,7 @@
           <li><base-nav-item to="/" @click="closeMenu">Home</base-nav-item></li>
           <li><base-nav-item to="/ranking" @click="closeMenu">Rangliste</base-nav-item></li>
           <li><base-nav-item to="/profile" @click="closeMenu">Mein Profil</base-nav-item></li>
-          <li><base-nav-item to="/gameserver" @click="closeMenu">Game-Server</base-nav-item></li>
+          <li><base-nav-item to="/gameserver" @click="closeMenu">Games</base-nav-item></li>
           <li class="mobile-divider">
             <base-nav-item to="/wiki" @click="closeMenu">Wissenswert</base-nav-item>
           </li>

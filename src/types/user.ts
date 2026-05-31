@@ -33,6 +33,15 @@ export interface UserProfile {
     5: boolean;
     6: boolean;
   };
+  season_skins_unlocked?: {
+    [season: number]: {
+      2: boolean;
+      3: boolean;
+      4: boolean;
+      5: boolean;
+      6: boolean;
+    };
+  };
   activity_heatmap: {
     data: {
       [key: string]: {
