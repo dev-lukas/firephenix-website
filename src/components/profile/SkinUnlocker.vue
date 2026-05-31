@@ -4,7 +4,7 @@
     <div class="hero-banner">
       <img :src="heroBg" alt="" class="hero-bg" />
       <div class="hero-overlay">
-        <h2 class="hero-title">Season I</h2>
+        <h2 class="hero-title">{{ seasonTitle }}</h2>
         <p class="hero-sub">TTT Rüstungen</p>
       </div>
     </div>
@@ -122,9 +122,15 @@ import tttGold from '../../assets/images/games/ttt_rewards/season-1/gold.png';
 import tttPlatinum from '../../assets/images/games/ttt_rewards/season-1/platinum.png';
 import tttDiamond from '../../assets/images/games/ttt_rewards/season-1/diamond.png';
 import tttPhoenix from '../../assets/images/games/ttt_rewards/season-1/phoenix.png';
+import tttSeasonTwoSilver from '../../assets/images/games/ttt_rewards/season-2/silver.png';
+import tttSeasonTwoGold from '../../assets/images/games/ttt_rewards/season-2/gold.png';
+import tttSeasonTwoPlatinum from '../../assets/images/games/ttt_rewards/season-2/platinum.png';
+import tttSeasonTwoDiamond from '../../assets/images/games/ttt_rewards/season-2/diamond.png';
+import tttSeasonTwoPhoenix from '../../assets/images/games/ttt_rewards/season-2/phoenix.png';
 
-const heroBg = computed(() => new URL('../../assets/images/games/ttt_rewards/season-1/banner.png', import.meta.url).href);
 const authStore = useAuthStore();
+const seasonOneBanner = new URL('../../assets/images/games/ttt_rewards/season-1/banner.png', import.meta.url).href;
+const seasonTwoBanner = new URL('../../assets/images/games/ttt_rewards/season-2/banner.png', import.meta.url).href;
 
 type SeasonUnlockData = Partial<Record<2 | 3 | 4 | 5 | 6, boolean>>;
 
@@ -139,6 +145,7 @@ interface SkinReward {
 
 const props = defineProps({
   seasonNumber: { type: Number, default: 1 },
+  seasonTitle: { type: String, default: 'Season I' },
   bestDivision: { type: Number, required: true },
   seasonUnlockData: {
     type: Object as () => SeasonUnlockData,
@@ -152,13 +159,24 @@ const emit = defineEmits<{
 
 const getBadge = (name: string) => new URL(`../../assets/images/ranks/${name}.png`, import.meta.url).href;
 
-const skins: SkinReward[] = [
+const seasonOneSkins: SkinReward[] = [
   { name: 'Silber Rüstung', image: tttSilver, requiredDivision: 2, divisionName: 'Silber', color: '#c0c0c0', badgeImage: getBadge('silver') },
   { name: 'Gold Rüstung', image: tttGold, requiredDivision: 3, divisionName: 'Gold', color: '#ffd700', badgeImage: getBadge('gold') },
   { name: 'Platin Rüstung', image: tttPlatinum, requiredDivision: 4, divisionName: 'Platin', color: '#e5e4e2', badgeImage: getBadge('platinum') },
   { name: 'Diamant Rüstung', image: tttDiamond, requiredDivision: 5, divisionName: 'Diamant', color: '#b9f2ff', badgeImage: getBadge('diamond') },
   { name: 'Phönix Rüstung', image: tttPhoenix, requiredDivision: 6, divisionName: 'Phönix', color: '#ff4500', badgeImage: getBadge('phoenix') },
 ];
+
+const seasonTwoSkins: SkinReward[] = [
+  { name: 'Silber Rüstung', image: tttSeasonTwoSilver, requiredDivision: 2, divisionName: 'Silber', color: '#c0c0c0', badgeImage: getBadge('silver') },
+  { name: 'Gold Rüstung', image: tttSeasonTwoGold, requiredDivision: 3, divisionName: 'Gold', color: '#ffd700', badgeImage: getBadge('gold') },
+  { name: 'Platin Rüstung', image: tttSeasonTwoPlatinum, requiredDivision: 4, divisionName: 'Platin', color: '#e5e4e2', badgeImage: getBadge('platinum') },
+  { name: 'Diamant Rüstung', image: tttSeasonTwoDiamond, requiredDivision: 5, divisionName: 'Diamant', color: '#b9f2ff', badgeImage: getBadge('diamond') },
+  { name: 'Phönix Rüstung', image: tttSeasonTwoPhoenix, requiredDivision: 6, divisionName: 'Phönix', color: '#ff4500', badgeImage: getBadge('phoenix') },
+];
+
+const skins = computed(() => props.seasonNumber === 2 ? seasonTwoSkins : seasonOneSkins);
+const heroBg = computed(() => props.seasonNumber === 2 ? seasonTwoBanner : seasonOneBanner);
 
 const isUnlocked = (div: number) => props.seasonUnlockData?.[div as keyof typeof props.seasonUnlockData] ?? false;
 
@@ -233,6 +251,7 @@ const confirmUnlock = async () => {
 .skin-showcase {
   position: relative;
   z-index: 1;
+  margin-bottom: 2.5rem;
 }
 
 /* ── Hero Banner ── */

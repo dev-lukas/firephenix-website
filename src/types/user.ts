@@ -21,6 +21,9 @@ export interface UserProfile {
   time_to_next_level: number;
   time_to_next_division: number;
   best_division_achieved: number;
+  best_division_by_season?: {
+    [season: number]: number;
+  };
   created_at: string | null;
   platform_time: {
     discord: number;

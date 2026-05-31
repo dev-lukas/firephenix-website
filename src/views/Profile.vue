@@ -87,8 +87,17 @@
             :bestDivision="userData?.best_division_achieved || 0"
           />
           <SkinUnlocker 
-            :bestDivision="userData?.best_division_achieved || 0"
-            :seasonUnlockData="userData?.season_one_skins_unlocked"
+            seasonTitle="Season II"
+            :seasonNumber="2"
+            :bestDivision="userData?.best_division_by_season?.[2] || 0"
+            :seasonUnlockData="userData?.season_skins_unlocked?.[2] || {}"
+            @reload-data="refreshUserData"
+          />
+          <SkinUnlocker
+            seasonTitle="Season I"
+            :seasonNumber="1"
+            :bestDivision="userData?.best_division_by_season?.[1] || userData?.best_division_achieved || 0"
+            :seasonUnlockData="userData?.season_skins_unlocked?.[1] || userData?.season_one_skins_unlocked"
             @reload-data="refreshUserData"
           />
         </div>
