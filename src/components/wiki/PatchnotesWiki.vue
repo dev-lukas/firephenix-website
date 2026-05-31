@@ -79,6 +79,65 @@ import { ref } from 'vue';
 
 const patchnotes = ref([
   {
+    id: 4,
+    title: 'v1.2 - Season 2',
+    date: '31. Mai 2026',
+    description: 'Season Reset, neue TTT Belohnungen und ein enger verzahnter Gameserver',
+    blogContent: `
+      <h3>Season 2 ist da!</h3>
+      <p>Die erste Season ist vorbei, der Reset ist passiert und damit startet FirePhenix in Season 2. Erstmal: <u>Gratulation an Felix</u> für Platz 1 und den ersten Apex-Channel!
+        Das ist genau die Art von Grind, für die dieses Season-System gedacht war. Wobei natürlich so einige erstaunlich viel alleine auf dem Discord nachgedacht haben :) </p>
+      <p>Ebenfalls Glückwunsch an Daraion, der es am Ende noch knapp in den Phönix-Rang geschafft hat! Ich freue mich ehrlich, dass die erste Season tatsächlich etwas Spannung reingebracht hat.
+        Jetzt geht es wieder bei null los, mit neuen Belohnungen, neuer TTT Skin-Reihe und hoffentlich wieder ein paar neuen überraschenden Platzierungen.</p>
+
+      <h3>Neue Rangverteilung</h3>
+      <p>Für Season 2 wurden die Zeiten der verschiedenen Ränge angepasst. Ziel ist eine bessere Verteilung über die komplette Season hinweg:
+        Weniger Stau in einzelnen Bereichen, ein saubererer Weg durch die Divisionen und ein Phönix-Rang, der sich weiter besonders anfühlt. Letzte Season hat tatsächlich niemand Diamond erreicht!
+        Deswegen werden nun die Zeiten bis Phönix nach unten angepasst. </p>
+
+      <h3>TTT rückt näher an FirePhenix</h3>
+      <p>Der TTT Server ist jetzt deutlich enger mit dem Rest von FirePhenix verbunden. Wins, gespielte Runden, Kills und weitere Werte können nun getrackt werden.
+        Damit bekommen Profile und Achievements mehr Substanz und TTT ist nicht mehr nur ein separater Server nebenher, sondern ein richtiger Teil des Systems.</p>
+      <p>Außerdem wurden Addons aktualisiert und der Server insgesamt poliert. Map-Voting funktioniert ordentlich, Skinshop Controls im HUD sichtbar, Farben in GUI einstimmig. Das sind viele kleine Dinge unter der Haube, aber zusammen sollte sich TTT stabiler,
+        runder und einfach fertiger anfühlen.</p>
+
+      <h3>Games Seite und Serverstatus</h3>
+      <p>Die Games-Seite hat einen neuen Anstrich bekommen. Neben TTT gibt es dort jetzt mehr Platz für Community-Content wie Modlisten, Gruppen und andere Dinge,
+        die aus der Community selbst kommen. Wenn ihr eigene Inhalte habt, die dort hingehören, gebt sie gerne weiter.</p>
+      <p>Zusätzlich gibt es nun einen Live-Status für den TTT Server. So seht ihr direkt, ob der Server online ist, welche Map läuft und ob gerade jemand spielt.</p>
+
+      <h3>Ember Update</h3>
+      <p>Ember wurde ebenfalls überarbeitet. Der eigene Frag-Ember-Channel ist weg; stattdessen antwortet Ember jetzt auf Erwähnungen mit @ und ist besser in Commands integriert.
+        Das sollte sich natürlicher anfühlen und den Discord etwas aufgeräumter halten. Rangstatus und Season Ränge könnt ihr Ember jetzt alles abfragen oder per Command erhalten.</p>
+
+      <h3>Abschluss</h3>
+      <p>Season 1 war ein guter Run! Season 2 ist jetzt der Punkt, an dem das Ganze mehr zusammenwächst: Webseite, Ranking, Discord und TTT greifen stärker ineinander. Während die jetzigen Änderungen mehr QoL und Stabilität bringen,
+      Könnt ihr während der Season noch mit einen paar weiteren Content Updates und eventuell sogar zusätzlichen Belohnungen für dieses Season rechnen!
+        Danke an alle, die gespielt, Feedback gegeben oder einfach mitgezogen haben. Viel Spaß in Season 2!</p>
+      <p>Lukas ~ Admin</p>
+    `,
+    images: [],
+    added: [
+      'Season 2 mit Reset und neuer Rangliste',
+      'Neue Season-Belohnungen und TTT Skin-Reihe',
+      'TTT Tracking für Wins, Runden, Kills und weitere Werte',
+      'Live-Status des TTT Servers auf der Games-Seite',
+      'Community-Content Bereich für Modlisten, Gruppen und eigene Inhalte',
+      'Ember Antworten über @ Erwähnungen und Command-Integration',
+    ],
+    changed: [
+      'Zeitanforderungen der Season-Ränge für eine bessere Rangverteilung angepasst',
+      'TTT Server enger mit Webseite, Profilen und Achievements verzahnt',
+      'TTT Addons aktualisiert und Server weiter poliert',
+      'Games-Seite neu gestaltet',
+      'Ember braucht keinen eigenen Discord-Channel mehr',
+    ],
+    fixed: [],
+    removed: [
+      'Eigener Frag-Ember-Channel',
+    ],
+  },
+  {
     id: 3,
     title: 'v1.1 - Frischer Wind',
     date: '29. März 2026',
