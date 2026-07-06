@@ -1,4 +1,4 @@
-import { createApp } from 'vue';
+import { createApp, type Component } from 'vue';
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import router from './router';
@@ -101,6 +101,8 @@ library.add(
 
 const app = createApp(App);
 app.use(createPinia());
-app.component('font-awesome-icon', FontAwesomeIcon);
+// Cast needed: vue-fontawesome >=3.3 prop types exceed TS's union complexity
+// limit when resolved through app.component's overloads (TS2590)
+app.component('font-awesome-icon', FontAwesomeIcon as Component);
 app.use(router);
 app.mount('#app');
