@@ -8,8 +8,9 @@
     <div class="groups-list">
       <article
         v-for="group in groups"
-        :key="group.url"
+        :key="group.name + group.platform"
         class="group-card"
+        :class="group.variant"
         :style="getGroupCardStyle(group)"
       >
         <div v-if="group.backgroundImage" class="group-card-bg"></div>
@@ -23,8 +24,12 @@
             <p class="group-description">{{ group.description }}</p>
           </div>
         </div>
+        <router-link v-if="group.route" :to="group.route" class="group-link">
+          <span>{{ group.actionLabel || 'Öffnen' }}</span>
+          <font-awesome-icon :icon="['fas', 'snowflake']" />
+        </router-link>
         <a
-          v-if="group.url"
+          v-else-if="group.url"
           :href="group.url"
           target="_blank"
           rel="noopener noreferrer"
@@ -113,18 +118,21 @@ import starCitizenCommunityImage from '../../assets/images/communities/starcitiz
 import gtaCommunityImage from '../../assets/images/communities/gta.png';
 import stellarisCommunityImage from '../../assets/images/communities/stellaris.png';
 import armaCommunityImage from '../../assets/images/communities/arma.png';
+import aramCommunityImage from '../../assets/images/communities/aram.png';
 
 interface CommunityGroup {
   name: string;
   platform: string;
   description: string;
   url?: string;
+  route?: string;
   actionLabel?: string;
   contact?: string;
   modalTitle?: string;
   modalMessage?: string;
   icon: string[];
   backgroundImage?: string;
+  variant?: 'ice';
 }
 
 const showGroupModal = ref(false);
@@ -139,6 +147,16 @@ const groups: CommunityGroup[] = [
     url: 'https://steamcommunity.com/groups/firephenixde',
     icon: ['fas', 'users'],
     backgroundImage: steamCommunityImage,
+  },
+  {
+    name: 'Abschluss-Aram',
+    platform: 'League of Legends',
+    description: 'Der eisige Community-Modus in der Heulenden Schlucht: Regelwerk und Heartsteel-Rekorde.',
+    route: '/abschluss-aram',
+    actionLabel: 'Zur Schlucht',
+    icon: ['fas', 'snowflake'],
+    backgroundImage: aramCommunityImage,
+    variant: 'ice',
   },
   {
     name: 'FirePhenix',
@@ -307,6 +325,41 @@ const openGroupModal = (group: CommunityGroup) => {
   z-index: 0;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0));
   pointer-events: none;
+}
+
+/* icy variant (Abschluss-Aram) — frost instead of fire */
+.group-card.ice {
+  background: linear-gradient(135deg, rgba(56, 189, 248, 0.22), rgba(129, 140, 248, 0.18));
+  border-color: rgba(125, 211, 252, 0.28);
+  box-shadow:
+    0 18px 44px rgba(0, 0, 0, 0.22),
+    0 0 30px rgba(56, 189, 248, 0.14);
+}
+
+.group-card.ice::before {
+  background:
+    linear-gradient(90deg, rgba(6, 14, 27, 0.92) 0%, rgba(6, 14, 27, 0.72) 48%, rgba(6, 14, 27, 0.28) 100%),
+    linear-gradient(180deg, rgba(6, 14, 27, 0.14), rgba(6, 14, 27, 0.4));
+}
+
+.group-card.ice .group-icon {
+  color: #7dd3fc;
+  border-color: rgba(125, 211, 252, 0.45);
+  background: rgba(6, 16, 30, 0.72);
+}
+
+.group-card.ice .group-platform {
+  color: #7dd3fc;
+}
+
+.group-card.ice .group-link {
+  border-color: rgba(125, 211, 252, 0.45);
+  background: rgba(6, 16, 30, 0.7);
+}
+
+.group-card.ice .group-link:hover {
+  color: #bfeaff;
+  background: rgba(56, 189, 248, 0.18);
 }
 
 .group-main {

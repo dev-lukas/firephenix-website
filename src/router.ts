@@ -9,6 +9,7 @@ import Impressum from './views/Impressum.vue';
 import PlayerProfile from './views/PlayerProfile.vue';
 import Profile from './views/Profile.vue';
 import Wiki from './views/Wiki.vue';
+import AbschlussAram from './views/AbschlussAram.vue';
 
 const routes: AppRouteRecord[] = [
   {
@@ -33,6 +34,14 @@ const routes: AppRouteRecord[] = [
     component: GameServer,
     meta: {
       title: 'GameServer',
+    },
+  },
+  {
+    path: '/abschluss-aram',
+    name: 'AbschlussAram',
+    component: AbschlussAram,
+    meta: {
+      title: 'Abschluss-Aram',
     },
   },
   {

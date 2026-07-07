@@ -48,7 +48,10 @@ import {
   faCookieBite,
   faShieldAlt,
   faTimes,
-  faCheck
+  faCheck,
+  faSnowflake,
+  faCrown,
+  faScroll
 } from '@fortawesome/free-solid-svg-icons';
 
 const icon = useFavicon();
@@ -96,7 +99,10 @@ library.add(
   faGavel,
   faFileAlt,
   faCog,
-  faSquarePollVertical
+  faSquarePollVertical,
+  faSnowflake,
+  faCrown,
+  faScroll
 );
 
 const app = createApp(App);
