@@ -1,5 +1,5 @@
 <template>
-  <div class="member-since" v-if="createdAt">
+  <div v-if="createdAt" class="member-since">
     <font-awesome-icon :icon="['fas', 'calendar-day']" class="member-icon" />
     <span class="member-text">Mitglied seit {{ formattedDate }}</span>
     <span class="member-days">{{ daysSince }} Tage dabei</span>

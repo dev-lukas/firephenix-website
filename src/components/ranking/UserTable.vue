@@ -14,8 +14,8 @@
 
       <div class="search-box">
         <input
-          type="text"
           v-model="searchQuery"
+          type="text"
           placeholder="Suche Spieler..."
           class="search-input"
           maxlength="255"
@@ -47,7 +47,7 @@
             />
             <h3 class="error-title">Fehler beim Laden der Spielerdaten</h3>
             <p class="error-message">{{ error }}</p>
-            <button @click="fetchData" class="retry-button">
+            <button class="retry-button" @click="fetchData">
               <font-awesome-icon :icon="['fas', 'sync']" class="retry-icon" />
               Erneut versuchen
             </button>

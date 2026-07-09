@@ -1,9 +1,9 @@
 <template>
   <router-link
+    v-if="to"
     :to="to"
     class="nav-item"
     :class="{ active: isActive }"
-    v-if="to"
   >
     <slot></slot>
   </router-link>

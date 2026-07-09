@@ -4,8 +4,8 @@
       <div class="search-box">
         <font-awesome-icon :icon="['fas', 'search']" class="search-icon" />
         <input
-          type="text"
           v-model="searchQuery"
+          type="text"
           placeholder="Spieler suchen..."
           class="search-input"
           maxlength="255"
@@ -14,7 +14,7 @@
       </div>
     </div>
 
-    <div class="ranking-content" ref="rankingContainer" @scroll="handleScroll">
+    <div ref="rankingContainer" class="ranking-content" @scroll="handleScroll">
       <div v-if="loading && !hasMore" class="initial-loading">
         <div class="loader"></div>
         <span>Lade Seasonranking...</span>
@@ -24,7 +24,7 @@
         <font-awesome-icon :icon="['fas', 'exclamation-circle']" class="error-icon" />
         <h3 class="error-title">Fehler beim Laden der Daten</h3>
         <p class="error-message">{{ error }}</p>
-        <button @click="resetAndFetch" class="retry-button">
+        <button class="retry-button" @click="resetAndFetch">
           <font-awesome-icon :icon="['fas', 'sync']" class="retry-icon" />
           Erneut versuchen
         </button>

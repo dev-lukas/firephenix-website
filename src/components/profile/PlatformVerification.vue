@@ -32,9 +32,9 @@
             <font-awesome-icon :icon="faCheckCircle" /> Verbunden
           </div>          <div v-else class="connect-controls">
             <button 
-              @click="refreshOnlineUsers('discord')"
               class="refresh-button"
               title="Online Benutzer aktualisieren"
+              @click="refreshOnlineUsers('discord')"
             >
               <font-awesome-icon :icon="faSync" />
             </button>
@@ -70,9 +70,9 @@
             <font-awesome-icon :icon="faCheckCircle" /> Verbunden
           </div>          <div v-else class="connect-controls">
             <button 
-              @click="refreshOnlineUsers('teamspeak')"
               class="refresh-button"
               title="Online Benutzer aktualisieren"
+              @click="refreshOnlineUsers('teamspeak')"
             >
               <font-awesome-icon :icon="faSync" />
             </button>

@@ -9,8 +9,8 @@
     <div class="faq-search">
       <font-awesome-icon icon="fa-solid fa-magnifying-glass" class="search-icon" />
       <input 
-        type="text" 
         v-model="searchQuery" 
+        type="text" 
         placeholder="Frage suchen..." 
         class="search-input" 
       />
@@ -24,8 +24,8 @@
       >
         <div 
           class="faq-question" 
-          @click="toggleQuestion(index)"
           :class="{ active: activeQuestions.includes(index) }"
+          @click="toggleQuestion(index)"
         >
           <span>{{ question.question }}</span>
           <font-awesome-icon 

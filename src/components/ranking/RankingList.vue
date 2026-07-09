@@ -17,9 +17,9 @@
       <div class="podium-section">
         <div class="podium">
           <div
+            v-if="topPlayers[1]"
             class="podium-spot second"
             @click="navigateToProfile(topPlayers[1]?.id)"
-            v-if="topPlayers[1]"
           >
             <div class="player-avatar">
               <div class="avatar-wrapper">
@@ -39,9 +39,9 @@
             <div class="podium-block"></div>
           </div>
           <div
+            v-if="topPlayers[0]"
             class="podium-spot first"
             @click="navigateToProfile(topPlayers[0]?.id)"
-            v-if="topPlayers[0]"
           >
             <div class="crown">👑</div>
             <div class="player-avatar">
@@ -62,9 +62,9 @@
             <div class="podium-block"></div>
           </div>
           <div
+            v-if="topPlayers[2]"
             class="podium-spot third"
             @click="navigateToProfile(topPlayers[2]?.id)"
-            v-if="topPlayers[2]"
           >
             <div class="player-avatar">
               <div class="avatar-wrapper">
@@ -98,9 +98,9 @@
           </div>
           <!-- Desktop Table Rows -->
           <div
-            class="table-row desktop-only"
             v-for="(player, index) in remainingPlayers"
             :key="player.id"
+            class="table-row desktop-only"
             @click="navigateToProfile(player.id)"
           >
             <span class="rank">{{ index + 4 }}</span>
@@ -121,9 +121,9 @@
           </div>
           <!-- Mobile Card Rows -->
           <div
-            class="table-row mobile-only"
             v-for="(player, index) in remainingPlayers"
             :key="'m' + player.id"
+            class="table-row mobile-only"
             @click="navigateToProfile(player.id)"
           >
             <div class="mobile-row-header">

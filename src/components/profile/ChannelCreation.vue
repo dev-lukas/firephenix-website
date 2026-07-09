@@ -47,9 +47,9 @@
                 v-if="userData?.apex_rank || userData?.apex_division"
                 variant="primary"
                 size="small"
-                @click="upgradeChannel('discord')"
                 class="upgrade-button"
                 :disabled="userData?.discord_upgraded"
+                @click="upgradeChannel('discord')"
               >
                 <font-awesome-icon :icon="faStar" /> Apex Upgrade
               </BaseButton>
@@ -93,9 +93,9 @@
                 v-if="userData?.apex_rank || userData?.apex_division"
                 variant="primary"
                 size="small"
-                @click="upgradeChannel('teamspeak')"
                 class="upgrade-button"
                 :disabled="userData?.teamspeak_upgraded"
+                @click="upgradeChannel('teamspeak')"
               >
                 <font-awesome-icon :icon="faStar" /> Apex Upgrade
               </BaseButton>

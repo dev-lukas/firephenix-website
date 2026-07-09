@@ -16,9 +16,9 @@
         </div>
         <button 
           class="steam-login-button" 
-          @click="handleSteamLogin"
           :disabled="!canLogin"
           :class="{ 'button-disabled': !canLogin }"
+          @click="handleSteamLogin"
         >
           <span class="button-content">
             Mit Steam einloggen
@@ -38,9 +38,9 @@
       <div class="benefits-section">
         <div class="benefits-grid">
           <div
-            class="benefit-card"
             v-for="(benefit, index) in benefits"
             :key="index"
+            class="benefit-card"
           >
             <div class="benefit-icon">
               <font-awesome-icon :icon="benefit.icon" />

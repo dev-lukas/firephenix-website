@@ -4,8 +4,8 @@
         type="checkbox"
         :checked="modelValue"
         :disabled="disabled"
-        @change="handleChange"
         class="switch-input"
+        @change="handleChange"
       />
       <span class="switch-slider"></span>
     </label>

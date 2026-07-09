@@ -17,7 +17,7 @@
         <base-nav-item to="/impressum" class="nav-legal">Impressum</base-nav-item>
       </nav>
 
-      <button class="menu-toggle" @click="toggleMenu" aria-label="Menu">
+      <button class="menu-toggle" aria-label="Menu" @click="toggleMenu">
         <div class="hamburger" :class="{ active: isMenuOpen }">
           <span></span>
           <span></span>
