@@ -2,7 +2,7 @@
 <template>
   <section class="content-section">
     <p class="explore-text explore-topright" :class="{ 'fade-in': showExplore }">Weitere Bereiche entdecken →</p>
-    <div class="headline-container" ref="headlineRef">
+    <div ref="headlineRef" class="headline-container">
       <h2 class="main-headline" :class="{ 'fade-in': isVisible }">
         Wähle deine Plattform und<br />verbinde dich mit der Community
       </h2>

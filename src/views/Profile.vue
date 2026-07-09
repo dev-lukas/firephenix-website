@@ -13,16 +13,16 @@
           <button 
             v-for="tab in tabs"
             :key="tab.id"
-            @click="navigateToTab(tab.id)"
             :class="{ 'active': activeTab === tab.id }"
             class="toggle-button"
+            @click="navigateToTab(tab.id)"
           >
             <font-awesome-icon :icon="tabIcons[tab.id]" class="button-icon" />
             <span>{{ tab.label }}</span>
           </button>
         </div>
 
-        <div class="stats-container" v-show="activeTab === 'stats' && !loading">
+        <div v-show="activeTab === 'stats' && !loading" class="stats-container">
           <div v-if="userData?.level == 0" class="info-message">
             <div class="info-icon">
               <font-awesome-icon :icon="['fas', 'info-circle']" />
@@ -32,7 +32,7 @@
               <p>Du musst mindestens einen Account mit deinem Steam-Konto verlinken um deine
                 Statistiken zu sehen. Klicke auf "Einstellungen" um dies zu tun.
               </p>
-              <BaseButton @click="activeTab = 'settings'" variant="primary">
+              <BaseButton variant="primary" @click="activeTab = 'settings'">
                 Zu den Einstellungen
               </BaseButton>
             </div>
@@ -42,7 +42,7 @@
             :name="userData?.name || 'Unbekannt'"
             :level="userData?.level || 0"
             :division="userData?.division || 0"
-            :bestDivision="userData?.best_division_achieved || 0"
+            :best-division="userData?.best_division_achieved || 0"
             />
 
             <LevelProgress
@@ -82,27 +82,27 @@
           <p>Lade Daten...</p>
         </div>
 
-        <div class="skin-container" v-show="activeTab === 'cosmetics'">
+        <div v-show="activeTab === 'cosmetics'" class="skin-container">
           <ProfileBorderDisplay 
-            :bestDivision="userData?.best_division_achieved || 0"
+            :best-division="userData?.best_division_achieved || 0"
           />
           <SkinUnlocker 
-            seasonTitle="Season II"
-            :seasonNumber="2"
-            :bestDivision="userData?.best_division_by_season?.[2] || 0"
-            :seasonUnlockData="userData?.season_skins_unlocked?.[2] || {}"
+            season-title="Season II"
+            :season-number="2"
+            :best-division="userData?.best_division_by_season?.[2] || 0"
+            :season-unlock-data="userData?.season_skins_unlocked?.[2] || {}"
             @reload-data="refreshUserData"
           />
           <SkinUnlocker
-            seasonTitle="Season I"
-            :seasonNumber="1"
-            :bestDivision="userData?.best_division_by_season?.[1] || userData?.best_division_achieved || 0"
-            :seasonUnlockData="userData?.season_skins_unlocked?.[1] || userData?.season_one_skins_unlocked"
+            season-title="Season I"
+            :season-number="1"
+            :best-division="userData?.best_division_by_season?.[1] || userData?.best_division_achieved || 0"
+            :season-unlock-data="userData?.season_skins_unlocked?.[1] || userData?.season_one_skins_unlocked"
             @reload-data="refreshUserData"
           />
         </div>
 
-        <div class="settings-container" v-show="activeTab === 'settings'">
+        <div v-show="activeTab === 'settings'" class="settings-container">
           <PlatformVerification
             :user-data="userData"
             @verification-success="refreshUserData"

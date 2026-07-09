@@ -10,7 +10,7 @@
     </template>
 
     <template v-else-if="player">
-      <PlayerHeader :name="player.name" :level="player.level" :division="player.division" :bestDivision="player.best_division_achieved" />
+      <PlayerHeader :name="player.name" :level="player.level" :division="player.division" :best-division="player.best_division_achieved" />
 
       <MemberSince :created-at="player.created_at" />
 
@@ -41,7 +41,7 @@
 
       <HeatMapChart :heatmap-data="player.activity_heatmap" />
 
-      <PlayerChart :player-data="player" ref="hoursChart" />
+      <PlayerChart ref="hoursChart" :player-data="player" />
 
       <PlayerPercentile :rank-percentage="player.rank_percentage" />
 

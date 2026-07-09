@@ -22,16 +22,16 @@
       </div>      <div class="cookie-actions">
         <button 
           class="cookie-btn cookie-btn-decline" 
-          @click="declineCookies"
           type="button"
+          @click="declineCookies"
         >
           <font-awesome-icon :icon="['fas', 'times']" />
           Ablehnen
         </button>
         <button 
           class="cookie-btn cookie-btn-accept" 
-          @click="acceptCookies"
           type="button"
+          @click="acceptCookies"
         >
           <font-awesome-icon :icon="['fas', 'check']" />
           Cookie erlauben
@@ -43,8 +43,8 @@
   <div 
     v-if="!showBanner && hasConsent" 
     class="floating-cookie-icon"
-    @click="showCookieSettings"
     title="Cookie-Einstellungen ändern"
+    @click="showCookieSettings"
   >
     <font-awesome-icon :icon="['fas', 'cookie-bite']" />
   </div>

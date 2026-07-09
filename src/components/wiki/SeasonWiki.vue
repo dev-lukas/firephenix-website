@@ -27,7 +27,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr class="rank-row" v-for="division in 6" :key="division">
+            <tr v-for="division in 6" :key="division" class="rank-row">
               <td class="level-cell">
                 <div class="level-info">
                   <div class="level-icon-container">

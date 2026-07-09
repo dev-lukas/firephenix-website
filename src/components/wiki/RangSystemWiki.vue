@@ -24,7 +24,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="rank-row" v-for="level in 25" :key="level">
+          <tr v-for="level in 25" :key="level" class="rank-row">
             <td class="level-cell">
               <div class="level-info">
                 <div class="level-icon-container">

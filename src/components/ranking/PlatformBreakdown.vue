@@ -1,5 +1,5 @@
 <template>
-  <div class="platform-breakdown" v-if="total > 0">
+  <div v-if="total > 0" class="platform-breakdown">
     <h3 class="breakdown-title">Plattform-Verteilung</h3>
     <div class="bar-container">
       <div

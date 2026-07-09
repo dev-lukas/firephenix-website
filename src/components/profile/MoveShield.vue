@@ -38,8 +38,8 @@
             <div class="item-control">
               <BaseSwitch
                 :model-value="!userData?.discord_moveable"
-                @update:model-value="toggleShield('discord', $event)"
                 :disabled="!userData?.discord_id"
+                @update:model-value="toggleShield('discord', $event)"
               />
             </div>
           </div>
@@ -55,8 +55,8 @@
             <div class="item-control">
               <BaseSwitch
                 :model-value="!userData?.teamspeak_moveable"
-                @update:model-value="toggleShield('teamspeak', $event)"
                 :disabled="!userData?.teamspeak_id"
+                @update:model-value="toggleShield('teamspeak', $event)"
               />
             </div>
           </div>
