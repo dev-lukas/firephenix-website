@@ -41,7 +41,7 @@ describe('Login.vue cookie-consent gating', () => {
     expect(button.attributes('disabled')).toBeDefined();
     expect(button.classes()).toContain('button-disabled');
     expect(wrapper.text()).toContain(
-      'Bitte akzeptiere Cookies, um sich einzuloggen.'
+      'Bitte akzeptiere Cookies, um dich einzuloggen.'
     );
   });
 

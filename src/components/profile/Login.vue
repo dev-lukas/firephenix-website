@@ -30,7 +30,7 @@
           </span>
           <span v-else class="cookie-required-notice">
             <font-awesome-icon :icon="faExclamationTriangle" />
-            Bitte akzeptiere Cookies, um sich einzuloggen.
+            Bitte akzeptiere Cookies, um dich einzuloggen.
           </span>
         </p>
       </div>
