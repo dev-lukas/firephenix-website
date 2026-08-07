@@ -223,7 +223,7 @@ onMounted(() => {
 const records = [
   {
     mode: 'ARAM Mayhem',
-    value: '26.859',
+    value: '34.569',
     holderId: PRIVATEJOKER_ID,
   },
   {
