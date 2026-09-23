@@ -17,7 +17,7 @@
             <div class="app-icon left-logo"></div>
           </button>
           <div class="card-content">
-            <h4 class="app-title">TeamSpeak 3</h4>
+            <h4 class="app-title">TeamSpeak</h4>
             <p class="app-description">
               Klare Sprachqualität, niedrige Latenz und ein ressourcenschonender
               Client. Ideal für feste Gruppen und längere Gespräche.
