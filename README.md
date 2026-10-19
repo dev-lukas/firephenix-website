@@ -30,3 +30,12 @@ Run `npm run build` to build the production version.
 ## Docker
 
 The production image is a multi-stage build that compiles the Vite app and serves the static output from Nginx. API calls stay on relative `/api/...` paths so Traefik can route them to the backend in production.
+
+## License
+
+[AGPL-3.0](LICENSE). If you run a modified version of this site for others, you
+must make its source available to them.
+
+The license covers the code only. The FirePhenix name and logo are not licensed
+for use by forks, and the TTT map preview images belong to their respective map
+authors.
