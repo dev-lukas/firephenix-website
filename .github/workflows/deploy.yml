@@ -35,7 +35,7 @@ jobs:
   checks:
     uses: dev-lukas/ci-cd-actions/.github/workflows/node-checks.yml@main
     with:
-      node_version: "20"
+      node_version: "24"
       typecheck_command: npm exec -- vue-tsc -b
       test_command: npm test
       build_command: npm run build
